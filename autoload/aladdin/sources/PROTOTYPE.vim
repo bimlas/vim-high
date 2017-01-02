@@ -13,11 +13,20 @@ function! aladdin#sources#PROTOTYPE#define()
     \ && (len(self.blacklist) == 0 || index(self.blacklist, a:filetype) < 0)
   endfunction
 
-  function! obj._GetMatchID()
+  function! obj._InitMatchID()
     if !exists('w:aladdin_match_ids')
       let w:aladdin_match_ids = {}
     endif
-    return get(w:, 'aladdin_match_ids[self._index]', -1)
+  endfunction
+
+  function! obj._GetMatchID()
+    call self._InitMatchID()
+    return get(get(w:, 'aladdin_match_ids', []), self._index, -1)
+  endfunction
+
+  function! obj._SetMatchID(id)
+    call self._InitMatchID()
+    let w:aladdin_match_ids[self._index] = a:id
   endfunction
 
   function! obj._MatchAdd()
@@ -25,14 +34,14 @@ function! aladdin#sources#PROTOTYPE#define()
       call self._MatchClear()
     endif
     if self._GetMatchID() < 0
-      let w:aladdin_match_ids[self._index] = matchadd(self.hlgroup, self.pattern =~ '^\\=' ? eval(strpart(self.pattern, 2)) : self.pattern, self.priority)
+      call self._SetMatchID(matchadd(self.hlgroup, self.pattern =~ '^\\=' ? eval(strpart(self.pattern, 2)) : self.pattern, self.priority))
     endif
   endfunction
 
   function! obj._MatchClear()
     if self._GetMatchID() >= 0
-      call matchdelete(w:aladdin_match_ids[self._index])
-      let w:aladdin_match_ids[self._index] = -1
+      call matchdelete(self._GetMatchID())
+      call self._SetMatchID(-1)
     endif
   endfunction
 
