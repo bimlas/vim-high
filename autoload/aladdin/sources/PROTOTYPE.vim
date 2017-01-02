@@ -1,4 +1,4 @@
-function! aladdin#sources#PROTOTYPE#define()
+function! aladdin#sources#PROTOTYPE#define(index)
   let obj = {}
   let obj.whitelist = []
   let obj.blacklist = []
