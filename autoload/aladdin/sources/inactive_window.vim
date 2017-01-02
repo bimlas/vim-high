@@ -5,13 +5,13 @@ function! aladdin#sources#inactive_window#define()
 
   augroup aladdin_inactive_window
     autocmd!
-    exe 'autocmd WinEnter * let w:aladdin_inactive_window_enabled = 0 | call g:aladdin_loaded_sources['.obj._index.'].Update()'
-    exe 'autocmd WinLeave * let w:aladdin_inactive_window_enabled = 1 | call g:aladdin_loaded_sources['.obj._index.'].Update()'
+    exe 'autocmd WinEnter * call g:aladdin_loaded_sources['.obj._index.'].Update(0)'
+    exe 'autocmd WinLeave * call g:aladdin_loaded_sources['.obj._index.'].Update(1)'
   augroup END
 
-  function! obj.Update()
-    let self.pattern = w:aladdin_inactive_window_enabled ? '.*' : ''
-    call clearmatches()
+  function! obj.Update(enabled)
+    let self.pattern = a:enabled ? '.*' : ''
+    let self._haveToUpdate = 1
     call self.Highlight()
   endfunction
 
