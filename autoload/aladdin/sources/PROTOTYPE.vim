@@ -1,11 +1,11 @@
-function! aladdin#sources#PROTOTYPE#define(index)
+function! aladdin#sources#PROTOTYPE#define()
   let obj = {}
   let obj.whitelist = []
   let obj.blacklist = []
   let obj.pattern = ''
   let obj.hlgroup = 'ErrorMsg'
   let obj.priority = 1000
-  let obj._matchID = -1
+  let obj._index = -1
   let obj._haveToUpdate = 0
 
   function! obj._EnabledForFiletype(filetype)
@@ -13,19 +13,26 @@ function! aladdin#sources#PROTOTYPE#define(index)
     \ && (len(self.blacklist) == 0 || index(self.blacklist, a:filetype) < 0)
   endfunction
 
+  function! obj._GetMatchID()
+    if !exists('w:aladdin_match_ids')
+      let w:aladdin_match_ids = {}
+    endif
+    return get(w:, 'aladdin_match_ids[self._index]', -1)
+  endfunction
+
   function! obj._MatchAdd()
     if self._haveToUpdate
       call self._MatchClear()
     endif
-    if self._matchID < 0
-      let self._matchID = matchadd(self.hlgroup, self.pattern =~ '^\\=' ? eval(strpart(self.pattern, 2)) : self.pattern, self.priority)
+    if self._GetMatchID() < 0
+      let w:aladdin_match_ids[self._index] = matchadd(self.hlgroup, self.pattern =~ '^\\=' ? eval(strpart(self.pattern, 2)) : self.pattern, self.priority)
     endif
   endfunction
 
   function! obj._MatchClear()
-    if self._matchID >= 0
-      call matchdelete(self._matchID)
-      let self._matchID = -1
+    if self._GetMatchID() >= 0
+      call matchdelete(w:aladdin_match_ids[self._index])
+      let w:aladdin_match_ids[self._index] = -1
     endif
   endfunction
 
@@ -38,4 +45,12 @@ function! aladdin#sources#PROTOTYPE#define(index)
   endfunction
 
   return obj
+endfunction
+
+let s:index = 0
+function! aladdin#sources#PROTOTYPE#clone()
+  let clone = deepcopy(aladdin#sources#PROTOTYPE#define())
+  let clone._index = s:index
+  let s:index += 1
+  return clone
 endfunction

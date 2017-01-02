@@ -1,5 +1,5 @@
-function! aladdin#sources#todo#define(index)
-  let obj = aladdin#sources#PROTOTYPE#define(0)
+function! aladdin#sources#todo#define()
+  let obj = aladdin#sources#PROTOTYPE#clone()
   let obj.whitelist = ['asciidoc', 'markdown']
   let obj.pattern = 'TODO'
   let obj.hlgroup = 'ErrorMsg'
