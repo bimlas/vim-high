@@ -1,6 +1,6 @@
 let s:aladdin_sources = []
-for source in get(g:, 'aladdin_sources', ['todo'])
-  call insert(s:aladdin_sources, aladdin#sources#{source}#define())
+for source in get(g:, 'aladdin_sources', ['todo', 'indent'])
+  call extend(s:aladdin_sources, aladdin#sources#{source}#define())
 endfor
 
 augroup aladdin

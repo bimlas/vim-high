@@ -13,7 +13,7 @@ function! aladdin#sources#PROTOTYPE#define()
 
   function! obj.Highlight()
     if self._EnabledForFiletype()
-      call matchadd(self.hlgroup, self.pattern, self.priority)
+      call matchadd(self.hlgroup, self.pattern =~ '^\\=' ? eval(strpart(self.pattern, 2)) : self.pattern, self.priority)
     else
       call clearmatches()
     endif

@@ -3,5 +3,5 @@ function! aladdin#sources#todo#define()
   let obj.whitelist = ['asciidoc', 'markdown']
   let obj.pattern = 'TODO'
   let obj.hlgroup = 'ErrorMsg'
-  return obj
+  return [obj]
 endfunction
