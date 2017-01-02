@@ -6,13 +6,13 @@ function! aladdin#sources#PROTOTYPE#define()
   let obj.hlgroup = 'ErrorMsg'
   let obj.priority = 1000
 
-  function! obj._EnabledForFiletype()
-    return ((len(self.whitelist) > 0) && (index(self.whitelist, &filetype) >= 0))
-    \ || ((len(self.blacklist) > 0) && (index(self.blacklist, &filetype) < 0))
+  function! obj._EnabledForFiletype(filetype)
+    return (len(self.whitelist) == 0 || index(self.whitelist, a:filetype) >= 0)
+    \ && (len(self.blacklist) == 0 || index(self.blacklist, a:filetype) < 0)
   endfunction
 
   function! obj.Highlight()
-    if self._EnabledForFiletype()
+    if self._EnabledForFiletype(&filetype)
       call matchadd(self.hlgroup, self.pattern =~ '^\\=' ? eval(strpart(self.pattern, 2)) : self.pattern, self.priority)
     else
       call clearmatches()
