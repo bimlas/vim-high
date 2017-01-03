@@ -7,8 +7,8 @@ function! aladdin#sources#indent#define(settings)
   call preconfigured._Customize(a:settings)
 
   for i in range(5)
-    call add(obj, extend(preconfigured._Clone(), {'pattern': '\= "^\\( \\{".&sw."}\\|\\t\\)\\{'.i*2.    '}\\zs\\( \\{".&sw."}\\|\\t\\)"', 'hlgroup': preconfigured.hlgroupA}))
-    call add(obj, extend(preconfigured._Clone(), {'pattern': '\= "^\\( \\{".&sw."}\\|\\t\\)\\{'.(i*2+1).'}\\zs\\( \\{".&sw."}\\|\\t\\)"', 'hlgroup': preconfigured.hlgroupB}))
+    call add(obj, extend(preconfigured._Clone(), {'pattern_to_eval': '"^\\( \\{".&sw."}\\|\\t\\)\\{'.i*2.    '}\\zs\\( \\{".&sw."}\\|\\t\\)"', 'hlgroup': preconfigured.hlgroupA}))
+    call add(obj, extend(preconfigured._Clone(), {'pattern_to_eval': '"^\\( \\{".&sw."}\\|\\t\\)\\{'.(i*2+1).'}\\zs\\( \\{".&sw."}\\|\\t\\)"', 'hlgroup': preconfigured.hlgroupB}))
   endfor
 
   return obj
