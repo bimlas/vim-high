@@ -5,8 +5,8 @@ function! aladdin#sources#PROTOTYPE#define()
   let obj.pattern = ''
   let obj.hlgroup = 'ErrorMsg'
   let obj.priority = 1000
-  let obj._index = -1
   let obj._haveToUpdate = 0
+  let obj._index = 0
 
   function! obj.Highlight() "{{{
     if self._EnabledForFiletype(&filetype)
@@ -14,6 +14,17 @@ function! aladdin#sources#PROTOTYPE#define()
     else
       call self._MatchClear()
     endif
+  endfunction "}}}
+
+  function! obj._Clone() "{{{
+    let clone = self._PrototypeClone()
+    let clone._index = g:aladdin_source_index
+    let g:aladdin_source_index += 1
+    return clone
+  endfunction "}}}
+
+  function! obj._PrototypeClone() "{{{
+    return deepcopy(self)
   endfunction "}}}
 
   function! obj._EnabledForFiletype(filetype) "{{{
@@ -61,11 +72,3 @@ function! aladdin#sources#PROTOTYPE#define()
 
   return obj
 endfunction
-
-let s:index = 0
-function! aladdin#sources#PROTOTYPE#clone() "{{{
-  let clone = deepcopy(aladdin#sources#PROTOTYPE#define())
-  let clone._index = s:index
-  let s:index += 1
-  return clone
-endfunction "}}}

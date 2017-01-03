@@ -1,5 +1,5 @@
 function! aladdin#sources#inactive_window#define(settings)
-  let obj = aladdin#sources#PROTOTYPE#clone()
+  let obj = g:aladdin_prototype._Clone()
   let obj.hlgroup = 'Comment'
   call obj._Customize(a:settings)
 
