@@ -1,6 +1,7 @@
-function! aladdin#sources#indent#define()
+function! aladdin#sources#indent#define(settings)
   let obj = []
   let priority = -1
+  " call obj._Customize(a:settings)
 
   for i in range(5)
     call add(obj, extend(deepcopy(aladdin#sources#PROTOTYPE#clone()), {'pattern': '\= "^\\( \\{".&sw."}\\|\\t\\)\\{'.i*2.    '}\\zs\\( \\{".&sw."}\\|\\t\\)"', 'hlgroup': 'StatusLine',   'priority': priority}))

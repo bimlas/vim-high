@@ -53,6 +53,12 @@ function! aladdin#sources#PROTOTYPE#define()
     let w:aladdin_match_ids[self._index] = a:id
   endfunction "}}}
 
+  function! obj._Customize(settings) "{{{
+    for [key, value] in items(a:settings)
+      let self[key] = value
+    endfor
+  endfunction "}}}
+
   return obj
 endfunction
 

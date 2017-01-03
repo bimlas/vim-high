@@ -1,7 +1,7 @@
-function! aladdin#sources#inactive_window#define()
+function! aladdin#sources#inactive_window#define(settings)
   let obj = aladdin#sources#PROTOTYPE#clone()
   let obj.hlgroup = 'Comment'
-  let obj.enabled = 0
+  call obj._Customize(a:settings)
 
   augroup aladdin_inactive_window "{{{
     autocmd!
