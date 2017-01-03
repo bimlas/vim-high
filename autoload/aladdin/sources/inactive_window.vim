@@ -3,7 +3,7 @@ function! aladdin#sources#inactive_window#define(settings)
   let obj.hlgroup = 'Comment'
   call obj._Customize(a:settings)
   let obj._autoHighlight = 0
-  let obj.pattern = '.*'
+  let obj._pattern = '.*'
 
   augroup aladdin_inactive_window "{{{
     autocmd!

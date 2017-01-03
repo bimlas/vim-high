@@ -2,10 +2,10 @@ function! aladdin#sources#PROTOTYPE#define()
   let obj = {}
   let obj.whitelist = []
   let obj.blacklist = []
-  let obj.pattern = ''
-  let obj.pattern_to_eval = ''
   let obj.hlgroup = 'ErrorMsg'
   let obj.priority = 1000
+  let obj._pattern = ''
+  let obj._pattern_to_eval = ''
   let obj._autoHighlight = 1
   let obj._index = 0
 
@@ -38,7 +38,7 @@ function! aladdin#sources#PROTOTYPE#define()
       call self._MatchClear()
     endif
     if self._GetMatchID() < 0
-      call self._SetMatchID(matchadd(self.hlgroup, self.pattern, self.priority))
+      call self._SetMatchID(matchadd(self.hlgroup, self._pattern, self.priority))
     endif
   endfunction "}}}
 
@@ -66,14 +66,14 @@ function! aladdin#sources#PROTOTYPE#define()
   endfunction "}}}
 
   function! obj._PatternChanged() "{{{
-    if !len(self.pattern_to_eval)
+    if !len(self._pattern_to_eval)
       return 0
     endif
-    let self.pattern = eval(self.pattern_to_eval)
+    let self._pattern = eval(self._pattern_to_eval)
     " TODO: find a faster way to detect if the match is exists in the current
     " window.
     let current_match = filter(getmatches(), 'v:val.id == '.self._GetMatchID())
-    return len(current_match) && (self.pattern != current_match[0].pattern)
+    return len(current_match) && (self._pattern != current_match[0].pattern)
   endfunction "}}}
 
   function! obj._HaveToUpdate() "{{{
