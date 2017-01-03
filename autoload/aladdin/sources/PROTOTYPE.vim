@@ -5,11 +5,11 @@ function! aladdin#sources#PROTOTYPE#define()
   let obj.pattern = ''
   let obj.hlgroup = 'ErrorMsg'
   let obj.priority = 1000
-  let obj._haveToUpdate = 0
+  let obj._autoHighlight = 1
   let obj._index = 0
 
   function! obj.Highlight() "{{{
-    if self._EnabledForFiletype(&filetype)
+    if self._EnabledForFiletype(&filetype) && self._autoHighlight
       call self._MatchAdd()
     else
       call self._MatchClear()
@@ -33,7 +33,7 @@ function! aladdin#sources#PROTOTYPE#define()
   endfunction "}}}
 
   function! obj._MatchAdd() "{{{
-    if self._haveToUpdate
+    if self._HaveToUpdate()
       call self._MatchClear()
     endif
     if self._GetMatchID() < 0
@@ -62,6 +62,10 @@ function! aladdin#sources#PROTOTYPE#define()
   function! obj._SetMatchID(id) "{{{
     call self._InitMatchID()
     let w:aladdin_match_ids[self._index] = a:id
+  endfunction "}}}
+
+  function! obj._HaveToUpdate() "{{{
+    return 0
   endfunction "}}}
 
   function! obj._Customize(settings) "{{{
