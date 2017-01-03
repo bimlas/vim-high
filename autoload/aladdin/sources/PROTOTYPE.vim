@@ -18,8 +18,8 @@ function! aladdin#sources#PROTOTYPE#define()
 
   function! obj._Clone() "{{{
     let clone = self._PrototypeClone()
-    let clone._index = g:aladdin_source_index
-    let g:aladdin_source_index += 1
+    let clone._index = g:aladdin.source_index
+    let g:aladdin.source_index += 1
     return clone
   endfunction "}}}
 

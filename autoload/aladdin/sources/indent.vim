@@ -1,6 +1,6 @@
 function! aladdin#sources#indent#define(settings)
   let obj = []
-  let preconfigured = g:aladdin_prototype._PrototypeClone()
+  let preconfigured = g:aladdin.prototype._PrototypeClone()
   let preconfigured.priority = -1
   let preconfigured.hlgroupA = 'StatusLine'
   let preconfigured.hlgroupB = 'StatusLineNC'
