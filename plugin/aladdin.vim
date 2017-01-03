@@ -4,8 +4,8 @@ let g:aladdin = {
 \ 'source_index': 0,
 \ }
 
-for source in get(g:, 'aladdin_sources', [{'todo': {'hlgroup': 'WildMenu'}}, {'indent': {'hlgroupA': 'LineNr', 'hlgroupB': 'PandocDefinitionTerm'}}, {'inactive_window': {}}])
-  call extend(g:aladdin.loaded_sources, aladdin#sources#{keys(source)[0]}#define(values(source)[0]))
+for [source, settings] in items(get(g:, 'aladdin_sources', {'todo': {'hlgroup': 'WildMenu'}, 'indent': {'hlgroupA': 'LineNr', 'hlgroupB': 'PandocDefinitionTerm'}, 'inactive_window': {}}))
+  call extend(g:aladdin.loaded_sources, aladdin#sources#{source}#define(settings))
 endfor
 
 augroup aladdin
