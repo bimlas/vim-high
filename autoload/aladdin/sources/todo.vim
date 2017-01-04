@@ -4,6 +4,5 @@ function! aladdin#sources#todo#define(settings)
   let obj.hlgroup = 'ErrorMsg'
   let obj._pattern = 'TODO'
   call obj._Customize(a:settings)
-
-  return [obj]
+  call g:aladdin.prototype._AddSource(obj)
 endfunction

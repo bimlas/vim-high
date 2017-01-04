@@ -7,7 +7,7 @@ function! aladdin#sources#PROTOTYPE#define()
   let obj._pattern = ''
   let obj._pattern_to_eval = ''
   let obj._autoHighlight = 1
-  let obj._index = 0
+  let obj._index = -1
 
   function! obj.Highlight() "{{{
     if self._autoHighlight
@@ -24,14 +24,12 @@ function! aladdin#sources#PROTOTYPE#define()
   endfunction "}}}
 
   function! obj._Clone() "{{{
-    let clone = self._PrototypeClone()
-    let clone._index = g:aladdin.source_index
-    let g:aladdin.source_index += 1
-    return clone
+    return deepcopy(self)
   endfunction "}}}
 
-  function! obj._PrototypeClone() "{{{
-    return deepcopy(self)
+  function! obj._AddSource(source) "{{{
+    let a:source._index = len(g:aladdin.loaded_sources)
+    call extend(g:aladdin.loaded_sources, [a:source])
   endfunction "}}}
 
   function! obj._EnabledForFiletype(filetype) "{{{
