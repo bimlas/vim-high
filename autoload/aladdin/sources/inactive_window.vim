@@ -1,14 +1,14 @@
 function! aladdin#sources#inactive_window#define(settings)
-  let obj = g:aladdin.prototype._Clone()
-  call g:aladdin.prototype._AddSource(obj)
-  let obj.hlgroup = 'Comment'
-  call obj._Customize(a:settings)
-  let obj._autoHighlight = 0
-  let obj._pattern = '.*'
+  let source = aladdin#main#_Clone()
+  call aladdin#main#_AddSource(source)
+  let source.hlgroup = 'Comment'
+  call aladdin#main#_Customize(source, a:settings)
+  let source._autoHighlight = 0
+  let source._pattern = '.*'
 
   augroup aladdin_inactive_window "{{{
     autocmd!
-    exe 'autocmd WinEnter * call g:aladdin.loaded_sources['.obj._index.']._ManualHighlight(0)'
-    exe 'autocmd WinLeave * call g:aladdin.loaded_sources['.obj._index.']._ManualHighlight(1)'
+    exe 'autocmd WinEnter * call aladdin#main#_ManualHighlight(g:aladdin.loaded_sources['.source._index.'], 0)'
+    exe 'autocmd WinLeave * call aladdin#main#_ManualHighlight(g:aladdin.loaded_sources['.source._index.'], 1)'
   augroup END "}}}
 endfunction
