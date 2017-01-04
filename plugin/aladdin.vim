@@ -3,8 +3,14 @@ let g:aladdin = {
 \ 'loaded_sources': [],
 \ }
 
-for [source, settings] in items(get(g:, 'aladdin_sources', {'todo': {'hlgroup': 'WildMenu'}, 'indent': {'hlgroupA': 'LineNr', 'hlgroupB': 'PandocDefinitionTerm'}, 'words': {}, 'inactive_window': {'blacklist': ['asciidoc']}}))
-  call aladdin#sources#{source}#define(settings)
+for [source, settings] in items(get(g:, 'aladdin_sources', {'NOTexists': {'_pattern': 'NOTE'}, 'todo': {'hlgroup': 'WildMenu'}, 'indent': {'hlgroupA': 'LineNr', 'hlgroupB': 'PandocDefinitionTerm'}, 'words': {}, 'inactive_window': {'blacklist': ['asciidoc']}}))
+  try
+    call aladdin#sources#{source}#define(settings)
+  catch
+    let custom = g:aladdin.prototype._Clone()
+    call custom._Customize(settings)
+    call g:aladdin.prototype._AddSource(custom)
+  endtry
 endfor
 
 augroup aladdin
