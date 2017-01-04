@@ -10,7 +10,13 @@ function! aladdin#sources#PROTOTYPE#define()
   let obj._index = 0
 
   function! obj.Highlight() "{{{
-    if self._EnabledForFiletype(&filetype) && self._autoHighlight
+    if self._autoHighlight
+      call self._ManualHighlight(1)
+    endif
+  endfunction "}}}
+
+  function! obj._ManualHighlight(enabled) "{{{
+    if a:enabled && self._EnabledForFiletype(&filetype)
       call self._MatchAdd()
     else
       call self._MatchClear()
