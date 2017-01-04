@@ -1,10 +1,10 @@
 function! aladdin#sources#inactive_window#define(settings)
   let obj = g:aladdin.prototype._Clone()
+  call g:aladdin.prototype._AddSource(obj)
   let obj.hlgroup = 'Comment'
   call obj._Customize(a:settings)
   let obj._autoHighlight = 0
   let obj._pattern = '.*'
-  call g:aladdin.prototype._AddSource(obj)
 
   augroup aladdin_inactive_window "{{{
     autocmd!

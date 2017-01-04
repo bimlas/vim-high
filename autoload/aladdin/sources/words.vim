@@ -1,5 +1,6 @@
 function! aladdin#sources#words#define(settings)
   let obj = g:aladdin.prototype._Clone()
+  call g:aladdin.prototype._AddSource(obj)
   let obj.hlgroups = ['Pmenu', 'PmenuSel', 'PmenuSbar']
   let obj.map_add = 'b'
   let obj.map_clear = 'B'
@@ -7,7 +8,6 @@ function! aladdin#sources#words#define(settings)
   let obj._autoHighlight = 0
   let obj._pattern_to_eval = 'printf("\\<%s\\>", escape(expand("<cword>"), "/\\"))'
   let obj._hlgroups_index = 0
-  call g:aladdin.prototype._AddSource(obj)
 
   " Don't need to clone the list of already highlighted words, so store it
   " outside of object.
