@@ -38,7 +38,7 @@ function! aladdin#sources#PROTOTYPE#define()
   endfunction "}}}
 
   function! obj._MatchAdd() "{{{
-    if self._HaveToUpdate() || self._PatternChanged()
+    if self._PatternChanged()
       call self._MatchClear()
     endif
     if self._GetMatchID() < 0
@@ -78,10 +78,6 @@ function! aladdin#sources#PROTOTYPE#define()
     " window.
     let current_match = filter(getmatches(), 'v:val.id == '.self._GetMatchID())
     return len(current_match) && (self._pattern != current_match[0].pattern)
-  endfunction "}}}
-
-  function! obj._HaveToUpdate() "{{{
-    return 0
   endfunction "}}}
 
   function! obj._Customize(settings) "{{{
