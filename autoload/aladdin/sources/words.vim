@@ -1,46 +1,48 @@
 function! aladdin#sources#words#define(settings)
-  let obj = g:aladdin.prototype._Clone()
-  call g:aladdin.prototype._AddSource(obj)
-  let obj.hlgroups = ['Pmenu', 'PmenuSel', 'PmenuSbar']
-  let obj.map_add = 'b'
-  let obj.map_clear = 'B'
-  call obj._Customize(a:settings)
-  let obj._autoHighlight = 0
-  let obj._pattern_to_eval = 'printf("\\<%s\\>", escape(expand("<cword>"), "/\\"))'
-  let obj._hlgroups_index = 0
+  let source = aladdin#main#_Clone()
+  call aladdin#main#_AddSource(source)
+  " Saving it to use in other functions.
+  let s:source = source
+  let source.hlgroups = ['Pmenu', 'PmenuSel', 'PmenuSbar']
+  let source.map_add = 'b'
+  let source.map_clear = 'B'
+  call aladdin#main#_Customize(source, a:settings)
+  let source._autoHighlight = 0
+  let source._pattern_to_eval = 'printf("\\<%s\\>", escape(expand("<cword>"), "/\\"))'
+  let source._hlgroups_index = 0
 
   " Don't need to clone the list of already highlighted words, so store it
-  " outside of object.
+  " outside of sourceect.
   let s:words = []
 
-  exe 'nnoremap <silent> '.obj.map_add.' :call g:aladdin.loaded_sources['.obj._index.'].__AddWord()<CR>'
-  exe 'nnoremap <silent> '.obj.map_clear.' :call g:aladdin.loaded_sources['.obj._index.'].__ClearWords()<CR>'
-
-  function! obj.__AddWord() "{{{
-    " Reuse an 'unhighlighted' clone if possible.
-    let clone = get(filter(copy(s:words), 'v:val._GetMatchID() < 0'), 0, {})
-    " Otherwise create a new clone and store in the list to reach to clear the
-    " highlighting.
-    if !len(clone)
-      let clone = self._Clone()
-      call g:aladdin.prototype._AddSource(clone)
-      call extend(s:words, [clone])
-    endif
-
-    " Set up the highlight group and switch to the next one.
-    let clone.hlgroup = self.hlgroups[self._hlgroups_index]
-    let self._hlgroups_index += 1
-    if self._hlgroups_index >= len(self.hlgroups)
-      let self._hlgroups_index = 0
-    endif
-
-    call clone._ManualHighlight(1)
-  endfunction "}}}
-
-  function! obj.__ClearWords() "{{{
-    for word in s:words
-      call word._ManualHighlight(0)
-    endfor
-  endfunction "}}}
+  exe 'nnoremap <silent> '.source.map_add.' :call aladdin#sources#words#AddWord()<CR>'
+  exe 'nnoremap <silent> '.source.map_clear.' :call aladdin#sources#words#ClearWords()<CR>'
 
 endfunction
+
+function! aladdin#sources#words#AddWord() "{{{
+  " Reuse an 'unhighlighted' clone if possible.
+  let clone = get(filter(copy(s:words), 'aladdin#main#_GetMatchID(v:val) < 0'), 0, {})
+  " Otherwise create a new clone and store in the list to reach to clear the
+  " highlighting.
+  if !len(clone)
+    let clone = aladdin#main#_Clone(s:source)
+    call aladdin#main#_AddSource(clone)
+    call extend(s:words, [clone])
+  endif
+
+  " Set up the highlight group and switch to the next one.
+  let clone.hlgroup = s:source.hlgroups[s:source._hlgroups_index]
+  let s:source._hlgroups_index += 1
+  if s:source._hlgroups_index >= len(s:source.hlgroups)
+    let s:source._hlgroups_index = 0
+  endif
+
+  call aladdin#main#_ManualHighlight(clone, 1)
+endfunction "}}}
+
+function! aladdin#sources#words#ClearWords() "{{{
+  for word in s:words
+    call aladdin#main#_ManualHighlight(word, 0)
+  endfor
+endfunction "}}}

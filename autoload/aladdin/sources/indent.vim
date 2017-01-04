@@ -1,14 +1,14 @@
 function! aladdin#sources#indent#define(settings)
-  let preconfigured = g:aladdin.prototype._Clone()
-  let preconfigured.priority = -1
-  let preconfigured.levels = 30
-  let preconfigured.start_level = 0
-  let preconfigured.size = 0
-  let preconfigured.hlgroupA = 'StatusLine'
-  let preconfigured.hlgroupB = 'StatusLineNC'
-  call preconfigured._Customize(a:settings)
+  let source = aladdin#main#_Clone()
+  let source.priority = -1
+  let source.levels = 30
+  let source.start_level = 0
+  let source.size = 0
+  let source.hlgroupA = 'StatusLine'
+  let source.hlgroupB = 'StatusLineNC'
+  call aladdin#main#_Customize(source, a:settings)
 
-  for i in range(preconfigured.start_level, preconfigured.levels+1)
-    call g:aladdin.prototype._AddSource(extend(preconfigured._Clone(), {'_pattern_to_eval': '"^\\( \\{".&sw."}\\|\\t\\)\\{'.i.'}\\zs\\( \\{'.(preconfigured.size > 0 ? preconfigured.size : '".&sw."').'}\\|\\t\\)"', 'hlgroup': preconfigured[i%2 ? 'hlgroupB' : 'hlgroupA']}))
+  for i in range(source.start_level, source.levels+1)
+    call aladdin#main#_AddSource(extend(aladdin#main#_Clone(source), {'_pattern_to_eval': '"^\\( \\{".&sw."}\\|\\t\\)\\{'.i.'}\\zs\\( \\{'.(source.size > 0 ? source.size : '".&sw."').'}\\|\\t\\)"', 'hlgroup': source[i%2 ? 'hlgroupB' : 'hlgroupA']}))
   endfor
 endfunction

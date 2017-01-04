@@ -1,22 +1,22 @@
 let g:aladdin = {
-\ 'prototype': aladdin#sources#PROTOTYPE#define(),
 \ 'loaded_sources': [],
 \ }
+"\ 'prototype': aladdin#sources#PROTOTYPE#define(),
 
 let s:default_sources = {
-\ 'NOTexists': {
-\   '_pattern': 'NOTE'
-\ },
 \ 'todo': {
 \   'hlgroup': 'WildMenu',
+\ },
+\ 'inactive_window': {
+\   'blacklist': ['asciidoc'],
 \ },
 \ 'indent': {
 \   'hlgroupA': 'LineNr',
 \   'hlgroupB': 'PandocDefinitionTerm',
 \   },
 \ 'words': {},
-\ 'inactive_window': {
-\   'blacklist': ['asciidoc'],
+\ 'NOTexists': {
+\   '_pattern': 'NOTE'
 \ },
 \ }
 
@@ -24,12 +24,12 @@ for [source, settings] in items(get(g:, 'aladdin_sources', s:default_sources))
   try
     call aladdin#sources#{source}#define(settings)
   catch
-    let custom = g:aladdin.prototype._Clone()
-    call custom._Customize(settings)
-    call g:aladdin.prototype._AddSource(custom)
+    let custom = aladdin#main#_Clone()
+    call aladdin#main#_Customize(custom, settings)
+    call aladdin#main#_AddSource(custom)
   endtry
 endfor
 
 augroup aladdin
-  autocmd! WinEnter,BufWinEnter,FileType * for source in g:aladdin.loaded_sources | call source.Highlight() | endfor
+  autocmd! WinEnter,BufWinEnter,FileType * for source in g:aladdin.loaded_sources | call aladdin#main#Highlight(source) | endfor
 augroup END
