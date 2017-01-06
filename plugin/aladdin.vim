@@ -17,6 +17,7 @@ let s:default_sources = {
 \ 'mixed_indent': {},
 \ 'mixed_eol': {},
 \ 'long_line': {},
+\ 'title_description': {},
 \ 'words': {},
 \ 'NOTexists': {
 \   '_pattern': 'NOTE'
