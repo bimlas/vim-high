@@ -1,8 +1,12 @@
 function! aladdin#sources#long_line#define(settings)
   let source = aladdin#main#_Clone()
+  call aladdin#main#_AddSource(source)
+
   let source.length = 0
   let source.single_column = 0
-  call aladdin#main#_AddSource(source)
+
+  call aladdin#main#_Customize(source, a:settings)
+
   if source.length
     let source._pattern = '^.\{'.source.length.'}\zs.\+'
   else

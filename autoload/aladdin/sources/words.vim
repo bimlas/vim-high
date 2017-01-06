@@ -3,21 +3,22 @@ function! aladdin#sources#words#define(settings)
   call aladdin#main#_AddSource(source)
   " Saving it to use in other functions.
   let s:source = source
+
   let source.hlgroups = ['Pmenu', 'PmenuSel', 'PmenuSbar']
-  let source.map_add = 'b'
-  let source.map_clear = 'B'
+  let source.map_add = '<Leader>k'
+  let source.map_clear = '<Leader>K'
+
   call aladdin#main#_Customize(source, a:settings)
   let source._autoHighlight = 0
   let source._pattern_to_eval = 'printf("\\<%s\\>", escape(expand("<cword>"), "/\\"))'
+  " Points the next color.
   let source._hlgroups_index = 0
-
-  " Don't need to clone the list of already highlighted words, so store it
-  " outside of sourceect.
+  " Don't need to clone the list of already highlighted words, store it
+  " outside of clone.
   let s:words = []
 
   exe 'nnoremap <silent> '.source.map_add.' :call aladdin#sources#words#AddWord()<CR>'
   exe 'nnoremap <silent> '.source.map_clear.' :call aladdin#sources#words#ClearWords()<CR>'
-
 endfunction
 
 function! aladdin#sources#words#AddWord() "{{{

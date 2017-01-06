@@ -1,30 +1,13 @@
+if exists('g:loaded_aladdin')
+  finish
+endif
+let g:loaded_aladdin = 1
+
 let g:aladdin = {
 \ 'patterns': [],
 \ }
-"\ 'prototype': aladdin#sources#PROTOTYPE#define(),
 
-let s:default_sources = {
-\ 'todo': {
-\   'hlgroup': 'WildMenu',
-\ },
-\ 'inactive_window': {
-\   'blacklist': ['asciidoc'],
-\ },
-\ 'indent': {
-\   'hlgroupA': 'LineNr',
-\   'hlgroupB': 'PandocDefinitionTerm',
-\   },
-\ 'mixed_indent': {},
-\ 'mixed_eol': {},
-\ 'long_line': {},
-\ 'title_description': {},
-\ 'words': {},
-\ 'NOTexists': {
-\   '_pattern': 'NOTE'
-\ },
-\ }
-
-for [source, settings] in items(get(g:, 'aladdin_sources', s:default_sources))
+for [source, settings] in items(get(g:, 'aladdin_sources', {}))
   try
     call aladdin#sources#{source}#define(settings)
   catch

@@ -1,11 +1,13 @@
 function! aladdin#sources#indent#define(settings)
   let source = aladdin#main#_Clone()
+
   let source.priority = -1
-  let source.levels = 30
+  let source.levels = 15
   let source.start_level = 0
   let source.size = 0
-  let source.hlgroupA = 'StatusLine'
-  let source.hlgroupB = 'StatusLineNC'
+  let source.hlgroupA = 'Pmenu'
+  let source.hlgroupB = 'PmenuSel'
+
   call aladdin#main#_Customize(source, a:settings)
 
   for i in range(source.start_level, source.levels+1)

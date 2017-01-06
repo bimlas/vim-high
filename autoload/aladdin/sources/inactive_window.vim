@@ -1,7 +1,9 @@
 function! aladdin#sources#inactive_window#define(settings)
   let source = aladdin#main#_Clone()
   call aladdin#main#_AddSource(source)
+
   let source.hlgroup = 'Comment'
+
   call aladdin#main#_Customize(source, a:settings)
   let source._autoHighlight = 0
   let source._pattern = '.*'
