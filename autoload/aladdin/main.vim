@@ -27,8 +27,8 @@ function! aladdin#main#_Clone(...) "{{{
 endfunction "}}}
 
 function! aladdin#main#_AddSource(source) "{{{
-  let a:source._index = len(g:aladdin.loaded_sources)
-  call extend(g:aladdin.loaded_sources, [a:source])
+  let a:source._index = len(g:aladdin.patterns)
+  call extend(g:aladdin.patterns, [a:source])
 endfunction "}}}
 
 function! aladdin#main#_EnabledForFiletype(source, filetype) "{{{

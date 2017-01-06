@@ -8,7 +8,7 @@ function! aladdin#sources#inactive_window#define(settings)
 
   augroup aladdin_inactive_window "{{{
     autocmd!
-    exe 'autocmd WinEnter * call aladdin#main#_ManualHighlight(g:aladdin.loaded_sources['.source._index.'], 0)'
-    exe 'autocmd WinLeave * call aladdin#main#_ManualHighlight(g:aladdin.loaded_sources['.source._index.'], 1)'
+    exe 'autocmd WinEnter * call aladdin#main#_ManualHighlight(g:aladdin.patterns['.source._index.'], 0)'
+    exe 'autocmd WinLeave * call aladdin#main#_ManualHighlight(g:aladdin.patterns['.source._index.'], 1)'
   augroup END "}}}
 endfunction

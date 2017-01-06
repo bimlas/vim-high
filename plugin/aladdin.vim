@@ -1,5 +1,5 @@
 let g:aladdin = {
-\ 'loaded_sources': [],
+\ 'patterns': [],
 \ }
 "\ 'prototype': aladdin#sources#PROTOTYPE#define(),
 
@@ -35,5 +35,5 @@ for [source, settings] in items(get(g:, 'aladdin_sources', s:default_sources))
 endfor
 
 augroup aladdin
-  autocmd! WinEnter,BufWinEnter,FileType * for source in g:aladdin.loaded_sources | call aladdin#main#Highlight(source) | endfor
+  autocmd! WinEnter,BufWinEnter,FileType * for source in g:aladdin.patterns | call aladdin#main#Highlight(source) | endfor
 augroup END
