@@ -1,5 +1,5 @@
 Execute (Create object):
-  let obj = aladdin#sources#PROTOTYPE#define()
+  let obj = high#light#PROTOTYPE#define()
 
 Execute (Enabled for every filetype by default):
   let obj.whitelist = []
