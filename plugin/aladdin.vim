@@ -15,6 +15,7 @@ let s:default_sources = {
 \   'hlgroupB': 'PandocDefinitionTerm',
 \   },
 \ 'mixed_indent': {},
+\ 'long_line': {},
 \ 'words': {},
 \ 'NOTexists': {
 \   '_pattern': 'NOTE'
