@@ -1,25 +1,25 @@
-Execute (Create object):
-  let obj = high#light#PROTOTYPE#define()
+Execute (Create lighter):
+  let lighter = high#main#_Clone()
 
-Execute (Enabled for every filetype by default):
-  let obj.whitelist = []
-  let obj.blacklist = []
-  AssertEqual obj._EnabledForFiletype('text'), 1
-  AssertEqual obj._EnabledForFiletype('asciidoc'), 1
+Execute (Enabled for every filetype):
+  let lighter.whitelist = []
+  let lighter.blacklist = []
+  AssertEqual high#main#_EnabledForFiletype(lighter, 'text'), 1
+  AssertEqual high#main#_EnabledForFiletype(lighter, 'asciidoc'), 1
 
 Execute (Whitelist: enabled for certain filetypes):
-  let obj.whitelist = ['text']
-  let obj.blacklist = []
-  AssertEqual obj._EnabledForFiletype('text'), 1
-  AssertEqual obj._EnabledForFiletype('asciidoc'), 0
+  let lighter.whitelist = ['text']
+  let lighter.blacklist = []
+  AssertEqual high#main#_EnabledForFiletype(lighter, 'text'), 1
+  AssertEqual high#main#_EnabledForFiletype(lighter, 'asciidoc'), 0
 
 Execute (Blacklist: disabled for certain filetypes):
-  let obj.whitelist = []
-  let obj.blacklist = ['text']
-  AssertEqual obj._EnabledForFiletype('text'), 0
-  AssertEqual obj._EnabledForFiletype('asciidoc'), 1
+  let lighter.whitelist = []
+  let lighter.blacklist = ['text']
+  AssertEqual high#main#_EnabledForFiletype(lighter, 'text'), 0
+  AssertEqual high#main#_EnabledForFiletype(lighter, 'asciidoc'), 1
 
 Execute (Both: blacklist is stronger than whitelist):
-  let obj.whitelist = ['text']
-  let obj.blacklist = ['text']
-  AssertEqual obj._EnabledForFiletype('text'), 0
+  let lighter.whitelist = ['text']
+  let lighter.blacklist = ['text']
+  AssertEqual high#main#_EnabledForFiletype(lighter, 'text'), 0
