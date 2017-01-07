@@ -1,0 +1,5 @@
+install:
+  - git clone --depth 1 --single-branch https://github.com/junegunn/vader.vim
+
+script:
+  - vim -Nu test/vimrc -c 'Vader! test/*' > /dev/null
