@@ -5,7 +5,20 @@ let g:loaded_high = 1
 
 let g:high = {
 \ 'lighters': [],
+\ 'defaults': {
+\   'whitelist' : [],
+\   'blacklist' : [],
+\   'hlgroup' : 'ErrorMsg',
+\   'priority' : 1000,
+\   '_pattern' : '',
+\   '_pattern_to_eval' : '',
+\   '_autoHighlight' : 1,
+\   '_index' : -1,
 \ }
+\ }
+if exists('g:high_defaults')
+  call high#main#_Customize(g:high.defaults, g:high_defaults)
+endif
 
 for [lighter, settings] in items(get(g:, 'high_lighters', {}))
   try

@@ -1,13 +1,3 @@
-let s:settings = {}
-let s:settings.whitelist = []
-let s:settings.blacklist = []
-let s:settings.hlgroup = 'ErrorMsg'
-let s:settings.priority = 1000
-let s:settings._pattern = ''
-let s:settings._pattern_to_eval = ''
-let s:settings._autoHighlight = 1
-let s:settings._index = -1
-
 function! high#main#Highlight(lighter) "{{{
   if a:lighter._autoHighlight
     call high#main#_ManualHighlight(a:lighter, 1)
@@ -23,7 +13,7 @@ function! high#main#_ManualHighlight(lighter, enabled) "{{{
 endfunction "}}}
 
 function! high#main#_Clone(...) "{{{
-  return deepcopy(a:0 ? a:1 : s:settings)
+  return deepcopy(a:0 ? a:1 : g:high.defaults)
 endfunction "}}}
 
 function! high#main#_AddLighter(lighter) "{{{
