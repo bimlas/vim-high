@@ -1,3 +1,4 @@
 image:https://img.shields.io/travis/bimlas/vim-high.svg?label=Travis%20CI["Travis CI", link="https://travis-ci.org/bimlas/vim-high"]
+image:https://img.shields.io/github/license/bimlas/vim-high.svg["License", link="LICENSE"]
 
 *UNDER DEVELOPMENT*
