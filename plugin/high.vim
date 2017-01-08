@@ -7,16 +7,16 @@ let g:high = {
 \ 'lighters': [],
 \ }
 
-for [source, settings] in items(get(g:, 'high_lighters', {}))
+for [lighter, settings] in items(get(g:, 'high_lighters', {}))
   try
-    call high#light#{source}#define(settings)
+    call high#light#{lighter}#define(settings)
   catch
     let custom = high#main#_Clone()
     call high#main#_Customize(custom, settings)
-    call high#main#_AddSource(custom)
+    call high#main#_AddLighter(custom)
   endtry
 endfor
 
 augroup high
-  autocmd! WinEnter,BufWinEnter,FileType * for source in g:high.lighters | call high#main#Highlight(source) | endfor
+  autocmd! WinEnter,BufWinEnter,FileType * for lighter in g:high.lighters | call high#main#Highlight(lighter) | endfor
 augroup END

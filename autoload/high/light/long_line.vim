@@ -1,16 +1,16 @@
 function! high#light#long_line#define(settings)
-  let source = high#main#_Clone()
-  call high#main#_AddSource(source)
+  let lighter = high#main#_Clone()
+  call high#main#_AddLighter(lighter)
 
-  let source.length = 0
-  let source.single_column = 0
+  let lighter.length = 0
+  let lighter.single_column = 0
 
-  call high#main#_Customize(source, a:settings)
+  call high#main#_Customize(lighter, a:settings)
 
-  if source.length
-    let source._pattern = '^.\{'.source.length.'}\zs.\+'
+  if lighter.length
+    let lighter._pattern = '^.\{'.lighter.length.'}\zs.\+'
   else
-    let source._pattern_to_eval = '&textwidth > 0 ? "\\%".string(&textwidth+1)."v.'.(source.single_column ? '' : '\\+').'" : ""'
+    let lighter._pattern_to_eval = '&textwidth > 0 ? "\\%".string(&textwidth+1)."v.'.(lighter.single_column ? '' : '\\+').'" : ""'
   endif
-  call high#main#_Customize(source, a:settings)
+  call high#main#_Customize(lighter, a:settings)
 endfunction

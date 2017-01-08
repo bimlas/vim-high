@@ -1,8 +1,8 @@
 function! high#light#mixed_eol#define(settings)
-  let source = high#main#_Clone()
-  call high#main#_AddSource(source)
+  let lighter = high#main#_Clone()
+  call high#main#_AddLighter(lighter)
 
-  call high#main#_Customize(source, a:settings)
+  call high#main#_Customize(lighter, a:settings)
 
-  let source._pattern = '\r'
+  let lighter._pattern = '\r'
 endfunction
