@@ -1,7 +1,6 @@
 function! high#light#indent#define(settings)
   let lighter = high#main#_Clone()
 
-  let lighter.priority = -1
   let lighter.levels = 15
   let lighter.start_level = 0
   let lighter.size = 0

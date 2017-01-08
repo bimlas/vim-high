@@ -9,7 +9,7 @@ let g:high = {
 \   'whitelist' : [],
 \   'blacklist' : [],
 \   'hlgroup' : 'ErrorMsg',
-\   'priority' : 1000,
+\   'priority' : -1,
 \   '_pattern' : '',
 \   '_pattern_to_eval' : '',
 \   '_autoHighlight' : 1,
