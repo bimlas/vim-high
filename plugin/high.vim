@@ -16,8 +16,8 @@ let g:high = {
 \   '_index' : -1,
 \ }
 \ }
-if exists('g:high_defaults')
-  call high#main#_Customize(g:high.defaults, g:high_defaults)
+if exists('g:high_lighters["_"]')
+  call high#main#_Customize(g:high.defaults, remove(g:high_lighters, '_'))
 endif
 
 for [lighter, settings] in items(get(g:, 'high_lighters', {}))
