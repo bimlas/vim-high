@@ -1,8 +1,8 @@
 function! high#light#whitespace#define(settings)
-  let lighter = high#main#_Clone()
-  call high#main#_AddLighter(lighter)
+  let lighter = high#main#Clone()
+  call high#main#AddLighter(lighter)
 
-  call high#main#_Customize(lighter, a:settings)
+  call high#main#Customize(lighter, a:settings)
 
   let lighter._pattern = '\s\+$'
 endfunction
