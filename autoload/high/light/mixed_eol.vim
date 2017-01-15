@@ -4,5 +4,5 @@ function! high#light#mixed_eol#define(settings)
 
   call high#main#Customize(lighter, a:settings)
 
-  let lighter._pattern = '\r'
+  let lighter.pattern = '\r'
 endfunction

@@ -4,5 +4,5 @@ function! high#light#whitespace#define(settings)
 
   call high#main#Customize(lighter, a:settings)
 
-  let lighter._pattern = '\s\+$'
+  let lighter.pattern = '\s\+$'
 endfunction

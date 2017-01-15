@@ -1,5 +1,5 @@
 function! high#main#Highlight(lighter) "{{{
-  if a:lighter._autoHighlight
+  if a:lighter.autoHighlight
     call high#main#ManualHighlight(a:lighter, 1)
   endif
 endfunction "}}}
@@ -17,7 +17,7 @@ function! high#main#Clone(...) "{{{
 endfunction "}}}
 
 function! high#main#AddLighter(lighter) "{{{
-  let a:lighter._index = len(g:high.lighters)
+  let a:lighter.index = len(g:high.lighters)
   call extend(g:high.lighters, [a:lighter])
 endfunction "}}}
 
@@ -31,7 +31,7 @@ function! high#main#MatchAdd(lighter) "{{{
     call high#main#MatchClear(a:lighter)
   endif
   if high#main#GetMatchID(a:lighter) < 0
-    call high#main#SetMatchID(a:lighter, matchadd(a:lighter.hlgroup, a:lighter._pattern, a:lighter.priority))
+    call high#main#SetMatchID(a:lighter, matchadd(a:lighter.hlgroup, a:lighter.pattern, a:lighter.priority))
   endif
 endfunction "}}}
 
@@ -50,23 +50,23 @@ endfunction "}}}
 
 function! high#main#GetMatchID(lighter) "{{{
   call high#main#InitMatchID()
-  return get(get(w:, 'high_match_ids', []), a:lighter._index, -1)
+  return get(get(w:, 'high_match_ids', []), a:lighter.index, -1)
 endfunction "}}}
 
 function! high#main#SetMatchID(lighter, id) "{{{
   call high#main#InitMatchID()
-  let w:high_match_ids[a:lighter._index] = a:id
+  let w:high_match_ids[a:lighter.index] = a:id
 endfunction "}}}
 
 function! high#main#PatternChanged(lighter) "{{{
-  if !len(a:lighter._pattern_to_eval)
+  if !len(a:lighter.pattern_to_eval)
     return 0
   endif
-  let a:lighter._pattern = eval(a:lighter._pattern_to_eval)
+  let a:lighter.pattern = eval(a:lighter.pattern_to_eval)
   " TODO: find a faster way to detect if the match is exists in the current
   " window.
   let current_match = filter(getmatches(), 'v:val.id == '.high#main#GetMatchID(a:lighter))
-  return len(current_match) && (a:lighter._pattern != current_match[0].pattern)
+  return len(current_match) && (a:lighter.pattern != current_match[0].pattern)
 endfunction "}}}
 
 function! high#main#Customize(lighter, settings) "{{{

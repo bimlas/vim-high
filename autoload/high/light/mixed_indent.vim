@@ -3,10 +3,10 @@ function! high#light#mixed_indent#define(settings)
   call high#main#AddLighter(lighter)
 
   call high#main#Customize(lighter, a:settings)
-  let lighter._pattern = '^ .*\n\zs\t\+\|^\t.*\n\zs \+'
+  let lighter.pattern = '^ .*\n\zs\t\+\|^\t.*\n\zs \+'
 
   " Highlight inline mixed indent too.
   let mixed_inline = high#main#Clone(lighter)
   call high#main#AddLighter(mixed_inline)
-  let mixed_inline._pattern = '^ \+\zs\t\+\s*\|^\t\+\zs \+\s*'
+  let mixed_inline.pattern = '^ \+\zs\t\+\s*\|^\t\+\zs \+\s*'
 endfunction

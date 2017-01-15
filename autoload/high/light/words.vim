@@ -4,21 +4,21 @@ function! high#light#words#define(settings)
   " Saving it to use in other functions.
   let s:lighter = lighter
 
-  let lighter.hlgroups = ['Pmenu', 'PmenuSel', 'PmenuSbar']
-  let lighter.map_add = '<Leader>k'
-  let lighter.map_clear = '<Leader>K'
+  let lighter._hlgroups = ['Pmenu', 'PmenuSel', 'PmenuSbar']
+  let lighter._map_add = '<Leader>k'
+  let lighter._map_clear = '<Leader>K'
 
   call high#main#Customize(lighter, a:settings)
-  let lighter._autoHighlight = 0
-  let lighter._pattern_to_eval = 'printf("\\<%s\\>", escape(expand("<cword>"), "/\\"))'
+  let lighter.autoHighlight = 0
+  let lighter.pattern_to_eval = 'printf("\\<%s\\>", escape(expand("<cword>"), "/\\"))'
   " Points the next color.
   let lighter._hlgroups_index = 0
   " Don't need to clone the list of already highlighted words, store it
   " outside of clone.
   let s:words = []
 
-  exe 'nnoremap <silent> '.lighter.map_add.' :call high#light#words#AddWord()<CR>'
-  exe 'nnoremap <silent> '.lighter.map_clear.' :call high#light#words#ClearWords()<CR>'
+  exe 'nnoremap <silent> '.lighter._map_add.' :call high#light#words#AddWord()<CR>'
+  exe 'nnoremap <silent> '.lighter._map_clear.' :call high#light#words#ClearWords()<CR>'
 endfunction
 
 function! high#light#words#AddWord() "{{{
@@ -33,9 +33,9 @@ function! high#light#words#AddWord() "{{{
   endif
 
   " Set up the highlight group and switch to the next one.
-  let clone.hlgroup = s:lighter.hlgroups[s:lighter._hlgroups_index]
+  let clone.hlgroup = s:lighter._hlgroups[s:lighter._hlgroups_index]
   let s:lighter._hlgroups_index += 1
-  if s:lighter._hlgroups_index >= len(s:lighter.hlgroups)
+  if s:lighter._hlgroups_index >= len(s:lighter._hlgroups)
     let s:lighter._hlgroups_index = 0
   endif
 

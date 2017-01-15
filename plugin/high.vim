@@ -10,10 +10,10 @@ let g:high = {
 \   'blacklist' : [],
 \   'hlgroup' : 'ErrorMsg',
 \   'priority' : -1,
-\   '_pattern' : '',
-\   '_pattern_to_eval' : '',
-\   '_autoHighlight' : 1,
-\   '_index' : -1,
+\   'pattern' : '',
+\   'pattern_to_eval' : '',
+\   'autoHighlight' : 1,
+\   'index' : -1,
 \ }
 \ }
 if exists('g:high_lighters["_"]')
