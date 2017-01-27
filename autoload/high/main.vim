@@ -5,7 +5,7 @@ function! high#main#Highlight(lighter) "{{{
 endfunction "}}}
 
 function! high#main#ManualHighlight(lighter, enabled) "{{{
-  if a:enabled && high#main#EnabledForFiletype(a:lighter, &filetype)
+  if a:lighter.enabled && a:enabled && high#main#EnabledForFiletype(a:lighter, &filetype)
     call high#main#MatchAdd(a:lighter)
   else
     call high#main#MatchClear(a:lighter)

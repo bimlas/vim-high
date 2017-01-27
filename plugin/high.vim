@@ -7,6 +7,7 @@ let g:high = {
 \ 'lighters': [],
 \ 'named_lighters': {},
 \ 'defaults': {
+\   'enabled': 1,
 \   'name': '',
 \   'whitelist' : [],
 \   'blacklist' : [],
@@ -18,6 +19,11 @@ let g:high = {
 \   'index' : -1,
 \ }
 \ }
+
+command! -nargs=1 -complete=customlist,high#commandline#listLighters HighDisable call high#commandline#toggle(<f-args>, 0)
+command! -nargs=1 -complete=customlist,high#commandline#listLighters HighEnable call high#commandline#toggle(<f-args>, 1)
+command! -nargs=1 -complete=customlist,high#commandline#listLighters HighToggle call high#commandline#toggle(<f-args>)
+
 if exists('g:high_lighters["_"]')
   call high#main#Customize(g:high.defaults, remove(g:high_lighters, '_'))
 endif
