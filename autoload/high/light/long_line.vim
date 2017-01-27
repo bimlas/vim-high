@@ -1,6 +1,6 @@
 function! high#light#long_line#define(settings)
   let lighter = high#main#Clone()
-  call high#main#AddLighter(lighter)
+  call high#main#AddLighter('long_line', lighter)
 
   let lighter._length = 0
   let lighter._single_column = 0

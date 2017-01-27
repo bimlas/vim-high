@@ -5,7 +5,9 @@ let g:loaded_high = 1
 
 let g:high = {
 \ 'lighters': [],
+\ 'named_lighters': {},
 \ 'defaults': {
+\   'name': '',
 \   'whitelist' : [],
 \   'blacklist' : [],
 \   'hlgroup' : 'ErrorMsg',
@@ -21,12 +23,13 @@ if exists('g:high_lighters["_"]')
 endif
 
 for [lighter, settings] in items(get(g:, 'high_lighters', {}))
+  let g:high.named_lighters[lighter] = []
   try
     call high#light#{lighter}#define(settings)
   catch
     let custom = high#main#Clone()
     call high#main#Customize(custom, settings)
-    call high#main#AddLighter(custom)
+    call high#main#AddLighter(lighter, custom)
   endtry
 endfor
 

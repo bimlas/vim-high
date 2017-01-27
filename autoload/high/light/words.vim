@@ -1,6 +1,6 @@
 function! high#light#words#define(settings)
   let lighter = high#main#Clone()
-  call high#main#AddLighter(lighter)
+  call high#main#AddLighter('words', lighter)
   " Saving it to use in other functions.
   let s:lighter = lighter
 
@@ -28,7 +28,7 @@ function! high#light#words#AddWord() "{{{
   " highlighting.
   if !len(clone)
     let clone = high#main#Clone(s:lighter)
-    call high#main#AddLighter(clone)
+    call high#main#AddLighter('words', clone)
     call extend(s:words, [clone])
   endif
 

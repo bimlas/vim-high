@@ -1,6 +1,6 @@
 function! high#light#unite_directory#define(settings)
   let lighter = high#main#Clone()
-  call high#main#AddLighter(lighter)
+  call high#main#AddLighter('unite_directory', lighter)
 
   let lighter.hlgroup = 'Directory'
 

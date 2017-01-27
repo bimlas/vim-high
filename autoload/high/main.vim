@@ -16,9 +16,10 @@ function! high#main#Clone(...) "{{{
   return deepcopy(a:0 ? a:1 : g:high.defaults)
 endfunction "}}}
 
-function! high#main#AddLighter(lighter) "{{{
+function! high#main#AddLighter(name, lighter) "{{{
   let a:lighter.index = len(g:high.lighters)
   call extend(g:high.lighters, [a:lighter])
+  call extend(g:high.named_lighters[a:name], [a:lighter])
 endfunction "}}}
 
 function! high#main#EnabledForFiletype(lighter, filetype) "{{{

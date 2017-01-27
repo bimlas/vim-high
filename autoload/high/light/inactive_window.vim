@@ -1,6 +1,6 @@
 function! high#light#inactive_window#define(settings)
   let lighter = high#main#Clone()
-  call high#main#AddLighter(lighter)
+  call high#main#AddLighter('inactive_window', lighter)
 
   let lighter.hlgroup = 'Comment'
 
