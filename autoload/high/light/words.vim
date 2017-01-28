@@ -1,3 +1,9 @@
+" Highlight matching words, highlight word under the cursor
+"
+" Author:  Bimba Laszlo <https://github.com/bimlas>
+" Source:  https://github.com/bimlas/vim-high
+" License: MIT license
+
 function! high#light#words#define(settings)
   let lighter = high#main#Clone()
   call high#main#AddLighter('words', lighter)

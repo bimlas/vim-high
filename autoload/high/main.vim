@@ -1,3 +1,9 @@
+" Core of vim-high custom highlighter Vim plugin
+"
+" Author:  Bimba Laszlo <https://github.com/bimlas>
+" Source:  https://github.com/bimlas/vim-high
+" License: MIT license
+
 function! high#main#Highlight(lighter) "{{{
   if a:lighter.autoHighlight
     call high#main#ManualHighlight(a:lighter, 1)

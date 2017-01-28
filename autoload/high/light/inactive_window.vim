@@ -1,3 +1,9 @@
+" Make the current window more visible, dim inactive windows
+"
+" Author:  Bimba Laszlo <https://github.com/bimlas>
+" Source:  https://github.com/bimlas/vim-high
+" License: MIT license
+
 function! high#light#inactive_window#define(settings)
   let lighter = high#main#Clone()
   call high#main#AddLighter('inactive_window', lighter)

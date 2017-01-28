@@ -1,7 +1,16 @@
+" Highlight anything, create custom highlight in Vim
+"
+" Author:  Bimba Laszlo <https://github.com/bimlas>
+" Source:  https://github.com/bimlas/vim-high
+" License: MIT license
+
 if exists('g:loaded_high')
   finish
 endif
 let g:loaded_high = 1
+
+"                            DEFAULT SETTINGS                             {{{1
+" ============================================================================
 
 let g:high = {
 \ 'lighters': [],
@@ -20,9 +29,18 @@ let g:high = {
 \ }
 \ }
 
-command! -nargs=1 -complete=customlist,high#commandline#listLighters HighDisable call high#commandline#toggle(<f-args>, 0)
-command! -nargs=1 -complete=customlist,high#commandline#listLighters HighEnable call high#commandline#toggle(<f-args>, 1)
-command! -nargs=1 -complete=customlist,high#commandline#listLighters HighToggle call high#commandline#toggle(<f-args>)
+"                              COMMANDLINE                                {{{1
+" ============================================================================
+
+command! -nargs=1 -complete=customlist,high#commandline#listLighters
+\ HighDisable call high#commandline#toggle(<f-args>, 0)
+command! -nargs=1 -complete=customlist,high#commandline#listLighters
+\ HighEnable call high#commandline#toggle(<f-args>, 1)
+command! -nargs=1 -complete=customlist,high#commandline#listLighters
+\ HighToggle call high#commandline#toggle(<f-args>)
+
+"                              INIT LIGHTERS                              {{{1
+" ============================================================================
 
 if exists('g:high_lighters["_"]')
   call high#main#Customize(g:high.defaults, remove(g:high_lighters, '_'))
@@ -39,6 +57,12 @@ for [lighter, settings] in items(get(g:, 'high_lighters', {}))
   endtry
 endfor
 
+"                              AUTOCOMMANDS                               {{{1
+" ============================================================================
+
 augroup high
-  autocmd! WinEnter,BufWinEnter,FileType * for lighter in g:high.lighters | call high#main#Highlight(lighter) | endfor
+  autocmd! WinEnter,BufWinEnter,FileType *
+  \ for lighter in g:high.lighters
+  \ | call high#main#Highlight(lighter)
+  \ | endfor
 augroup END

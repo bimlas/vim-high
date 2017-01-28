@@ -1,3 +1,9 @@
+" Highlight mixed indentation (mixed tabs and spaces), highlight mixed indent
+"
+" Author:  Bimba Laszlo <https://github.com/bimlas>
+" Source:  https://github.com/bimlas/vim-high
+" License: MIT license
+
 function! high#light#mixed_indent#define(settings)
   let lighter = high#main#Clone()
   call high#main#AddLighter('mixed_indent', lighter)
