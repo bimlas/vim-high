@@ -43,7 +43,7 @@ command! -nargs=1 -complete=customlist,high#commandline#listLighters
 " ============================================================================
 
 if exists('g:high_lighters["_"]')
-  call high#main#Customize(g:high.defaults, remove(g:high_lighters, '_'))
+  call high#light#Customize(g:high.defaults, remove(g:high_lighters, '_'))
 endif
 
 for [lighter, settings] in items(get(g:, 'high_lighters', {}))
@@ -51,9 +51,9 @@ for [lighter, settings] in items(get(g:, 'high_lighters', {}))
   try
     call high#light#{lighter}#define(settings)
   catch
-    let custom = high#main#Clone()
-    call high#main#Customize(custom, settings)
-    call high#main#AddLighter(lighter, custom)
+    let custom = high#light#Clone()
+    call high#light#Customize(custom, settings)
+    call high#light#AddLighter(lighter, custom)
   endtry
 endfor
 
@@ -63,6 +63,6 @@ endfor
 augroup high
   autocmd! WinEnter,BufWinEnter,FileType *
   \ for lighter in g:high.lighters
-  \ | call high#main#Highlight(lighter)
+  \ | call high#light#Highlight(lighter)
   \ | endfor
 augroup END

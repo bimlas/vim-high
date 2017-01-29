@@ -5,8 +5,8 @@
 " License: MIT license
 
 function! high#light#words#define(settings)
-  let lighter = high#main#Clone()
-  call high#main#AddLighter('words', lighter)
+  let lighter = high#light#Clone()
+  call high#light#AddLighter('words', lighter)
   " Saving it to use in other functions.
   let s:lighter = lighter
 
@@ -14,7 +14,7 @@ function! high#light#words#define(settings)
   let lighter._map_add = '<Leader>k'
   let lighter._map_clear = '<Leader>K'
 
-  call high#main#Customize(lighter, a:settings)
+  call high#light#Customize(lighter, a:settings)
   let lighter.autoHighlight = 0
   let lighter.pattern_to_eval = 'printf("\\<%s\\>", escape(expand("<cword>"), "/\\"))'
   " Points the next color.
@@ -29,12 +29,12 @@ endfunction
 
 function! high#light#words#AddWord() "{{{
   " Reuse an 'unhighlighted' clone if possible.
-  let clone = get(filter(copy(s:words), 'high#main#GetMatchID(v:val) < 0'), 0, {})
+  let clone = get(filter(copy(s:words), 'high#light#GetMatchID(v:val) < 0'), 0, {})
   " Otherwise create a new clone and store in the list to reach to clear the
   " highlighting.
   if !len(clone)
-    let clone = high#main#Clone(s:lighter)
-    call high#main#AddLighter('words', clone)
+    let clone = high#light#Clone(s:lighter)
+    call high#light#AddLighter('words', clone)
     call extend(s:words, [clone])
   endif
 
@@ -45,11 +45,11 @@ function! high#light#words#AddWord() "{{{
     let s:lighter._hlgroups_index = 0
   endif
 
-  call high#main#ManualHighlight(clone, 1)
+  call high#light#ManualHighlight(clone, 1)
 endfunction "}}}
 
 function! high#light#words#ClearWords() "{{{
   for word in s:words
-    call high#main#ManualHighlight(word, 0)
+    call high#light#ManualHighlight(word, 0)
   endfor
 endfunction "}}}

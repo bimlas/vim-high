@@ -5,10 +5,10 @@
 " License: MIT license
 
 function! high#light#mixed_eol#define(settings)
-  let lighter = high#main#Clone()
-  call high#main#AddLighter('mixed_eol', lighter)
+  let lighter = high#light#Clone()
+  call high#light#AddLighter('mixed_eol', lighter)
 
-  call high#main#Customize(lighter, a:settings)
+  call high#light#Customize(lighter, a:settings)
 
   let lighter.pattern = '\r'
 endfunction

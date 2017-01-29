@@ -5,7 +5,7 @@
 " License: MIT license
 
 function! high#light#indent#define(settings)
-  let lighter = high#main#Clone()
+  let lighter = high#light#Clone()
 
   let lighter._levels = 15
   let lighter._start_level = 0
@@ -13,10 +13,10 @@ function! high#light#indent#define(settings)
   let lighter._hlgroupA = 'Pmenu'
   let lighter._hlgroupB = 'PmenuSel'
 
-  call high#main#Customize(lighter, a:settings)
+  call high#light#Customize(lighter, a:settings)
 
   for i in range(lighter._start_level, lighter._levels+1)
-    call high#main#AddLighter('indent', extend(high#main#Clone(lighter), {
+    call high#light#AddLighter('indent', extend(high#light#Clone(lighter), {
     \ 'pattern_to_eval':
     \   '"\\v^( {".&sw."}|\\t){'.i.'}\\zs( {'.(lighter._size > 0 ? lighter._size : '".&sw."').'}|\\t)"',
     \ 'hlgroup':
