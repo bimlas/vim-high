@@ -1,0 +1,35 @@
+Describe Core
+  Before all
+    let lighter = high#light#Clone()
+  End
+
+  Describe filetype check
+    It enabled for every filetype by default
+      let lighter.whitelist = []
+      let lighter.blacklist = []
+      Assert Equals(high#light#EnabledForFiletype(lighter, 'text'), 1)
+      Assert Equals(high#light#EnabledForFiletype(lighter, 'asciidoc'), 1)
+    End
+
+    It enabled only for whitelisted filetypes
+      let lighter.whitelist = ['text']
+      let lighter.blacklist = []
+      Assert Equals(high#light#EnabledForFiletype(lighter, 'text'), 1)
+      Assert Equals(high#light#EnabledForFiletype(lighter, 'asciidoc'), 0)
+    End
+
+    It disabled only for blacklisted filetypes
+      let lighter.whitelist = []
+      let lighter.blacklist = ['text']
+      Assert Equals(high#light#EnabledForFiletype(lighter, 'text'), 0)
+      Assert Equals(high#light#EnabledForFiletype(lighter, 'asciidoc'), 1)
+    End
+
+    It disabled for blacklisted and whitelisted filetypes
+      let lighter.whitelist = ['text']
+      let lighter.blacklist = ['text']
+      Assert Equals(high#light#EnabledForFiletype(lighter, 'text'), 0)
+    End
+  End
+
+End
