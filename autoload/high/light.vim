@@ -44,8 +44,9 @@ function! high#light#MatchAdd(lighter) "{{{
 endfunction "}}}
 
 function! high#light#MatchClear(lighter) "{{{
-  if high#light#GetMatchID(a:lighter) >= 0
-    call matchdelete(high#light#GetMatchID(a:lighter))
+  let id = high#light#GetMatchID(a:lighter)
+  if id >= 0
+    call matchdelete(id)
     call high#light#SetMatchID(a:lighter, -1)
   endif
 endfunction "}}}
