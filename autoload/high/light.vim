@@ -24,7 +24,7 @@ function! high#light#Clone(...) "{{{
 endfunction "}}}
 
 function! high#light#AddLighter(name, lighter) "{{{
-  let a:lighter.index = len(g:high.lighters)
+  let a:lighter.match_id_index = len(g:high.lighters)
   call extend(g:high.lighters, [a:lighter])
   call extend(g:high.named_lighters[a:name], [a:lighter])
 endfunction "}}}
@@ -58,11 +58,11 @@ function! high#light#InitMatchID() "{{{
 endfunction "}}}
 
 function! high#light#GetMatchID(lighter) "{{{
-  return get(get(w:, 'high_match_ids', []), a:lighter.index, -1)
+  return get(get(w:, 'high_match_ids', []), a:lighter.match_id_index, -1)
 endfunction "}}}
 
 function! high#light#SetMatchID(lighter, id) "{{{
-  let w:high_match_ids[a:lighter.index] = a:id
+  let w:high_match_ids[a:lighter.match_id_index] = a:id
 endfunction "}}}
 
 function! high#light#PatternChanged(lighter) "{{{

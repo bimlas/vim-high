@@ -25,7 +25,7 @@ let g:high = {
 \   'pattern' : '',
 \   'pattern_to_eval' : '',
 \   'autoHighlight' : 1,
-\   'index' : -1,
+\   'match_id_index' : -1,
 \ }
 \ }
 

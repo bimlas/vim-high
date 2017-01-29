@@ -16,7 +16,7 @@ function! high#light#inactive_window#define(settings)
 
   augroup high_inactive_window "{{{
     autocmd!
-    exe 'autocmd WinEnter * call high#light#ManualHighlight(g:high.lighters['.lighter.index.'], 0)'
-    exe 'autocmd WinLeave * call high#light#ManualHighlight(g:high.lighters['.lighter.index.'], 1)'
+    exe 'autocmd WinEnter * call high#light#ManualHighlight(g:high.lighters['.lighter.match_id_index.'], 0)'
+    exe 'autocmd WinLeave * call high#light#ManualHighlight(g:high.lighters['.lighter.match_id_index.'], 1)'
   augroup END "}}}
 endfunction
