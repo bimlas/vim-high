@@ -5,14 +5,14 @@
 " License: MIT license
 
 function! high#light#mixed_indent#define(settings)
-  let lighter = high#light#Clone()
-  call high#light#AddLighter('mixed_indent', lighter)
+  let lighter = high#core#Clone()
+  call high#core#AddLighter('mixed_indent', lighter)
 
-  call high#light#Customize(lighter, a:settings)
+  call high#core#Customize(lighter, a:settings)
   let lighter.pattern = '^ .*\n\zs\t\+\|^\t.*\n\zs \+'
 
   " Highlight inline mixed indent too.
-  let mixed_inline = high#light#Clone(lighter)
-  call high#light#AddLighter('mixed_indent', mixed_inline)
+  let mixed_inline = high#core#Clone(lighter)
+  call high#core#AddLighter('mixed_indent', mixed_inline)
   let mixed_inline.pattern = '^ \+\zs\t\+\s*\|^\t\+\zs \+\s*'
 endfunction

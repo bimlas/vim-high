@@ -5,10 +5,10 @@
 " License: MIT license
 
 function! high#light#whitespace#define(settings)
-  let lighter = high#light#Clone()
-  call high#light#AddLighter('whitespace', lighter)
+  let lighter = high#core#Clone()
+  call high#core#AddLighter('whitespace', lighter)
 
-  call high#light#Customize(lighter, a:settings)
+  call high#core#Customize(lighter, a:settings)
 
   let lighter.pattern = '\s\+$'
 endfunction

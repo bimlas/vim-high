@@ -11,6 +11,6 @@ endfunction "}}}
 function! high#commandline#toggle(lighter, ...) "{{{
   for l in g:high.named_lighters[a:lighter]
     let l.enabled = a:0 ? a:1 : !l.enabled
-    windo call high#light#Highlight(l)
+    windo call high#core#Highlight(l)
   endfor
 endfunction "}}}
