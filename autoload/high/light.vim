@@ -11,6 +11,7 @@ function! high#light#Highlight(lighter) "{{{
 endfunction "}}}
 
 function! high#light#ManualHighlight(lighter, enabled) "{{{
+  call high#light#InitMatchID()
   if a:lighter.enabled && a:enabled && high#light#EnabledForFiletype(a:lighter, &filetype)
     call high#light#MatchAdd(a:lighter)
   else
@@ -56,12 +57,10 @@ function! high#light#InitMatchID() "{{{
 endfunction "}}}
 
 function! high#light#GetMatchID(lighter) "{{{
-  call high#light#InitMatchID()
   return get(get(w:, 'high_match_ids', []), a:lighter.index, -1)
 endfunction "}}}
 
 function! high#light#SetMatchID(lighter, id) "{{{
-  call high#light#InitMatchID()
   let w:high_match_ids[a:lighter.index] = a:id
 endfunction "}}}
 
