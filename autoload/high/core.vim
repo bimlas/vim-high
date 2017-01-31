@@ -26,6 +26,9 @@ endfunction "}}}
 function! high#core#AddLighter(name, lighter) "{{{
   let a:lighter.match_id_index = len(g:high.lighters)
   call extend(g:high.lighters, [a:lighter])
+  if !has_key(g:high.named_lighters, a:name)
+    let g:high.named_lighters[a:name] = []
+  endif
   call extend(g:high.named_lighters[a:name], [a:lighter])
 endfunction "}}}
 

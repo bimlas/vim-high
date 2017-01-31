@@ -47,7 +47,6 @@ if exists('g:high_lighters["_"]')
 endif
 
 for [lighter, settings] in items(get(g:, 'high_lighters', {}))
-  let g:high.named_lighters[lighter] = []
   try
     call high#light#{lighter}#define(settings)
   catch

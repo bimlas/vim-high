@@ -3,6 +3,26 @@ Describe core
     let lighter = high#core#Clone()
   End
 
+  Describe #manualHighlight
+    It adds a match for pattern
+      let lighter.pattern = 'regex'
+      call high#core#AddLighter('test', lighter)
+      call high#core#ManualHighlight(lighter, 1)
+      Assert Equals(len(getmatches()), 1)
+      Assert Equals(getmatches()[0].id, high#core#GetMatchID(lighter))
+      Assert Equals(getmatches()[0].pattern, lighter.pattern)
+    End
+
+    It removes the match of pattern
+      let lighter.pattern = 'regex'
+      call high#core#AddLighter('test', lighter)
+      call high#core#ManualHighlight(lighter, 1)
+      call high#core#ManualHighlight(lighter, 0)
+      Assert Empty(getmatches())
+      Assert Equals(high#core#GetMatchID(lighter), -1)
+    End
+  End
+
   Describe #clone
     It returns a clone of default settings
       Assert Equals(lighter, high#core#Clone())
