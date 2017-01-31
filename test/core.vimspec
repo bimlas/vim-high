@@ -1,5 +1,8 @@
 Describe core
-  Before all
+
+  Before
+    unlet g:loaded_high
+    source plugin/high.vim
     let lighter = high#core#Clone()
   End
 
