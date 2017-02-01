@@ -1,8 +1,10 @@
 Describe core
 
   Before
+    " Reinitialize the whole plugin to clear the loaded lighters.
     unlet g:loaded_high
     source plugin/high.vim
+
     let lighter = high#core#Clone()
   End
 
@@ -35,6 +37,32 @@ Describe core
       let clone = high#core#Clone(lighter)
       Assert Equals(lighter, clone)
       Assert NotSame(lighter, clone)
+    End
+  End
+
+  Describe #addLighter
+    It adds the lighter to the list of loaded ones
+      Assert Empty(g:high.named_lighters)
+      call high#core#AddLighter('test', lighter)
+      Assert LengthOf(g:high.named_lighters, 1)
+      Assert HasKey(g:high.named_lighters, 'test')
+      Assert LengthOf(g:high.named_lighters['test'], 1)
+      Assert Same(g:high.named_lighters['test'][0], lighter)
+    End
+
+    It can add more lighters to the same group
+      Assert Empty(g:high.named_lighters)
+      let a = high#core#Clone()
+      let a.pattern = 'pattern a'
+      call high#core#AddLighter('group', a)
+      let b = high#core#Clone()
+      let b.pattern = 'pattern b'
+      call high#core#AddLighter('group', b)
+      Assert LengthOf(g:high.named_lighters, 1)
+      Assert HasKey(g:high.named_lighters, 'group')
+      Assert LengthOf(g:high.named_lighters['group'], 2)
+      Assert Same(g:high.named_lighters['group'][0], a)
+      Assert Same(g:high.named_lighters['group'][1], b)
     End
   End
 
