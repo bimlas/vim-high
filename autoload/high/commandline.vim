@@ -5,11 +5,11 @@
 " License: MIT license
 
 function! high#commandline#listLighters(argLead, cmdLine, cursorPos) "{{{
-  return filter(keys(g:high.named_lighters), 'v:val =~ "^'.a:argLead.'"')
+  return filter(keys(g:high.lighter_groups), 'v:val =~ "^'.a:argLead.'"')
 endfunction "}}}
 
 function! high#commandline#toggle(lighter, ...) "{{{
-  for l in g:high.named_lighters[a:lighter]
+  for l in g:high.lighter_groups[a:lighter]
     let l.enabled = a:0 ? a:1 : !l.enabled
     windo call high#core#Highlight(l)
   endfor

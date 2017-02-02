@@ -23,13 +23,13 @@ function! high#core#Clone(...) "{{{
   return deepcopy(a:0 ? a:1 : g:high.defaults)
 endfunction "}}}
 
-function! high#core#AddLighter(name, lighter) "{{{
-  let a:lighter.match_id_index = len(g:high.lighters)
-  call extend(g:high.lighters, [a:lighter])
-  if !has_key(g:high.named_lighters, a:name)
-    let g:high.named_lighters[a:name] = []
+function! high#core#AddLighter(group, lighter) "{{{
+  let a:lighter.match_id_index = len(g:high.every_lighter)
+  call extend(g:high.every_lighter, [a:lighter])
+  if !has_key(g:high.lighter_groups, a:group)
+    let g:high.lighter_groups[a:group] = []
   endif
-  call extend(g:high.named_lighters[a:name], [a:lighter])
+  call extend(g:high.lighter_groups[a:group], [a:lighter])
 endfunction "}}}
 
 function! high#core#EnabledForFiletype(lighter, filetype) "{{{

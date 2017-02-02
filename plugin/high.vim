@@ -13,11 +13,11 @@ let g:loaded_high = 1
 " ============================================================================
 
 let g:high = {
-\ 'lighters': [],
-\ 'named_lighters': {},
+\ 'every_lighter': [],
+\ 'lighter_groups': {},
 \ 'defaults': {
 \   'enabled': 1,
-\   'name': '',
+\   'group': '',
 \   'whitelist' : [],
 \   'blacklist' : [],
 \   'hlgroup' : 'ErrorMsg',
@@ -46,13 +46,13 @@ if exists('g:high_lighters["_"]')
   call high#core#Customize(g:high.defaults, remove(g:high_lighters, '_'))
 endif
 
-for [lighter, settings] in items(get(g:, 'high_lighters', {}))
+for [group, settings] in items(get(g:, 'high_lighters', {}))
   try
-    call high#light#{lighter}#define(settings)
+    call high#light#{group}#define(settings)
   catch
     let custom = high#core#Clone()
     call high#core#Customize(custom, settings)
-    call high#core#AddLighter(lighter, custom)
+    call high#core#AddLighter(group, custom)
   endtry
 endfor
 
@@ -61,7 +61,7 @@ endfor
 
 augroup high
   autocmd! WinEnter,BufWinEnter,FileType *
-  \ for lighter in g:high.lighters
+  \ for lighter in g:high.every_lighter
   \ | call high#core#Highlight(lighter)
   \ | endfor
 augroup END
