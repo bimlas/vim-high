@@ -1,6 +1,8 @@
 Describe core
 
   Before
+    " Drop every buffer and window.
+    %bwipeout
     " Reinitialize the whole plugin to clear the loaded lighters.
     unlet g:loaded_high
     source plugin/high.vim
