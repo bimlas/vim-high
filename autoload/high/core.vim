@@ -61,7 +61,10 @@ function! high#core#InitMatchID() "{{{
 endfunction "}}}
 
 function! high#core#GetMatchID(lighter) "{{{
-  return get(get(w:, 'high_match_ids', []), a:lighter.match_id_index, -1)
+  if !exists('w:high_match_ids['.a:lighter.match_id_index.']')
+    return -1
+  endif
+  return w:high_match_ids[a:lighter.match_id_index]
 endfunction "}}}
 
 function! high#core#SetMatchID(lighter, id) "{{{
