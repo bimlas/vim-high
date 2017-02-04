@@ -4,7 +4,7 @@
 " Source:  https://github.com/bimlas/vim-high
 " License: MIT license
 
-function! high#light#whitespace#define(settings)
+function! high#light#trailing_whitespace#define(settings)
   let lighter = high#core#Clone()
   call high#core#AddLighter('whitespace', lighter)
 
