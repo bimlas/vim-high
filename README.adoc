@@ -1,4 +1,34 @@
 image:https://img.shields.io/travis/bimlas/vim-high.svg?label=Travis%20CI["Travis CI", link="https://travis-ci.org/bimlas/vim-high"]
 image:https://img.shields.io/github/license/bimlas/vim-high.svg["License", link="LICENSE"]
 
-*UNDER DEVELOPMENT*
+= High: all-in-one highlighter plugin for Vim
+
+A plugin to highlight custom (user-made) regex patterns on any buffer (filetype
+whitelist/blacklist supported), for example indentation, inactive window, word
+under the cursor or even anything what you want.
+
+*It's in beta release, there might be critical bugs, API may be change.*
+
+To try out, install in your prefered way, then add these lines to your
+_.vimrc_:
+
+[source,viml]
+----
+let g:high_lighters = {
+\ '_': {                                                              <1>
+\   'blacklist': ['help', 'qf', 'lf', 'vim-plug'],                    <2>
+\ },
+\ 'inactive_window': {},                                              <3>
+\ 'indent': {},
+\ 'long_line': {'hlgroup': 'MoreMsg'},                                <4>
+\ 'unite_directory': {},
+\ 'your_custom_lighter': {'pattern': 'TODO\|NOTE', 'hlgroup': 'Todo'} <5>
+\ }
+----
+<1> The `_` key means these settings will affect every lighter,
+<2> for example all of them will be disabled in these filetypes.
+<3> You can add predefined lighters, whose can be found in
+    _autoload/high/light_ directory.
+<4> To override the global settings, pass the lighter-specific ones in the
+    dictionary.
+<5> You can create your own lighters like you want.
