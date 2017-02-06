@@ -3,11 +3,13 @@ image:https://img.shields.io/github/license/bimlas/vim-high.svg["License", link=
 
 = High: all-in-one highlighter plugin for Vim
 
-A plugin to highlight custom (user-made) regex patterns on any buffer (filetype
-whitelist/blacklist supported), for example indentation, inactive window, word
-under the cursor or even anything what you want.
+A Vim plugin to highlight custom (user-made) regex patterns on any buffer
+(filetype whitelist/blacklist supported), for example indentation, inactive
+window, word under the cursor or even anything what you want.
 
-*It's in beta release, there might be critical bugs, API may be change.*
+*It's in beta release, there might be critical bugs, API may change.*
+
+image::http://i.imgur.com/uvc4Y2e.png["Vim-High in action, showing the example config"]
 
 To try out, install in your prefered way, then add these lines to your
 _.vimrc_:
@@ -15,14 +17,14 @@ _.vimrc_:
 [source,viml]
 ----
 let g:high_lighters = {
-\ '_': {                                                              <1>
-\   'blacklist': ['help', 'qf', 'lf', 'vim-plug'],                    <2>
+\ '_': {                                                                  <1>
+\   'blacklist': ['help', 'qf', 'lf', 'vim-plug'],                        <2>
 \ },
-\ 'inactive_window': {},                                              <3>
+\ 'inactive_window': {},                                                  <3>
 \ 'indent': {},
-\ 'long_line': {'hlgroup': 'MoreMsg'},                                <4>
+\ 'long_line': {'hlgroup': 'DiffAdd'},                                    <4>
 \ 'unite_directory': {},
-\ 'your_custom_lighter': {'pattern': 'TODO\|NOTE', 'hlgroup': 'Todo'} <5>
+\ 'your_custom_lighter': {'pattern': 'TODO\|NOTE', 'hlgroup': 'ErrorMsg'} <5>
 \ }
 ----
 <1> The `_` key means these settings will affect every lighter,
