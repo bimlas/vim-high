@@ -34,3 +34,20 @@ let g:high_lighters = {
 <4> To override the global settings, pass the lighter-specific ones in the
     dictionary.
 <5> You can create your own lighters like you want.
+
+By default every lighter in `g:high_lighters` are enabled at Vim startup, but
+passing `'enabled': 0` will disable it. To use the lighter, call `:HighEnable
+lighter` or `:HighToggle lighter`.
+
+The available configuration parameters can be found in link:plugin/high.vim[]
+as `g:high.defaults`.
+
+Any of the settings can be overriden when adding a custom lighter, but some of
+them has hardcoded values in built-in highlighters. For example `pattern` in
+link:autoload/high/light/inactive_window.vim[inactive_window] have to be `.*`
+to match everything in the inactive window, so it cannot be customized. The
+settings below the call of `high#core#Customize()` are not customizables.
+
+Some lighters have specifical settings, like
+link:autoload/high/light/indent.vim[indent]: `_levels`, `_hlgroupA`, etc. It
+can be configured as above.
