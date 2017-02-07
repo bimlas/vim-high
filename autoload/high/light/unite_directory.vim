@@ -4,14 +4,19 @@
 " Source:  https://github.com/bimlas/vim-high
 " License: MIT license
 
-function! high#light#unite_directory#define(settings)
-  let lighter = high#core#Clone()
-  call high#core#AddLighter('unite_directory', lighter)
+function! high#light#unite_directory#Defaults()
+  return {
+  \ 'hlgroup': 'Directory',
+  \ }
+endfunction
 
-  let lighter.hlgroup = 'Directory'
+function! high#light#unite_directory#Rules(options)
+  return {
+  \ 'whitelist': ['unite'],
+  \ 'pattern': '^\s\(file\s\|directory\s\)\?\zs.*/$',
+  \ }
+endfunction
 
-  call high#core#Customize(lighter, a:settings)
-  let lighter.whitelist = ['unite']
-
-  let lighter.pattern = '^\s\(file\s\|directory\s\)\?\zs.*/$'
+function! high#light#unite_directory#Init(lighter)
+  call high#core#AddLighter(a:lighter)
 endfunction

@@ -15,7 +15,9 @@ let g:loaded_high = 1
 let g:high = {
 \ 'every_lighter': [],
 \ 'lighter_groups': {},
+\ 'lighter_settings': {},
 \ 'defaults': {
+\   'initialized': 0,
 \   'enabled': 1,
 \   'group': '',
 \   'whitelist' : [],
@@ -42,26 +44,22 @@ command! -nargs=1 -complete=customlist,high#commandline#listLighters
 "                              INIT LIGHTERS                              {{{1
 " ============================================================================
 
-if exists('g:high_lighters["_"]')
-  call high#core#Customize(g:high.defaults, remove(g:high_lighters, '_'))
-endif
+if exists('g:high_lighters')
+  if has_key(g:high_lighters, '_')
+    call high#core#Customize(g:high.defaults, remove(g:high_lighters, '_'))
+  endif
 
-for [group, settings] in items(get(g:, 'high_lighters', {}))
-  try
-    call high#light#{group}#define(settings)
-  catch
-    let custom = high#core#Clone()
-    call high#core#Customize(custom, settings)
-    call high#core#AddLighter(group, custom)
-  endtry
-endfor
+  for group in keys(g:high_lighters)
+    call high#core#RegisterGroup(group)
+  endfor
+endif
 
 "                              AUTOCOMMANDS                               {{{1
 " ============================================================================
 
 augroup high
   autocmd! WinEnter,BufWinEnter,FileType *
-  \ for lighter in g:high.every_lighter
+  \ for lighter in values(g:high.lighter_settings)
   \ | call high#core#Highlight(lighter)
   \ | endfor
 augroup END

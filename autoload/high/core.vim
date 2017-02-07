@@ -19,17 +19,60 @@ function! high#core#ManualHighlight(lighter, enabled) "{{{
   endif
 endfunction "}}}
 
+function! high#core#RegisterGroup(group) "{{{
+  if has_key(g:high.lighter_settings, a:group)
+    return g:high.lighter_settings[a:group]
+  endif
+  let new = high#core#Clone()
+  if high#utils#IsAutoloaded(a:group)
+    let new = high#core#Customize(new, high#light#{a:group}#Defaults())
+    if exists('g:high_lighters')
+      call high#core#Customize(new, get(g:high_lighters, a:group, {}))
+    endif
+    call high#core#Customize(new, high#light#{a:group}#Rules(new))
+  else
+    let new.initialized = 1
+    if exists('g:high_lighters')
+      call high#core#Customize(new, get(g:high_lighters, a:group, {}))
+    endif
+  endif
+  let new.group = a:group
+  if !has_key(g:high.lighter_groups, a:group)
+    let g:high.lighter_groups[a:group] = []
+  endif
+  let g:high.lighter_settings[a:group] = new
+  return new
+endfunction "}}}
+
+function! high#core#IsRegisteredGroup(group) "{{{
+  return has_key(g:high.lighter_settings, a:group)
+endfunction "}}}
+
+function! high#core#GetGroupSettings(group) "{{{
+  return get(g:high.lighter_settings, a:group, {})
+endfunction "}}}
+
+function! high#core#InitGroup(group) "{{{
+  if !has_key(g:high.lighter_groups, a:group)
+  \ || !high#utils#IsAutoloaded(a:group)
+  \ || len(g:high.lighter_groups[a:group])
+    return
+  endif
+  call high#light#{a:group}#Init(high#core#GetGroupSettings(a:group))
+endfunction "}}}
+
+function! high#core#GetGroupMembers(group) "{{{
+  return get(g:high.lighter_groups, a:group, [])
+endfunction "}}}
+
 function! high#core#Clone(...) "{{{
   return deepcopy(a:0 ? a:1 : g:high.defaults)
 endfunction "}}}
 
-function! high#core#AddLighter(group, lighter) "{{{
+function! high#core#AddLighter(lighter) "{{{
   let a:lighter.match_id_index = len(g:high.every_lighter)
   call extend(g:high.every_lighter, [a:lighter])
-  if !has_key(g:high.lighter_groups, a:group)
-    let g:high.lighter_groups[a:group] = []
-  endif
-  call extend(g:high.lighter_groups[a:group], [a:lighter])
+  call extend(g:high.lighter_groups[a:lighter.group], [a:lighter])
 endfunction "}}}
 
 function! high#core#EnabledForFiletype(lighter, filetype) "{{{
@@ -38,6 +81,10 @@ function! high#core#EnabledForFiletype(lighter, filetype) "{{{
 endfunction "}}}
 
 function! high#core#MatchAdd(lighter) "{{{
+  if !a:lighter.initialized
+    call high#light#{a:lighter.group}#Init(a:lighter)
+    let a:lighter.initialized = 1
+  endif
   if high#core#PatternChanged(a:lighter)
     call high#core#MatchClear(a:lighter)
   endif
@@ -47,6 +94,9 @@ function! high#core#MatchAdd(lighter) "{{{
 endfunction "}}}
 
 function! high#core#MatchClear(lighter) "{{{
+  if !a:lighter.initialized
+    return
+  endif
   let id = high#core#GetMatchID(a:lighter)
   if id >= 0
     call matchdelete(id)
@@ -86,4 +136,5 @@ function! high#core#Customize(lighter, settings) "{{{
   for [key, value] in items(a:settings)
     let a:lighter[key] = value
   endfor
+  return a:lighter
 endfunction "}}}

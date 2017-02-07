@@ -4,19 +4,25 @@
 " Source:  https://github.com/bimlas/vim-high
 " License: MIT license
 
-function! high#light#inactive_window#define(settings)
-  let lighter = high#core#Clone()
-  call high#core#AddLighter('inactive_window', lighter)
+function! high#light#inactive_window#Defaults()
+  return {
+  \ 'hlgroup': 'Comment',
+  \ }
+endfunction
 
-  let lighter.hlgroup = 'Comment'
+function! high#light#inactive_window#Rules(options)
+  return {
+  \ 'autoHighlight': 0,
+  \ 'pattern': '.*',
+  \ }
+endfunction
 
-  call high#core#Customize(lighter, a:settings)
-  let lighter.autoHighlight = 0
-  let lighter.pattern = '.*'
+function! high#light#inactive_window#Init(lighter)
+  call high#core#AddLighter(a:lighter)
 
   augroup high_inactive_window "{{{
     autocmd!
-    exe 'autocmd WinEnter * call high#core#ManualHighlight(g:high.every_lighter['.lighter.match_id_index.'], 0)'
-    exe 'autocmd WinLeave * call high#core#ManualHighlight(g:high.every_lighter['.lighter.match_id_index.'], 1)'
+    exe 'autocmd WinEnter * call high#core#ManualHighlight(g:high.every_lighter['.a:lighter.match_id_index.'], 0)'
+    exe 'autocmd WinLeave * call high#core#ManualHighlight(g:high.every_lighter['.a:lighter.match_id_index.'], 1)'
   augroup END "}}}
 endfunction

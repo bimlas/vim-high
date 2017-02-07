@@ -2,18 +2,18 @@ Describe core
 
   Before
     " Drop every buffer and window.
-    %bwipeout
+    silent! %bwipeout
     " Reinitialize the whole plugin to clear the loaded lighters.
     unlet g:loaded_high
     source plugin/high.vim
 
-    let lighter = high#core#Clone()
+    let lighter = high#core#RegisterGroup('test')
   End
 
   Describe #manualHighlight
     It adds a match for pattern
       let lighter.pattern = 'regex'
-      call high#core#AddLighter('test', lighter)
+      call high#core#AddLighter(lighter)
       call high#core#ManualHighlight(lighter, 1)
       Assert Equals(len(getmatches()), 1)
       Assert Equals(getmatches()[0].id, high#core#GetMatchID(lighter))
@@ -22,7 +22,7 @@ Describe core
 
     It removes the match of pattern
       let lighter.pattern = 'regex'
-      call high#core#AddLighter('test', lighter)
+      call high#core#AddLighter(lighter)
       call high#core#ManualHighlight(lighter, 1)
       call high#core#ManualHighlight(lighter, 0)
       Assert Empty(getmatches())
@@ -30,9 +30,45 @@ Describe core
     End
   End
 
+  Describe #registerGroup
+    It registers the group
+      Assert False(high#core#IsRegisteredGroup('new'))
+      call high#core#RegisterGroup('new')
+      Assert True(high#core#IsRegisteredGroup('new'))
+    End
+
+    It registers custom lighter
+      let g:high_lighters = {'group': {'hlgroup': 'Normal'}}
+      call high#core#RegisterGroup('group')
+      Assert Equals(high#core#GetGroupSettings('group')['hlgroup'], 'Normal')
+    End
+
+    It registers autoloaded lighter
+      Assert NotEmpty(high#utils#IsAutoloaded('mixed_eol'))
+      call high#core#RegisterGroup('mixed_eol')
+      Assert Equals(high#core#GetGroupSettings('mixed_eol')['pattern'], '\r')
+    End
+
+    It applies customization
+      let g:high_lighters = {'mixed_eol': {'hlgroup': 'Normal', 'pattern': 'not customizable'}}
+      Assert NotEmpty(high#utils#IsAutoloaded('mixed_eol'))
+      call high#core#RegisterGroup('mixed_eol')
+      Assert Equals(high#core#GetGroupSettings('mixed_eol')['hlgroup'], 'Normal')
+      Assert Equals(high#core#GetGroupSettings('mixed_eol')['pattern'], '\r')
+    End
+  End
+
+  Describe #initGroup
+    It calls the init function of autoloaded groups
+      Assert Empty(high#core#GetGroupMembers('mixed_eol'))
+      call high#core#InitGroup('mixed_eol')
+      Assert NotEmpty(high#core#GetGroupMembers('mixed_eol'))
+    End
+  End
+
   Describe #clone
     It returns a clone of default settings
-      Assert Equals(lighter, high#core#Clone())
+      Assert Equals(g:high.defaults, high#core#Clone())
     End
 
     It returns a clone of argument
@@ -44,22 +80,23 @@ Describe core
 
   Describe #addLighter
     It adds the lighter to the list of loaded ones
-      Assert Empty(g:high.lighter_groups)
-      call high#core#AddLighter('test', lighter)
+      Assert Empty(high#core#GetGroupMembers(lighter.group))
+      call high#core#AddLighter(lighter)
       Assert LengthOf(g:high.lighter_groups, 1)
       Assert HasKey(g:high.lighter_groups, 'test')
-      Assert LengthOf(g:high.lighter_groups['test'], 1)
-      Assert Same(g:high.lighter_groups['test'][0], lighter)
+      Assert LengthOf(high#core#GetGroupMembers(lighter.group), 1)
+      Assert Same(high#core#GetGroupMembers(lighter.group)[0], lighter)
     End
 
     It can add more lighters to the same group
-      Assert Empty(g:high.lighter_groups)
-      let a = high#core#Clone()
+      let group = high#core#RegisterGroup('group')
+      Assert Empty(high#core#GetGroupMembers(group.group))
+      let a = high#core#Clone(group)
       let a.pattern = 'pattern a'
-      call high#core#AddLighter('group', a)
-      let b = high#core#Clone()
+      call high#core#AddLighter(a)
+      let b = high#core#Clone(group)
       let b.pattern = 'pattern b'
-      call high#core#AddLighter('group', b)
+      call high#core#AddLighter(b)
       Assert LengthOf(g:high.lighter_groups, 1)
       Assert HasKey(g:high.lighter_groups, 'group')
       Assert LengthOf(g:high.lighter_groups['group'], 2)

@@ -4,27 +4,33 @@
 " Source:  https://github.com/bimlas/vim-high
 " License: MIT license
 
-function! high#light#words#define(settings)
-  let lighter = high#core#Clone()
-  call high#core#AddLighter('words', lighter)
+function! high#light#words#Defaults()
+  return {
+  \ '_hlgroups': ['Pmenu', 'PmenuSel', 'PmenuSbar'],
+  \ '_map_add': '<Leader>k',
+  \ '_map_clear': '<Leader>K',
+  \ }
+endfunction
+
+function! high#light#words#Rules(options)
+  return {
+  \ 'autoHighlight': 0,
+  \ 'pattern_to_eval': 'printf("\\<%s\\>", escape(expand("<cword>"), "/\\"))',
+  \ '_hlgroups_index': 0,
+  \ }
+endfunction
+
+function! high#light#words#Init(lighter)
+  call high#core#AddLighter(a:lighter)
   " Saving it to use in other functions.
-  let s:lighter = lighter
+  let s:lighter = a:lighter
 
-  let lighter._hlgroups = ['Pmenu', 'PmenuSel', 'PmenuSbar']
-  let lighter._map_add = '<Leader>k'
-  let lighter._map_clear = '<Leader>K'
-
-  call high#core#Customize(lighter, a:settings)
-  let lighter.autoHighlight = 0
-  let lighter.pattern_to_eval = 'printf("\\<%s\\>", escape(expand("<cword>"), "/\\"))'
-  " Points the next color.
-  let lighter._hlgroups_index = 0
   " Don't need to clone the list of already highlighted words, store it
   " outside of clone.
   let s:words = []
 
-  exe 'nnoremap <silent> '.lighter._map_add.' :call high#light#words#AddWord()<CR>'
-  exe 'nnoremap <silent> '.lighter._map_clear.' :call high#light#words#ClearWords()<CR>'
+  exe 'nnoremap <silent> '.a:lighter._map_add.' :call high#light#words#AddWord()<CR>'
+  exe 'nnoremap <silent> '.a:lighter._map_clear.' :call high#light#words#ClearWords()<CR>'
 endfunction
 
 function! high#light#words#AddWord() "{{{
@@ -34,7 +40,7 @@ function! high#light#words#AddWord() "{{{
   " highlighting.
   if !len(clone)
     let clone = high#core#Clone(s:lighter)
-    call high#core#AddLighter('words', clone)
+    call high#core#AddLighter(clone)
     call extend(s:words, [clone])
   endif
 

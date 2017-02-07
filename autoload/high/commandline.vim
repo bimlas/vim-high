@@ -5,10 +5,16 @@
 " License: MIT license
 
 function! high#commandline#listLighters(argLead, cmdLine, cursorPos) "{{{
-  return filter(keys(g:high.lighter_groups), 'v:val =~ "^'.a:argLead.'"')
+  let list = high#utils#ListOfLighters()
+  return filter(list.autoloaded+list.user_defined, 'v:val =~ "^'.a:argLead.'"')
 endfunction "}}}
 
 function! high#commandline#toggle(lighter, ...) "{{{
+  call high#core#RegisterGroup(a:lighter)
+  if !g:high.lighter_settings[a:lighter].initialized
+    call high#light#{a:lighter}#Init(g:high.lighter_settings[a:lighter])
+    let g:high.lighter_settings[a:lighter].initialized = 1
+  endif
   for l in g:high.lighter_groups[a:lighter]
     let l.enabled = a:0 ? a:1 : !l.enabled
     windo call high#core#Highlight(l)

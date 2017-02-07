@@ -4,23 +4,27 @@
 " Source:  https://github.com/bimlas/vim-high
 " License: MIT license
 
-function! high#light#indent#define(settings)
-  let lighter = high#core#Clone()
+function! high#light#indent#Defaults()
+  return {
+  \ '_levels': 15,
+  \ '_start_level': 0,
+  \ '_size': 0,
+  \ '_hlgroupA': 'Pmenu',
+  \ '_hlgroupB': 'PmenuSel',
+  \ }
+endfunction
 
-  let lighter._levels = 15
-  let lighter._start_level = 0
-  let lighter._size = 0
-  let lighter._hlgroupA = 'Pmenu'
-  let lighter._hlgroupB = 'PmenuSel'
+function! high#light#indent#Rules(options)
+  return {}
+endfunction
 
-  call high#core#Customize(lighter, a:settings)
-
-  for i in range(lighter._start_level, lighter._levels-1)
-    call high#core#AddLighter('indent', extend(high#core#Clone(lighter), {
+function! high#light#indent#Init(lighter)
+  for i in range(a:lighter._start_level, a:lighter._levels-1)
+    call high#core#AddLighter(extend(high#core#Clone(a:lighter), {
     \ 'pattern_to_eval':
-    \   '"\\v^( {".&sw."}|\\t){'.i.'}\\zs( {'.(lighter._size > 0 ? lighter._size : '".&sw."').'}|\\t)"',
+    \   '"\\v^( {".&sw."}|\\t){'.i.'}\\zs( {'.(a:lighter._size > 0 ? a:lighter._size : '".&sw."').'}|\\t)"',
     \ 'hlgroup':
-    \   lighter[i%2 ? '_hlgroupB' : '_hlgroupA'],
+    \   a:lighter[i%2 ? '_hlgroupB' : '_hlgroupA'],
     \ }))
   endfor
 endfunction

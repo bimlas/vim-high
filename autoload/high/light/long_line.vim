@@ -4,20 +4,23 @@
 " Source:  https://github.com/bimlas/vim-high
 " License: MIT license
 
-function! high#light#long_line#define(settings)
-  let lighter = high#core#Clone()
-  call high#core#AddLighter('long_line', lighter)
+function! high#light#long_line#Defaults()
+  return {
+  \ '_length': 0,
+  \ '_single_column': 0,
+  \ }
+endfunction
 
-  let lighter._length = 0
-  let lighter._single_column = 0
-
-  call high#core#Customize(lighter, a:settings)
-
-  if lighter._length
-    let lighter.pattern = '^.\{'.lighter._length.'}\zs.\+'
+function! high#light#long_line#Rules(options)
+  if a:options._length
+    return {'pattern': '^.\{'.a:options._length.'}\zs.\+'}
   else
-    let lighter.pattern_to_eval =
-    \ '&textwidth > 0 ? "\\%".string(&textwidth+1)."v.'.(lighter._single_column ? '' : '\\+').'" : ""'
+    return {'pattern_to_eval':
+    \ '&textwidth > 0 ? "\\%".string(&textwidth+1)."v.'.(a:options._single_column ? '' : '\\+').'" : ""'
+    \ }
   endif
-  call high#core#Customize(lighter, a:settings)
+endfunction
+
+function! high#light#long_line#Init(lighter)
+  call high#core#AddLighter(a:lighter)
 endfunction
