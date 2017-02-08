@@ -1,4 +1,4 @@
-image:https://img.shields.io/travis/bimlas/vim-high.svg?label=Travis%20CI["Travis CI", link="https://travis-ci.org/bimlas/vim-high"]
+image:https://img.shields.io/travis/bimlas/vim-high/master.svg?label=Travis%20CI["Travis CI", link="https://travis-ci.org/bimlas/vim-high"]
 image:https://img.shields.io/github/license/bimlas/vim-high.svg["License", link="LICENSE"]
 
 = High: all-in-one highlighter plugin for Vim
