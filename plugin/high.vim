@@ -49,7 +49,7 @@ if exists('g:high_lighters')
     call high#core#Customize(g:high.defaults, remove(g:high_lighters, '_'))
   endif
   for group in keys(g:high_lighters)
-    call high#core#RegisterGroup(group)
+    call high#group#Register(group)
   endfor
 endif
 

@@ -19,52 +19,6 @@ function! high#core#ManualHighlight(lighter, enabled) "{{{
   endif
 endfunction "}}}
 
-function! high#core#RegisterGroup(group) "{{{
-  if has_key(g:high.registered_groups, a:group)
-    return g:high.registered_groups[a:group]
-  endif
-  let new = high#core#Clone()
-  if high#utils#IsAutoloaded(a:group)
-    let new = high#core#Customize(new, high#light#{a:group}#Defaults())
-    if exists('g:high_lighters')
-      call high#core#Customize(new, get(g:high_lighters, a:group, {}))
-    endif
-    call high#core#Customize(new, high#light#{a:group}#Rules(new))
-  else
-    let new.initialized = 1
-    if exists('g:high_lighters')
-      call high#core#Customize(new, get(g:high_lighters, a:group, {}))
-    endif
-  endif
-  let new.group = a:group
-  if !has_key(g:high.lighter_groups, a:group)
-    let g:high.lighter_groups[a:group] = []
-  endif
-  let g:high.registered_groups[a:group] = new
-  return new
-endfunction "}}}
-
-function! high#core#IsRegisteredGroup(group) "{{{
-  return has_key(g:high.registered_groups, a:group)
-endfunction "}}}
-
-function! high#core#GetGroupSettings(group) "{{{
-  return get(g:high.registered_groups, a:group, {})
-endfunction "}}}
-
-function! high#core#InitGroup(group) "{{{
-  if !has_key(g:high.lighter_groups, a:group)
-  \ || !high#utils#IsAutoloaded(a:group)
-  \ || len(g:high.lighter_groups[a:group])
-    return
-  endif
-  call high#light#{a:group}#Init(high#core#GetGroupSettings(a:group))
-endfunction "}}}
-
-function! high#core#GetGroupMembers(group) "{{{
-  return get(g:high.lighter_groups, a:group, [])
-endfunction "}}}
-
 function! high#core#Clone(...) "{{{
   return deepcopy(a:0 ? a:1 : g:high.defaults)
 endfunction "}}}
