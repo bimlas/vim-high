@@ -20,5 +20,5 @@ function! high#utils#IsAutoloaded(group) "{{{
 endfunction "}}}
 
 function! high#utils#IsRegistered(group) "{{{
-  return has_key(g:high.lighter_settings, a:group)
+  return has_key(g:high.registered_groups, a:group)
 endfunction "}}}

@@ -20,8 +20,8 @@ function! high#core#ManualHighlight(lighter, enabled) "{{{
 endfunction "}}}
 
 function! high#core#RegisterGroup(group) "{{{
-  if has_key(g:high.lighter_settings, a:group)
-    return g:high.lighter_settings[a:group]
+  if has_key(g:high.registered_groups, a:group)
+    return g:high.registered_groups[a:group]
   endif
   let new = high#core#Clone()
   if high#utils#IsAutoloaded(a:group)
@@ -40,16 +40,16 @@ function! high#core#RegisterGroup(group) "{{{
   if !has_key(g:high.lighter_groups, a:group)
     let g:high.lighter_groups[a:group] = []
   endif
-  let g:high.lighter_settings[a:group] = new
+  let g:high.registered_groups[a:group] = new
   return new
 endfunction "}}}
 
 function! high#core#IsRegisteredGroup(group) "{{{
-  return has_key(g:high.lighter_settings, a:group)
+  return has_key(g:high.registered_groups, a:group)
 endfunction "}}}
 
 function! high#core#GetGroupSettings(group) "{{{
-  return get(g:high.lighter_settings, a:group, {})
+  return get(g:high.registered_groups, a:group, {})
 endfunction "}}}
 
 function! high#core#InitGroup(group) "{{{

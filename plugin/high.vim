@@ -15,7 +15,7 @@ let g:loaded_high = 1
 let g:high = {
 \ 'every_lighter': [],
 \ 'lighter_groups': {},
-\ 'lighter_settings': {},
+\ 'registered_groups': {},
 \ 'defaults': {
 \   'initialized': 0,
 \   'enabled': 1,
@@ -59,7 +59,7 @@ endif
 
 augroup high
   autocmd! WinEnter,BufWinEnter,FileType *
-  \ for lighter in values(g:high.lighter_settings)
+  \ for lighter in values(g:high.registered_groups)
   \ | call high#core#Highlight(lighter)
   \ | endfor
 augroup END
