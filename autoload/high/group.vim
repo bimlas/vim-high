@@ -26,21 +26,21 @@ function! high#group#Register(group) "{{{
   return new
 endfunction "}}}
 
+function! high#group#Init(group) "{{{
+  if !high#utils#IsAutoloaded(a:group)
+  \ || !high#group#GetSettings(a:group)
+  \ || len(high#group#GetMembers(a:group))
+    return
+  endif
+  call high#light#{a:group}#Init(high#group#GetSettings(a:group))
+endfunction "}}}
+
 function! high#group#IsRegistered(group) "{{{
   return has_key(g:high.registered_groups, a:group)
 endfunction "}}}
 
 function! high#group#GetSettings(group) "{{{
   return get(g:high.registered_groups, a:group, {})
-endfunction "}}}
-
-function! high#group#Init(group) "{{{
-  if !has_key(g:high.lighter_groups, a:group)
-  \ || !high#utils#IsAutoloaded(a:group)
-  \ || len(g:high.lighter_groups[a:group])
-    return
-  endif
-  call high#light#{a:group}#Init(high#group#GetSettings(a:group))
 endfunction "}}}
 
 function! high#group#GetMembers(group) "{{{
