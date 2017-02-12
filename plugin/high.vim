@@ -48,7 +48,6 @@ if exists('g:high_lighters')
   if has_key(g:high_lighters, '_')
     call high#core#Customize(g:high.defaults, remove(g:high_lighters, '_'))
   endif
-
   for group in keys(g:high_lighters)
     call high#core#RegisterGroup(group)
   endfor
@@ -59,7 +58,7 @@ endif
 
 augroup high
   autocmd! WinEnter,BufWinEnter,FileType *
-  \ for lighter in values(g:high.registered_groups)
-  \ | call high#core#Highlight(lighter)
+  \ for group in values(g:high.registered_groups)
+  \ | call high#core#Highlight(group)
   \ | endfor
 augroup END
