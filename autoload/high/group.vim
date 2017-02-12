@@ -5,9 +5,6 @@
 " License: MIT license
 
 function! high#group#Register(group) "{{{
-  if has_key(g:high.registered_groups, a:group)
-    return g:high.registered_groups[a:group]
-  endif
   let new = high#core#Clone()
   if high#utils#IsAutoloaded(a:group)
     let new = high#core#Customize(new, high#light#{a:group}#Defaults())
