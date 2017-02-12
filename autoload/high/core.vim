@@ -30,8 +30,8 @@ function! high#core#AddLighter(lighter) "{{{
 endfunction "}}}
 
 function! high#core#EnabledForFiletype(lighter, filetype) "{{{
-  return (len(a:lighter.whitelist) == 0 || index(a:lighter.whitelist, a:filetype) >= 0)
-  \ && (len(a:lighter.blacklist) == 0 || index(a:lighter.blacklist, a:filetype) < 0)
+  return (empty(a:lighter.whitelist) || index(a:lighter.whitelist, a:filetype) >= 0)
+  \ && (empty(a:lighter.blacklist) || index(a:lighter.blacklist, a:filetype) < 0)
 endfunction "}}}
 
 function! high#core#MatchAdd(lighter) "{{{
@@ -76,14 +76,14 @@ function! high#core#SetMatchID(lighter, id) "{{{
 endfunction "}}}
 
 function! high#core#PatternChanged(lighter) "{{{
-  if !len(a:lighter.pattern_to_eval)
+  if empty(a:lighter.pattern_to_eval)
     return 0
   endif
   let a:lighter.pattern = eval(a:lighter.pattern_to_eval)
   " TODO: find a faster way to detect if the match is exists in the current
   " window.
   let current_match = filter(getmatches(), 'v:val.id == '.high#core#GetMatchID(a:lighter))
-  return len(current_match) && (a:lighter.pattern != current_match[0].pattern)
+  return !empty(current_match) && (a:lighter.pattern != current_match[0].pattern)
 endfunction "}}}
 
 function! high#core#Customize(lighter, settings) "{{{

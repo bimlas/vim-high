@@ -38,7 +38,7 @@ function! high#light#words#AddWord() "{{{
   let clone = get(filter(copy(s:words), 'high#core#GetMatchID(v:val) < 0'), 0, {})
   " Otherwise create a new clone and store in the list to reach to clear the
   " highlighting.
-  if !len(clone)
+  if empty(clone)
     let clone = high#core#Clone(s:lighter)
     call high#core#AddLighter(clone)
     call extend(s:words, [clone])

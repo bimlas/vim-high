@@ -28,8 +28,8 @@ endfunction "}}}
 
 function! high#group#Init(group) "{{{
   if !high#utils#IsAutoloaded(a:group)
-  \ || !high#group#GetSettings(a:group)
-  \ || len(high#group#GetMembers(a:group))
+  \ || empty(high#group#GetSettings(a:group))
+  \ || !empty(high#group#GetMembers(a:group))
     return
   endif
   call high#light#{a:group}#Init(high#group#GetSettings(a:group))

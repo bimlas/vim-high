@@ -16,7 +16,7 @@ function! high#utils#ListOfLighters() "{{{
 endfunction "}}}
 
 function! high#utils#IsAutoloaded(group) "{{{
-  return len(globpath(&runtimepath, 'autoload/high/light/'.a:group.'.vim'))
+  return !empty(globpath(&runtimepath, 'autoload/high/light/'.a:group.'.vim'))
 endfunction "}}}
 
 function! high#utils#IsRegistered(group) "{{{
