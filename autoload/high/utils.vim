@@ -18,7 +18,3 @@ endfunction "}}}
 function! high#utils#IsAutoloaded(group) "{{{
   return !empty(globpath(&runtimepath, 'autoload/high/light/'.a:group.'.vim'))
 endfunction "}}}
-
-function! high#utils#IsRegistered(group) "{{{
-  return has_key(g:high.registered_groups, a:group)
-endfunction "}}}
