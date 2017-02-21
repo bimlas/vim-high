@@ -35,10 +35,6 @@ function! high#core#EnabledForFiletype(lighter, filetype) "{{{
 endfunction "}}}
 
 function! high#core#MatchAdd(lighter) "{{{
-  if !a:lighter.initialized
-    call high#light#{a:lighter.group}#Init(a:lighter)
-    let a:lighter.initialized = 1
-  endif
   if high#core#PatternChanged(a:lighter)
     call high#core#MatchClear(a:lighter)
   endif
@@ -48,9 +44,6 @@ function! high#core#MatchAdd(lighter) "{{{
 endfunction "}}}
 
 function! high#core#MatchClear(lighter) "{{{
-  if !a:lighter.initialized
-    return
-  endif
   let id = high#core#GetMatchID(a:lighter)
   if id >= 0
     call matchdelete(id)

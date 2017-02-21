@@ -13,7 +13,6 @@ function! high#group#Register(group) "{{{
     endif
     call high#core#Customize(new, high#light#{a:group}#Rules(new))
   else
-    let new.initialized = 1
     if exists('g:high_lighters')
       call high#core#Customize(new, get(g:high_lighters, a:group, {}))
     endif
@@ -37,6 +36,10 @@ endfunction "}}}
 
 function! high#group#IsRegistered(group) "{{{
   return has_key(g:high.registered_groups, a:group)
+endfunction "}}}
+
+function! high#group#IsInitialized(group) "{{{
+  return !empty(g:high.lighter_groups[a:group])
 endfunction "}}}
 
 function! high#group#GetSettings(group) "{{{

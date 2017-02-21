@@ -13,9 +13,8 @@ function! high#commandline#toggle(lighter, ...) "{{{
   if !high#group#IsRegistered(a:lighter)
     call high#group#Register(a:lighter)
   endif
-  if !g:high.registered_groups[a:lighter].initialized
-    call high#light#{a:lighter}#Init(g:high.registered_groups[a:lighter])
-    let g:high.registered_groups[a:lighter].initialized = 1
+  if !high#group#IsInitialized(a:lighter)
+    call high#group#Init(a:lighter)
   endif
   for l in g:high.lighter_groups[a:lighter]
     let l.enabled = a:0 ? a:1 : !l.enabled
