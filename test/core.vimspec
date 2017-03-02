@@ -44,14 +44,14 @@ Describe core
     End
 
     It registers autoloaded lighter
-      Assert NotEmpty(high#utils#IsAutoloaded('mixed_eol'))
+      Assert NotEmpty(high#group#IsAutoloaded('mixed_eol'))
       call high#group#Register('mixed_eol')
       Assert Equals(high#group#GetSettings('mixed_eol')['pattern'], '\r')
     End
 
     It applies customization
       let g:high_lighters = {'mixed_eol': {'hlgroup': 'Normal', 'pattern': 'not customizable'}}
-      Assert NotEmpty(high#utils#IsAutoloaded('mixed_eol'))
+      Assert NotEmpty(high#group#IsAutoloaded('mixed_eol'))
       call high#group#Register('mixed_eol')
       Assert Equals(high#group#GetSettings('mixed_eol')['hlgroup'], 'Normal')
       Assert Equals(high#group#GetSettings('mixed_eol')['pattern'], '\r')

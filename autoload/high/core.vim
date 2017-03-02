@@ -80,10 +80,3 @@ function! high#core#PatternChanged(lighter) "{{{
   let current_match = filter(getmatches(), 'v:val.id == '.high#core#GetMatchID(a:lighter))
   return !empty(current_match) && (a:lighter.pattern != current_match[0].pattern)
 endfunction "}}}
-
-function! high#core#Customize(lighter, settings) "{{{
-  for [key, value] in items(a:settings)
-    let a:lighter[key] = value
-  endfor
-  return a:lighter
-endfunction "}}}

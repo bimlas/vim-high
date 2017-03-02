@@ -14,7 +14,3 @@ function! high#utils#ListOfLighters() "{{{
   endif
   return {'autoloaded': autoloaded, 'user_defined': user_defined}
 endfunction "}}}
-
-function! high#utils#IsAutoloaded(group) "{{{
-  return !empty(globpath(&runtimepath, 'autoload/high/light/'.a:group.'.vim'))
-endfunction "}}}

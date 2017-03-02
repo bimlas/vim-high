@@ -46,7 +46,7 @@ Any of the settings can be overriden when adding a custom lighter, but some of
 them has hardcoded values in built-in highlighters. For example `pattern` in
 link:autoload/high/light/inactive_window.vim[inactive_window] have to be `.*`
 to match everything in the inactive window, so it cannot be customized. The
-settings below the call of `high#core#Customize()` are not customizables.
+settings below the call of `high#group#Customize()` are not customizables.
 
 Some lighters have specifical settings, like
 link:autoload/high/light/indent.vim[indent]: `_levels`, `_hlgroupA`, etc. It
