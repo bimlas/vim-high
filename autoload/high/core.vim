@@ -4,6 +4,8 @@
 " Source:  https://github.com/bimlas/vim-high
 " License: MIT license
 
+let s:match_id_index = 0
+
 function! high#core#Highlight(lighter) "{{{
   if a:lighter.autoHighlight
     call high#core#ManualHighlight(a:lighter, 1)
@@ -24,8 +26,8 @@ function! high#core#Clone(...) "{{{
 endfunction "}}}
 
 function! high#core#AddLighter(lighter) "{{{
-  let a:lighter.match_id_index = len(g:high.every_lighter)
-  call extend(g:high.every_lighter, [a:lighter])
+  let a:lighter.match_id_index = s:match_id_index
+  let s:match_id_index += 1
   call extend(g:high.lighter_groups[a:lighter.group], [a:lighter])
 endfunction "}}}
 

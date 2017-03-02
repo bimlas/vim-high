@@ -22,7 +22,7 @@ function! high#light#inactive_window#Init(lighter)
 
   augroup high_inactive_window "{{{
     autocmd!
-    exe 'autocmd WinEnter * call high#core#ManualHighlight(g:high.every_lighter['.a:lighter.match_id_index.'], 0)'
-    exe 'autocmd WinLeave * call high#core#ManualHighlight(g:high.every_lighter['.a:lighter.match_id_index.'], 1)'
+    exe 'autocmd WinEnter * call high#core#ManualHighlight(g:high.lighter_groups["'.a:lighter.group.'"]['.a:lighter.match_id_index.'], 0)'
+    exe 'autocmd WinLeave * call high#core#ManualHighlight(g:high.lighter_groups["'.a:lighter.group.'"]['.a:lighter.match_id_index.'], 1)'
   augroup END "}}}
 endfunction
