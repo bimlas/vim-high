@@ -6,18 +6,22 @@
 
 let s:match_id_index = 0
 
-function! high#core#Highlight(lighter) "{{{
-  if a:lighter.autoHighlight
-    call high#core#ManualHighlight(a:lighter, 1)
+function! high#core#Highlight(group_settings) "{{{
+  if a:group_settings.autoHighlight
+    call high#core#ManualHighlight(a:group_settings, 1)
   endif
 endfunction "}}}
 
-function! high#core#ManualHighlight(lighter, enabled) "{{{
+function! high#core#ManualHighlight(group_settings, enabled) "{{{
   call high#core#InitMatchID()
-  if a:lighter.enabled && a:enabled && high#core#EnabledForFiletype(a:lighter, &filetype)
-    call high#core#MatchAdd(a:lighter)
+  if a:group_settings.enabled && a:enabled && high#core#EnabledForFiletype(a:group_settings, &filetype)
+    for lighter in high#group#GetMembers(a:group_settings.group)
+      call high#core#MatchAdd(lighter)
+    endfor
   else
-    call high#core#MatchClear(a:lighter)
+    for lighter in high#group#GetMembers(a:group_settings.group)
+      call high#core#MatchClear(lighter)
+    endfor
   endif
 endfunction "}}}
 
