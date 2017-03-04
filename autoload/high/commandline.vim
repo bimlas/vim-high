@@ -11,13 +11,13 @@ endfunction "}}}
 
 function! high#commandline#toggle(lighter, ...) "{{{
   if !high#group#IsRegistered(a:lighter)
-    call high#group#Register(a:lighter)
+    let settings = high#group#Register(a:lighter)
+    if a:0
+      let settings.enabled = a:1
+    endif
+  else
+    let settings = high#group#GetSettings(a:lighter)
+    let settings.enabled = a:0 ? a:1 : !settings.enabled
   endif
-  if !high#group#IsInitialized(a:lighter)
-    call high#group#Init(a:lighter)
-  endif
-  for l in g:high.lighter_groups[a:lighter]
-    let l.enabled = a:0 ? a:1 : !l.enabled
-    windo call high#core#Highlight(l)
-  endfor
+  windo call high#core#Highlight(settings)
 endfunction "}}}

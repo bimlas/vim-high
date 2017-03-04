@@ -15,6 +15,9 @@ endfunction "}}}
 function! high#core#ManualHighlight(group_settings, enabled) "{{{
   call high#core#InitMatchID()
   if a:group_settings.enabled && a:enabled && high#core#EnabledForFiletype(a:group_settings, &filetype)
+    if !high#group#IsInitialized(a:group_settings.group_name)
+      call high#group#Init(a:group_settings.group_name)
+    endif
     for lighter in high#group#GetMembers(a:group_settings.group_name)
       call high#core#MatchAdd(lighter)
     endfor
