@@ -12,8 +12,10 @@ function! high#group#Register(group_name) "{{{
       call high#group#Customize(new, get(g:high_lighters, a:group_name, {}))
     endif
     call high#group#Customize(new, high#light#{a:group_name}#Rules(new))
-  else
+  elseif high#group#IsUserDefined(a:group_name)
     call high#group#Customize(new, g:high_lighters[a:group_name])
+  else
+    throw '[high] No such group: '.a:group_name
   endif
   let new.group_name = a:group_name
   let g:high.lighter_groups[a:group_name] = []
@@ -42,6 +44,10 @@ endfunction "}}}
 
 function! high#group#IsAutoloaded(group_name) "{{{
   return !empty(globpath(&runtimepath, 'autoload/high/light/'.a:group_name.'.vim'))
+endfunction "}}}
+
+function! high#group#IsUserDefined(group_name) "{{{
+  return exists('g:high_lighters') && has_key(g:high_lighters, a:group_name)
 endfunction "}}}
 
 function! high#group#IsRegistered(group_name) "{{{
