@@ -13,9 +13,7 @@ function! high#group#Register(group_name) "{{{
     endif
     call high#group#Customize(new, high#light#{a:group_name}#Rules(new))
   else
-    if exists('g:high_lighters')
-      call high#group#Customize(new, get(g:high_lighters, a:group_name, {}))
-    endif
+    call high#group#Customize(new, g:high_lighters[a:group_name])
   endif
   let new.group_name = a:group_name
   let g:high.lighter_groups[a:group_name] = []
@@ -24,12 +22,10 @@ function! high#group#Register(group_name) "{{{
 endfunction "}}}
 
 function! high#group#Init(group_name) "{{{
-  if !high#group#IsAutoloaded(a:group_name)
-  \ || empty(high#group#GetSettings(a:group_name))
-  \ || !empty(high#group#GetMembers(a:group_name))
-    return
+  if high#group#IsAutoloaded(a:group_name)
+    call high#light#{a:group_name}#Init(high#group#GetSettings(a:group_name))
   endif
-  call high#light#{a:group_name}#Init(high#group#GetSettings(a:group_name))
+  call high#group#SetSettings(a:group_name, {'initialized': 1})
 endfunction "}}}
 
 function! high#group#Customize(group_settings, custom_values) "{{{
@@ -48,11 +44,15 @@ function! high#group#IsRegistered(group_name) "{{{
 endfunction "}}}
 
 function! high#group#IsInitialized(group_name) "{{{
-  return !empty(g:high.lighter_groups[a:group_name])
+  return high#group#GetSettings(a:group_name).initialized
 endfunction "}}}
 
 function! high#group#GetSettings(group_name) "{{{
   return get(g:high.registered_groups, a:group_name, {})
+endfunction "}}}
+
+function! high#group#SetSettings(group_name, settings) "{{{
+  call extend(high#group#GetSettings(a:group_name), a:settings)
 endfunction "}}}
 
 function! high#group#GetMembers(group_name) "{{{
