@@ -69,3 +69,8 @@ endfunction "}}}
 function! high#group#GetMembers(group_name) "{{{
   return get(g:high.lighter_groups, a:group_name, [])
 endfunction "}}}
+
+function! high#group#DropMembers(group_name) "{{{
+  windo call high#core#ManualHighlight(high#group#GetSettings(a:group_name), 0)
+  let g:high.lighter_groups[a:group_name] = []
+endfunction "}}}
