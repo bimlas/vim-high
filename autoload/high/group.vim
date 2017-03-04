@@ -18,6 +18,11 @@ function! high#group#Register(group_name) "{{{
   let new.group_name = a:group_name
   let g:high.lighter_groups[a:group_name] = []
   let g:high.registered_groups[a:group_name] = new
+  " If the group controlls the highlight by self (manual highlight), then
+  " initialization would never reach.
+  if !new.autoHighlight
+    call high#group#Init(a:group_name)
+  endif
   return new
 endfunction "}}}
 
