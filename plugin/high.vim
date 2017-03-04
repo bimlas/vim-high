@@ -17,7 +17,7 @@ let g:high = {
 \ 'registered_groups': {},
 \ 'defaults': {
 \   'enabled': 1,
-\   'group': '',
+\   'group_name': '',
 \   'whitelist' : [],
 \   'blacklist' : [],
 \   'hlgroup' : 'ErrorMsg',

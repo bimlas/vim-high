@@ -17,10 +17,8 @@ function! high#group#Register(group_name) "{{{
       call high#group#Customize(new, get(g:high_lighters, a:group_name, {}))
     endif
   endif
-  let new.group = a:group_name
-  if !has_key(g:high.lighter_groups, a:group_name)
-    let g:high.lighter_groups[a:group_name] = []
-  endif
+  let new.group_name = a:group_name
+  let g:high.lighter_groups[a:group_name] = []
   let g:high.registered_groups[a:group_name] = new
   return new
 endfunction "}}}

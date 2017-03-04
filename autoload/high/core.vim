@@ -15,11 +15,11 @@ endfunction "}}}
 function! high#core#ManualHighlight(group_settings, enabled) "{{{
   call high#core#InitMatchID()
   if a:group_settings.enabled && a:enabled && high#core#EnabledForFiletype(a:group_settings, &filetype)
-    for lighter in high#group#GetMembers(a:group_settings.group)
+    for lighter in high#group#GetMembers(a:group_settings.group_name)
       call high#core#MatchAdd(lighter)
     endfor
   else
-    for lighter in high#group#GetMembers(a:group_settings.group)
+    for lighter in high#group#GetMembers(a:group_settings.group_name)
       call high#core#MatchClear(lighter)
     endfor
   endif
@@ -32,7 +32,7 @@ endfunction "}}}
 function! high#core#AddLighter(lighter) "{{{
   let a:lighter.match_id_index = s:match_id_index
   let s:match_id_index += 1
-  call extend(g:high.lighter_groups[a:lighter.group], [a:lighter])
+  call extend(g:high.lighter_groups[a:lighter.group_name], [a:lighter])
 endfunction "}}}
 
 function! high#core#EnabledForFiletype(lighter, filetype) "{{{
