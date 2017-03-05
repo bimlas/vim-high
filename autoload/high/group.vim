@@ -4,10 +4,15 @@
 " Source:  https://github.com/bimlas/vim-high
 " License: MIT license
 
-function! high#group#Register(group_name) "{{{
+function! high#group#Register(group_name) abort "{{{
   let new = high#core#Clone()
   try
     call extend(new, high#light#{a:group_name}#Define())
+  " Slows down a bit.
+  catch /.*/
+    if exists('g:high_lighters') && !has_key(g:high_lighters, a:group_name)
+      throw '[high] No such group: '.a:group_name
+    endif
   endtry
   if exists('g:high_lighters')
     call extend(new, get(g:high_lighters, a:group_name, {}))
