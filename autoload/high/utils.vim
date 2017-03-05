@@ -12,5 +12,5 @@ function! high#utils#ListOfLighters() "{{{
   else
     let user_defined = []
   endif
-  return {'autoloaded': autoloaded, 'user_defined': user_defined}
+  return sort(autoloaded + user_defined)
 endfunction "}}}

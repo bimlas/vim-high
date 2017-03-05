@@ -9,15 +9,17 @@ function! high#commandline#listLighters(argLead, cmdLine, cursorPos) "{{{
   return filter(list.autoloaded+list.user_defined, 'v:val =~ "^'.a:argLead.'"')
 endfunction "}}}
 
-function! high#commandline#toggle(lighter, ...) "{{{
-  if !high#group#IsRegistered(a:lighter)
-    let settings = high#group#Register(a:lighter)
-    if a:0
-      let settings.enabled = a:1
+function! high#commandline#toggle(group_name, ...) "{{{
+  for group in (a:group_name == '*' ? high#utils#ListOfLighters() : [a:group_name])
+    if !high#group#IsRegistered(group)
+      let settings = high#group#Register(group)
+      if a:0
+        let settings.enabled = a:1
+      endif
+    else
+      let settings = high#group#GetSettings(group)
+      let settings.enabled = a:0 ? a:1 : !settings.enabled
     endif
-  else
-    let settings = high#group#GetSettings(a:lighter)
-    let settings.enabled = a:0 ? a:1 : !settings.enabled
-  endif
-  windo call high#core#Highlight(settings)
+    windo call high#core#Highlight(settings)
+  endfor
 endfunction "}}}
