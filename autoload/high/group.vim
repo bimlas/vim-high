@@ -7,13 +7,13 @@
 function! high#group#Register(group_name) "{{{
   let new = high#core#Clone()
   if high#group#IsAutoloaded(a:group_name)
-    call high#group#Customize(new, high#light#{a:group_name}#Defaults())
+    call extend(new, high#light#{a:group_name}#Defaults())
     if exists('g:high_lighters')
-      call high#group#Customize(new, get(g:high_lighters, a:group_name, {}))
+      call extend(new, get(g:high_lighters, a:group_name, {}))
     endif
-    call high#group#Customize(new, high#light#{a:group_name}#Rules(new))
+    call extend(new, high#light#{a:group_name}#Rules(new))
   elseif high#group#IsUserDefined(a:group_name)
-    call high#group#Customize(new, g:high_lighters[a:group_name])
+    call extend(new, g:high_lighters[a:group_name])
   else
     throw '[high] No such group: '.a:group_name
   endif
@@ -29,17 +29,11 @@ function! high#group#Register(group_name) "{{{
 endfunction "}}}
 
 function! high#group#Init(group_name) "{{{
+  let settings = high#group#GetSettings(a:group_name)
   if high#group#IsAutoloaded(a:group_name)
-    call high#light#{a:group_name}#Init(high#group#GetSettings(a:group_name))
+    call high#light#{a:group_name}#Init(settings)
   endif
-  call high#group#SetSettings(a:group_name, {'initialized': 1})
-endfunction "}}}
-
-function! high#group#Customize(group_settings, custom_values) "{{{
-  for [key, value] in items(a:custom_values)
-    let a:group_settings[key] = value
-  endfor
-  return a:group_settings
+  let settings.initialized = 1
 endfunction "}}}
 
 function! high#group#IsAutoloaded(group_name) "{{{
@@ -60,10 +54,6 @@ endfunction "}}}
 
 function! high#group#GetSettings(group_name) "{{{
   return get(g:high.registered_groups, a:group_name, {})
-endfunction "}}}
-
-function! high#group#SetSettings(group_name, settings) "{{{
-  call extend(high#group#GetSettings(a:group_name), a:settings)
 endfunction "}}}
 
 function! high#group#GetMembers(group_name) "{{{

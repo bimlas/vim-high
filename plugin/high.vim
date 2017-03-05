@@ -45,7 +45,7 @@ command! -nargs=1 -complete=customlist,high#commandline#listLighters
 
 if exists('g:high_lighters')
   if has_key(g:high_lighters, '_')
-    call high#group#Customize(g:high.defaults, remove(g:high_lighters, '_'))
+    call extend(g:high.defaults, remove(g:high_lighters, '_'))
   endif
   for group in keys(g:high_lighters)
     call high#group#Register(group)
