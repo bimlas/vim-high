@@ -35,7 +35,7 @@ endfunction "}}}
 function! high#core#AddLighter(lighter) "{{{
   let a:lighter.__match_id_index = s:match_id_index
   let s:match_id_index += 1
-  call extend(g:high.lighter_groups[a:lighter.__group_name], [a:lighter])
+  call extend(g:high.group_members[a:lighter.__group_name], [a:lighter])
 endfunction "}}}
 
 function! high#core#EnabledForFiletype(lighter, filetype) "{{{

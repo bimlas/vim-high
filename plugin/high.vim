@@ -13,8 +13,8 @@ let g:loaded_high = 1
 " ============================================================================
 
 let g:high = {
-\ 'lighter_groups': {},
 \ 'registered_groups': {},
+\ 'group_members': {},
 \ 'defaults': {
 \   'enabled': 1,
 \   'whitelist' : [],

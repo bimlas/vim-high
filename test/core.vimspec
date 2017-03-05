@@ -82,8 +82,8 @@ Describe core
     It adds the lighter to the list of loaded ones
       Assert Empty(high#group#GetMembers(lighter.group_name))
       call high#core#AddLighter(lighter)
-      Assert LengthOf(g:high.lighter_groups, 1)
-      Assert HasKey(g:high.lighter_groups, 'test')
+      Assert LengthOf(g:high.group_members, 1)
+      Assert HasKey(g:high.group_members, 'test')
       Assert LengthOf(high#group#GetMembers(lighter.group_name), 1)
       Assert Same(high#group#GetMembers(lighter.group_name)[0], lighter)
     End
@@ -97,11 +97,11 @@ Describe core
       let b = high#core#Clone(group)
       let b.pattern = 'pattern b'
       call high#core#AddLighter(b)
-      Assert LengthOf(g:high.lighter_groups, 1)
-      Assert HasKey(g:high.lighter_groups, 'group')
-      Assert LengthOf(g:high.lighter_groups['group'], 2)
-      Assert Same(g:high.lighter_groups['group'][0], a)
-      Assert Same(g:high.lighter_groups['group'][1], b)
+      Assert LengthOf(g:high.group_members, 1)
+      Assert HasKey(g:high.group_members, 'group')
+      Assert LengthOf(g:high.group_members['group'], 2)
+      Assert Same(g:high.group_members['group'][0], a)
+      Assert Same(g:high.group_members['group'][1], b)
     End
   End
 
