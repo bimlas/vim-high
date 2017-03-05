@@ -6,9 +6,9 @@
 
 function! high#group#Register(group_name) "{{{
   let new = high#core#Clone()
-  if high#group#IsAutoloaded(a:group_name)
+  try
     call extend(new, high#light#{a:group_name}#Define())
-  endif
+  endtry
   if exists('g:high_lighters')
     call extend(new, get(g:high_lighters, a:group_name, {}))
   endif
@@ -37,10 +37,6 @@ function! high#group#Init(group_name) "{{{
   else
     call high#core#AddLighter(settings)
   endif
-endfunction "}}}
-
-function! high#group#IsAutoloaded(group_name) "{{{
-  return !empty(globpath(&runtimepath, 'autoload/high/light/'.a:group_name.'.vim'))
 endfunction "}}}
 
 function! high#group#IsUserDefined(group_name) "{{{
