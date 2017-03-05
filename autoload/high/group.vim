@@ -17,11 +17,11 @@ function! high#group#Register(group_name) "{{{
   else
     throw '[high] No such group: '.a:group_name
   endif
-  let new.group_name = a:group_name
+  let new.__group_name = a:group_name
   let g:high.registered_groups[a:group_name] = new
   " If the group controlls the highlight by self (manual highlight), then
   " initialization would never reach.
-  if !new.autoHighlight
+  if !new.__auto_highlight
     call high#group#Init(a:group_name)
   endif
   return new

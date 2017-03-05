@@ -14,7 +14,7 @@ endfunction
 
 function! high#light#words#Rules(options)
   return {
-  \ 'autoHighlight': 0,
+  \ '__auto_highlight': 0,
   \ '_hlgroups_index': 0,
   \ }
 endfunction

@@ -7,7 +7,7 @@
 let s:match_id_index = 0
 
 function! high#core#Highlight(group_settings) "{{{
-  if a:group_settings.autoHighlight
+  if a:group_settings.__auto_highlight
     call high#core#ManualHighlight(a:group_settings, 1)
   endif
 endfunction "}}}
@@ -15,14 +15,14 @@ endfunction "}}}
 function! high#core#ManualHighlight(group_settings, enabled) "{{{
   call high#core#InitMatchID()
   if a:group_settings.enabled && a:enabled && high#core#EnabledForFiletype(a:group_settings, &filetype)
-    if !high#group#IsInitialized(a:group_settings.group_name)
-      call high#group#Init(a:group_settings.group_name)
+    if !high#group#IsInitialized(a:group_settings.__group_name)
+      call high#group#Init(a:group_settings.__group_name)
     endif
-    for lighter in high#group#GetMembers(a:group_settings.group_name)
+    for lighter in high#group#GetMembers(a:group_settings.__group_name)
       call high#core#MatchAdd(lighter)
     endfor
   else
-    for lighter in high#group#GetMembers(a:group_settings.group_name)
+    for lighter in high#group#GetMembers(a:group_settings.__group_name)
       call high#core#MatchClear(lighter)
     endfor
   endif
@@ -33,9 +33,9 @@ function! high#core#Clone(...) "{{{
 endfunction "}}}
 
 function! high#core#AddLighter(lighter) "{{{
-  let a:lighter.match_id_index = s:match_id_index
+  let a:lighter.__match_id_index = s:match_id_index
   let s:match_id_index += 1
-  call extend(g:high.lighter_groups[a:lighter.group_name], [a:lighter])
+  call extend(g:high.lighter_groups[a:lighter.__group_name], [a:lighter])
 endfunction "}}}
 
 function! high#core#EnabledForFiletype(lighter, filetype) "{{{
@@ -67,14 +67,14 @@ function! high#core#InitMatchID() "{{{
 endfunction "}}}
 
 function! high#core#GetMatchID(lighter) "{{{
-  if !exists('w:high_match_ids['.a:lighter.match_id_index.']')
+  if !exists('w:high_match_ids['.a:lighter.__match_id_index.']')
     return -1
   endif
-  return w:high_match_ids[a:lighter.match_id_index]
+  return w:high_match_ids[a:lighter.__match_id_index]
 endfunction "}}}
 
 function! high#core#SetMatchID(lighter, id) "{{{
-  let w:high_match_ids[a:lighter.match_id_index] = a:id
+  let w:high_match_ids[a:lighter.__match_id_index] = a:id
 endfunction "}}}
 
 function! high#core#PatternChanged(lighter) "{{{

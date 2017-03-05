@@ -12,7 +12,7 @@ endfunction
 
 function! high#light#inactive_window#Rules(options)
   return {
-  \ 'autoHighlight': 0,
+  \ '__auto_highlight': 0,
   \ 'pattern': '.*',
   \ }
 endfunction
