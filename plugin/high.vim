@@ -17,15 +17,15 @@ let g:high = {
 \ 'group_members': {},
 \ 'defaults': {
 \   'enabled': 1,
-\   'whitelist' : [],
-\   'blacklist' : [],
-\   'hlgroup' : 'ErrorMsg',
-\   'priority' : -1,
-\   'pattern' : '',
-\   'pattern_to_eval' : '',
+\   'whitelist': [],
+\   'blacklist': [],
+\   'hlgroup': 'ErrorMsg',
+\   'priority': -1,
+\   'pattern': '',
+\   'pattern_to_eval': '',
 \   '__group_name': '',
-\   '__auto_highlight' : 1,
-\   '__match_id_index' : -1,
+\   '__auto_highlight': 1,
+\   '__match_id_index': -1,
 \ }
 \ }
 
