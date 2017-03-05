@@ -4,24 +4,22 @@
 " Source:  https://github.com/bimlas/vim-high
 " License: MIT license
 
-function! high#light#words#Defaults()
+function! high#light#words#Define()
   return {
   \ '_hlgroups': ['Pmenu', 'PmenuSel', 'PmenuSbar'],
   \ '_map_add': '<Leader>k',
   \ '_map_clear': '<Leader>K',
-  \ }
-endfunction
-
-function! high#light#words#Rules(options)
-  return {
+  \ '__rules': {
+  \   '_hlgroups_index': 0,
+  \ },
   \ '__auto_highlight': 0,
-  \ '_hlgroups_index': 0,
+  \ '__init_function': function('s:Init'),
   \ }
 endfunction
 
-function! high#light#words#Init(lighter)
-  exe 'nnoremap <silent> '.a:lighter._map_add.' :call high#light#words#AddWord(expand("<cword>"))<CR>'
-  exe 'nnoremap <silent> '.a:lighter._map_clear.' :call high#light#words#ClearWords()<CR>'
+function! s:Init(options)
+  exe 'nnoremap <silent> '.a:options._map_add.' :call high#light#words#AddWord(expand("<cword>"))<CR>'
+  exe 'nnoremap <silent> '.a:options._map_clear.' :call high#light#words#ClearWords()<CR>'
 endfunction
 
 function! high#light#words#AddWord(cword) "{{{

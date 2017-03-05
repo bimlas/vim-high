@@ -4,16 +4,8 @@
 " Source:  https://github.com/bimlas/vim-high
 " License: MIT license
 
-function! high#light#mixed_indent#Defaults()
-  return {}
-endfunction
-
-function! high#light#mixed_indent#Rules(options)
+function! high#light#mixed_indent#Define()
   return {
   \ 'pattern': '^ .*\n\zs\t\+\|^\t.*\n\zs \+\|^ \+\zs\t\+\s*\|^\t\+\zs \+\s*',
   \ }
-endfunction
-
-function! high#light#mixed_indent#Init(lighter)
-  call high#core#AddLighter(a:lighter)
 endfunction

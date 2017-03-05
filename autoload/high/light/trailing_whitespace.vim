@@ -4,16 +4,8 @@
 " Source:  https://github.com/bimlas/vim-high
 " License: MIT license
 
-function! high#light#trailing_whitespace#Defaults()
-  return {}
-endfunction
-
-function! high#light#trailing_whitespace#Rules(options)
+function! high#light#trailing_whitespace#Define()
   return {
   \ 'pattern': '\s\+$',
   \ }
-endfunction
-
-function! high#light#trailing_whitespace#Init(lighter)
-  call high#core#AddLighter(a:lighter)
 endfunction

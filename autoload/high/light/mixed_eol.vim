@@ -4,16 +4,8 @@
 " Source:  https://github.com/bimlas/vim-high
 " License: MIT license
 
-function! high#light#mixed_eol#Defaults()
-  return {}
-endfunction
-
-function! high#light#mixed_eol#Rules(options)
+function! high#light#mixed_eol#Define()
   return {
   \ 'pattern': '\r',
   \ }
-endfunction
-
-function! high#light#mixed_eol#Init(lighter)
-  call high#core#AddLighter(a:lighter)
 endfunction

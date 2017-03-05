@@ -7,16 +7,18 @@
 function! high#group#Register(group_name) "{{{
   let new = high#core#Clone()
   if high#group#IsAutoloaded(a:group_name)
-    call extend(new, high#light#{a:group_name}#Defaults())
-    if exists('g:high_lighters')
-      call extend(new, get(g:high_lighters, a:group_name, {}))
-    endif
-    call extend(new, high#light#{a:group_name}#Rules(new))
-  elseif high#group#IsUserDefined(a:group_name)
-    call extend(new, g:high_lighters[a:group_name])
-  else
-    throw '[high] No such group: '.a:group_name
+    call extend(new, high#light#{a:group_name}#Define())
   endif
+  if exists('g:high_lighters')
+    call extend(new, get(g:high_lighters, a:group_name, {}))
+  endif
+  if !empty(new.__rules)
+    call extend(new, new.__rules)
+  endif
+  " TODO: if settings not changed, then it's an invalid group name.
+  " else
+  "   throw '[high] No such group: '.a:group_name
+  " endif
   let new.__group_name = a:group_name
   let g:high.registered_groups[a:group_name] = new
   " If the group controlls the highlight by self (manual highlight), then
@@ -30,8 +32,10 @@ endfunction "}}}
 function! high#group#Init(group_name) "{{{
   let settings = high#group#GetSettings(a:group_name)
   let g:high.group_members[a:group_name] = []
-  if high#group#IsAutoloaded(a:group_name)
-    call high#light#{a:group_name}#Init(settings)
+  if !empty(settings.__init_function)
+    call call(settings.__init_function, [settings])
+  else
+    call high#core#AddLighter(settings)
   endif
 endfunction "}}}
 

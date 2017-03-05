@@ -4,21 +4,17 @@
 " Source:  https://github.com/bimlas/vim-high
 " License: MIT license
 
-function! high#light#inactive_window#Defaults()
+function! high#light#inactive_window#Define()
   return {
   \ 'hlgroup': 'Comment',
-  \ }
-endfunction
-
-function! high#light#inactive_window#Rules(options)
-  return {
+  \ '__rules': {'pattern': '.*'},
+  \ '__init_function': function('s:Init'),
   \ '__auto_highlight': 0,
-  \ 'pattern': '.*',
   \ }
 endfunction
 
-function! high#light#inactive_window#Init(lighter)
-  call high#core#AddLighter(a:lighter)
+function! s:Init(options)
+  call high#core#AddLighter(a:options)
 
   augroup high_inactive_window "{{{
     autocmd!
