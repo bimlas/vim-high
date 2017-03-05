@@ -4,13 +4,23 @@
 " Source:  https://github.com/bimlas/vim-high
 " License: MIT license
 
-function! high#commandline#listLighters(argLead, cmdLine, cursorPos) "{{{
-  let list = high#utils#ListOfLighters()
-  return filter(list.autoloaded+list.user_defined, 'v:val =~ "^'.a:argLead.'"')
+function! high#commandline#Completion(arg_lead, cmd_line, cursor_pos) "{{{
+  return filter(high#commandline#ListOfLighters(), 'v:val =~ "^'.a:arg_lead.'"')
 endfunction "}}}
 
-function! high#commandline#toggle(group_name, ...) "{{{
-  for group in (a:group_name == '*' ? high#utils#ListOfLighters() : [a:group_name])
+function! high#commandline#ListOfLighters() "{{{
+  let autoloaded = map(split(globpath(&runtimepath, 'autoload/high/light/*'), '\n'), 'fnamemodify(v:val, ":p:t:r")')
+  if exists('g:high_lighters')
+    let user_defined = keys(g:high_lighters)
+    call filter(user_defined, 'index(autoloaded, v:val) < 0')
+  else
+    let user_defined = []
+  endif
+  return sort(autoloaded + user_defined)
+endfunction "}}}
+
+function! high#commandline#Toggle(group_name, ...) "{{{
+  for group in (a:group_name == '*' ? high#commandline#ListOfLighters() : [a:group_name])
     if !high#group#IsRegistered(group)
       let settings = high#group#Register(group)
       if a:0
