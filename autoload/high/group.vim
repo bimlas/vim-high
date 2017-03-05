@@ -18,7 +18,6 @@ function! high#group#Register(group_name) "{{{
     throw '[high] No such group: '.a:group_name
   endif
   let new.group_name = a:group_name
-  let g:high.lighter_groups[a:group_name] = []
   let g:high.registered_groups[a:group_name] = new
   " If the group controlls the highlight by self (manual highlight), then
   " initialization would never reach.
@@ -30,10 +29,10 @@ endfunction "}}}
 
 function! high#group#Init(group_name) "{{{
   let settings = high#group#GetSettings(a:group_name)
+  let g:high.lighter_groups[a:group_name] = []
   if high#group#IsAutoloaded(a:group_name)
     call high#light#{a:group_name}#Init(settings)
   endif
-  let settings.initialized = 1
 endfunction "}}}
 
 function! high#group#IsAutoloaded(group_name) "{{{
@@ -49,7 +48,7 @@ function! high#group#IsRegistered(group_name) "{{{
 endfunction "}}}
 
 function! high#group#IsInitialized(group_name) "{{{
-  return high#group#GetSettings(a:group_name).initialized
+  return has_key(g:high.lighter_groups, a:group_name)
 endfunction "}}}
 
 function! high#group#GetSettings(group_name) "{{{

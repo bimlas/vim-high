@@ -16,7 +16,6 @@ let g:high = {
 \ 'lighter_groups': {},
 \ 'registered_groups': {},
 \ 'defaults': {
-\   'initialized': 0,
 \   'enabled': 1,
 \   'group_name': '',
 \   'whitelist' : [],
