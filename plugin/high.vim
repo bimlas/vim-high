@@ -24,7 +24,6 @@ let g:high = {
 \   'pattern': '',
 \   'pattern_to_eval': '',
 \   '__group_name': '',
-\   '__rules': {},
 \   '__init_function': '',
 \   '__auto_highlight': 1,
 \   '__match_id_index': -1,

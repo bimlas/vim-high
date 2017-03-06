@@ -7,9 +7,7 @@
 function! high#light#unite_directory#Define()
   return {
   \ 'hlgroup': 'Directory',
-  \ '__rules': {
-  \   'whitelist': ['unite'],
-  \   'pattern': '^\s\(file\s\|directory\s\)\?\zs.*/$',
-  \ },
+  \ 'whitelist': ['unite'],
+  \ 'pattern': '^\s\(file\s\|directory\s\)\?\zs.*/$',
   \ }
 endfunction

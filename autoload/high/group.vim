@@ -17,9 +17,6 @@ function! high#group#Register(group_name) abort "{{{
   if exists('g:high_lighters')
     call extend(new, get(g:high_lighters, a:group_name, {}))
   endif
-  if !empty(new.__rules)
-    call extend(new, new.__rules)
-  endif
   " TODO: if settings not changed, then it's an invalid group name.
   " else
   "   throw '[high] No such group: '.a:group_name

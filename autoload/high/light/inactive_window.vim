@@ -7,7 +7,7 @@
 function! high#light#inactive_window#Define()
   return {
   \ 'hlgroup': 'Comment',
-  \ '__rules': {'pattern': '.*'},
+  \ 'pattern': '.*',
   \ '__init_function': function('s:Init'),
   \ '__auto_highlight': 0,
   \ }

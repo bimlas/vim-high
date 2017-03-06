@@ -4,14 +4,13 @@
 " Source:  https://github.com/bimlas/vim-high
 " License: MIT license
 
+let s:hlgroups_index = 0
+
 function! high#light#words#Define()
   return {
   \ '_hlgroups': ['Pmenu', 'PmenuSel', 'PmenuSbar'],
   \ '_map_add': '<Leader>k',
   \ '_map_clear': '<Leader>K',
-  \ '__rules': {
-  \   '_hlgroups_index': 0,
-  \ },
   \ '__auto_highlight': 0,
   \ '__init_function': function('s:Init'),
   \ }
@@ -31,10 +30,10 @@ function! high#light#words#AddWord(cword) "{{{
   let clone.pattern = '\<'.a:cword.'\>'
 
   " Set up the highlight group and switch to the next one.
-  let clone.hlgroup = words._hlgroups[words._hlgroups_index]
-  let words._hlgroups_index += 1
-  if words._hlgroups_index >= len(words._hlgroups)
-    let words._hlgroups_index = 0
+  let clone.hlgroup = words._hlgroups[s:hlgroups_index]
+  let s:hlgroups_index += 1
+  if s:hlgroups_index >= len(words._hlgroups)
+    let s:hlgroups_index = 0
   endif
 
   call high#core#ManualHighlight(words, 1)
