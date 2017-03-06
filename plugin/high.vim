@@ -33,12 +33,12 @@ let g:high = {
 "                              COMMANDLINE                                {{{1
 " ============================================================================
 
-command! -nargs=1 -complete=customlist,high#commandline#Completion
-\ HighDisable call high#commandline#Toggle(<f-args>, 0)
-command! -nargs=1 -complete=customlist,high#commandline#Completion
-\ HighEnable call high#commandline#Toggle(<f-args>, 1)
-command! -nargs=1 -complete=customlist,high#commandline#Completion
-\ HighToggle call high#commandline#Toggle(<f-args>)
+command! -nargs=* -complete=customlist,high#commandline#Completion
+\ HighDisable call high#commandline#Toggle(0, <f-args>)
+command! -nargs=* -complete=customlist,high#commandline#Completion
+\ HighEnable call high#commandline#Toggle(1, <f-args>)
+command! -nargs=* -complete=customlist,high#commandline#Completion
+\ HighToggle call high#commandline#Toggle(-1, <f-args>)
 
 "                              INIT LIGHTERS                              {{{1
 " ============================================================================

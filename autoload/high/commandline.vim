@@ -19,16 +19,14 @@ function! high#commandline#ListOfLighters() "{{{
   return sort(autoloaded + user_defined)
 endfunction "}}}
 
-function! high#commandline#Toggle(group_name, ...) "{{{
-  for group in (a:group_name == '*' ? high#commandline#ListOfLighters() : [a:group_name])
+function! high#commandline#Toggle(enabled, ...) "{{{
+  for group in (a:0 ? a:000 : high#commandline#ListOfLighters())
     if !high#group#IsRegistered(group)
       let settings = high#group#Register(group)
-      if a:0
-        let settings.enabled = a:1
-      endif
+      let settings.enabled = 1
     else
       let settings = high#group#GetSettings(group)
-      let settings.enabled = a:0 ? a:1 : !settings.enabled
+      let settings.enabled = (a:enabled >= 0 ? a:enabled : !settings.enabled)
     endif
     windo call high#core#Highlight(settings)
   endfor
