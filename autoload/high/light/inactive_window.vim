@@ -18,7 +18,7 @@ function! s:Init(options)
 
   augroup high_inactive_window "{{{
     autocmd!
-    autocmd WinEnter * call high#core#ManualHighlight(high#group#GetSettings('inactive_window'), 0)
-    autocmd WinLeave * call high#core#ManualHighlight(high#group#GetSettings('inactive_window'), 1)
+    autocmd WinEnter * call high#core#HighlightGroup(high#group#GetSettings('inactive_window'), 0)
+    autocmd WinLeave * call high#core#HighlightGroup(high#group#GetSettings('inactive_window'), 1)
   augroup END "}}}
 endfunction

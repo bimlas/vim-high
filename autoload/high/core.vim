@@ -8,11 +8,11 @@ let s:match_id_index = 0
 
 function! high#core#Highlight(group_settings) "{{{
   if a:group_settings.__auto_highlight
-    call high#core#ManualHighlight(a:group_settings, 1)
+    call high#core#HighlightGroup(a:group_settings, 1)
   endif
 endfunction "}}}
 
-function! high#core#ManualHighlight(group_settings, enabled) "{{{
+function! high#core#HighlightGroup(group_settings, enabled) "{{{
   call high#core#InitMatchID()
   if a:enabled && high#Core#IsEnabled(a:group_settings)
     if !high#group#IsInitialized(a:group_settings.__group_name)
@@ -28,7 +28,7 @@ function! high#core#ManualHighlight(group_settings, enabled) "{{{
   endif
 endfunction "}}}
 
-function! high#core#IndividualHighlight(lighter, enabled) "{{{
+function! high#core#HighlightSingle(lighter, enabled) "{{{
   call high#core#InitMatchID()
   if a:enabled && high#Core#IsEnabled(a:lighter)
     call high#core#MatchAdd(a:lighter)

@@ -14,7 +14,7 @@ Describe core
     It adds a match for pattern
       let lighter.pattern = 'regex'
       call high#core#AddLighter(lighter)
-      call high#core#ManualHighlight(lighter, 1)
+      call high#core#HighlightGroup(lighter, 1)
       Assert Equals(len(getmatches()), 1)
       Assert Equals(getmatches()[0].id, high#core#GetMatchID(lighter))
       Assert Equals(getmatches()[0].pattern, lighter.pattern)
@@ -23,8 +23,8 @@ Describe core
     It removes the match of pattern
       let lighter.pattern = 'regex'
       call high#core#AddLighter(lighter)
-      call high#core#ManualHighlight(lighter, 1)
-      call high#core#ManualHighlight(lighter, 0)
+      call high#core#HighlightGroup(lighter, 1)
+      call high#core#HighlightGroup(lighter, 0)
       Assert Empty(getmatches())
       Assert Equals(high#core#GetMatchID(lighter), -1)
     End
