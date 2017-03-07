@@ -9,9 +9,6 @@ if exists('g:loaded_high')
 endif
 let g:loaded_high = 1
 
-"                            DEFAULT SETTINGS                             {{{1
-" ============================================================================
-
 let g:high = {
 \ 'registered_groups': {},
 \ 'group_members': {},
@@ -27,21 +24,8 @@ let g:high = {
 \   '__init_function': '',
 \   '__auto_highlight': 1,
 \   '__match_id_index': -1,
+\ },
 \ }
-\ }
-
-"                              COMMANDLINE                                {{{1
-" ============================================================================
-
-command! -nargs=* -complete=customlist,high#commandline#Completion
-\ HighDisable call high#commandline#Toggle(0, <f-args>)
-command! -nargs=* -complete=customlist,high#commandline#Completion
-\ HighEnable call high#commandline#Toggle(1, <f-args>)
-command! -nargs=* -complete=customlist,high#commandline#Completion
-\ HighToggle call high#commandline#Toggle(-1, <f-args>)
-
-"                              INIT LIGHTERS                              {{{1
-" ============================================================================
 
 if exists('g:high_lighters')
   if has_key(g:high_lighters, '_')
@@ -52,8 +36,12 @@ if exists('g:high_lighters')
   endfor
 endif
 
-"                              AUTOCOMMANDS                               {{{1
-" ============================================================================
+command! -nargs=* -complete=customlist,high#commandline#Completion
+\ HighDisable call high#commandline#Toggle(0, <f-args>)
+command! -nargs=* -complete=customlist,high#commandline#Completion
+\ HighEnable call high#commandline#Toggle(1, <f-args>)
+command! -nargs=* -complete=customlist,high#commandline#Completion
+\ HighToggle call high#commandline#Toggle(-1, <f-args>)
 
 augroup high
   autocmd! WinEnter,BufWinEnter,FileType *
