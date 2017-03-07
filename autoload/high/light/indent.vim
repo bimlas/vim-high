@@ -6,6 +6,7 @@
 
 function! high#light#indent#Define()
   return {
+  \ 'priority': -2,
   \ '_levels': 15,
   \ '_start_level': 0,
   \ '_size': 0,
