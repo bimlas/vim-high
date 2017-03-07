@@ -14,7 +14,7 @@ endfunction "}}}
 
 function! high#core#HighlightGroup(group_settings, enabled) "{{{
   call high#core#InitMatchID()
-  if a:enabled && high#Core#IsEnabled(a:group_settings)
+  if a:enabled && high#core#IsEnabled(a:group_settings)
     if !high#group#IsInitialized(a:group_settings.__group_name)
       call high#group#Init(a:group_settings.__group_name)
     endif
@@ -30,7 +30,7 @@ endfunction "}}}
 
 function! high#core#HighlightSingle(lighter, enabled) "{{{
   call high#core#InitMatchID()
-  if a:enabled && high#Core#IsEnabled(a:lighter)
+  if a:enabled && high#core#IsEnabled(a:lighter)
     call high#core#MatchAdd(a:lighter)
   else
     call high#core#MatchClear(a:lighter)
@@ -47,7 +47,7 @@ function! high#core#AddLighter(lighter) "{{{
   call extend(g:high.group_members[a:lighter.__group_name], [a:lighter])
 endfunction "}}}
 
-function! high#Core#IsEnabled(settings) "{{{
+function! high#core#IsEnabled(settings) "{{{
   return a:settings.enabled && high#core#EnabledForFiletype(a:settings, &filetype)
 endfunction "}}}
 
