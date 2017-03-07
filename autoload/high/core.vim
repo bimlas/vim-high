@@ -14,7 +14,7 @@ endfunction "}}}
 
 function! high#core#ManualHighlight(group_settings, enabled) "{{{
   call high#core#InitMatchID()
-  if a:group_settings.enabled && a:enabled && high#core#EnabledForFiletype(a:group_settings, &filetype)
+  if a:enabled && high#Core#IsEnabled(a:group_settings)
     if !high#group#IsInitialized(a:group_settings.__group_name)
       call high#group#Init(a:group_settings.__group_name)
     endif
@@ -28,6 +28,15 @@ function! high#core#ManualHighlight(group_settings, enabled) "{{{
   endif
 endfunction "}}}
 
+function! high#core#IndividualHighlight(lighter, enabled) "{{{
+  call high#core#InitMatchID()
+  if a:enabled && high#Core#IsEnabled(a:lighter)
+    call high#core#MatchAdd(a:lighter)
+  else
+    call high#core#MatchClear(a:lighter)
+  endif
+endfunction "}}}
+
 function! high#core#Clone(...) "{{{
   return deepcopy(a:0 ? a:1 : g:high.defaults)
 endfunction "}}}
@@ -36,6 +45,10 @@ function! high#core#AddLighter(lighter) "{{{
   let a:lighter.__match_id_index = s:match_id_index
   let s:match_id_index += 1
   call extend(g:high.group_members[a:lighter.__group_name], [a:lighter])
+endfunction "}}}
+
+function! high#Core#IsEnabled(settings) "{{{
+  return a:settings.enabled && high#core#EnabledForFiletype(a:settings, &filetype)
 endfunction "}}}
 
 function! high#core#EnabledForFiletype(lighter, filetype) "{{{

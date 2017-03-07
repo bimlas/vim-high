@@ -12,8 +12,6 @@
 "     let g:high_lighters.words._hlgroups += ['HighWords'.color]
 "   endfor
 
-let s:hlgroups_index = 0
-
 function! high#light#words#Define()
   return {
   \ '_hlgroups': ['Pmenu', 'PmenuSel', 'PmenuSbar'],
@@ -27,6 +25,7 @@ endfunction
 function! s:Init(options)
   exe 'nnoremap <silent> '.a:options._map_add.' :call high#light#words#AddWord(expand("<cword>"))<CR>'
   exe 'nnoremap <silent> '.a:options._map_clear.' :call high#light#words#ClearWords()<CR>'
+  let s:hlgroups_index = 0
 endfunction
 
 function! high#light#words#AddWord(cword) "{{{
@@ -44,7 +43,7 @@ function! high#light#words#AddWord(cword) "{{{
     let s:hlgroups_index = 0
   endif
 
-  call high#core#ManualHighlight(words, 1)
+  call high#core#IndividualHighlight(clone, 1)
 endfunction "}}}
 
 function! high#light#words#ClearWords() "{{{
