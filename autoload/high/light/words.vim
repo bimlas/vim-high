@@ -17,6 +17,7 @@ function! high#light#words#Define()
   \ '_hlgroups': ['Pmenu', 'PmenuSel', 'PmenuSbar'],
   \ '_map_add': '<Leader>k',
   \ '_map_clear': '<Leader>K',
+  \ '_current_window_only': 1,
   \ '__auto_highlight': 0,
   \ '__init_function': function('s:Init'),
   \ }
@@ -43,10 +44,22 @@ function! high#light#words#AddWord(cword) "{{{
     let s:hlgroups_index = 0
   endif
 
-  call high#core#IndividualHighlight(clone, 1)
+  if words._current_window_only
+    call high#core#HighlightSingle(clone, 1)
+  else
+    windo call high#core#HighlightGroup(clone, 1)
+  endif
 endfunction "}}}
 
 function! high#light#words#ClearWords() "{{{
+  let words = high#group#GetSettings('words')
   " TODO: return if group not enabled
-  call high#core#ManualHighlight(high#group#GetSettings('words'), 0)
+  " TODO: do not clear every lighter, but window-local only
+  if words._current_window_only
+    for lighter in high#group#GetMembers('words')
+      call high#core#HighlightSingle(lighter, 0)
+    endfor
+  else
+    windo call high#core#HighlightGroup(words, 0)
+  endif
 endfunction "}}}
