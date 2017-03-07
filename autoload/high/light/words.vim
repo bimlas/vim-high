@@ -3,6 +3,14 @@
 " Author:  Bimba Laszlo <https://github.com/bimlas>
 " Source:  https://github.com/bimlas/vim-high
 " License: MIT license
+"
+" An example setup to get nicer colors:
+"
+"   let g:high_lighters = {'words': {'_hlgroups': []}}
+"   for color in ['8ccbea', 'a4e57e', 'ffdb72', 'ff7272', 'ffb3ff', '9999ff']
+"     exe 'autocmd vimrc ColorScheme,VimEnter * highlight! HighWords'.color.' guibg=#'.color.' guifg=#000000'
+"     let g:high_lighters.words._hlgroups += ['HighWords'.color]
+"   endfor
 
 let s:hlgroups_index = 0
 
