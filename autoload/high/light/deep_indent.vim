@@ -6,7 +6,7 @@
 
 function! high#light#deep_indent#Define()
   return {
-  \ 'hlgroup': 'LineNr',
+  \ 'hlgroup': 'CursorLine',
   \ '_min_levels': 5,
   \ 'pattern_to_eval': '"\\v^\\s{".(&shiftwidth*high#group#GetSettings("deep_indent")._min_levels).",}|^\\t{".high#group#GetSettings("deep_indent")._min_levels.",}"',
   \ }
