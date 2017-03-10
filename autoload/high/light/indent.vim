@@ -13,16 +13,34 @@ function! high#light#indent#Define()
   \ '_hlgroupA': 'Pmenu',
   \ '_hlgroupB': 'PmenuSel',
   \ '__init_function': function('s:Init'),
+  \ '__update_function': function('s:Update'),
   \ }
 endfunction
 
 function! s:Init(options)
-  for i in range(a:options._start_level, a:options._levels-1)
-    call high#core#AddLighter(extend(high#core#Clone(a:options), {
-    \ 'pattern_to_eval':
-    \   '"\\v^( {".&sw."}|\\t){'.i.'}\\zs( {'.(a:options._size > 0 ? a:options._size : '".&sw."').'}|\\t)"',
-    \ 'hlgroup':
-    \   a:options[i%2 ? '_hlgroupB' : '_hlgroupA'],
-    \ }))
+  for nr in range(a:options._start_level, a:options._levels-1)
+    call high#core#AddLighter(high#core#Clone(a:options))
   endfor
 endfunction
+
+function! s:Update(options) "{{{
+  if exists('w:high_indent_prev_sw') && (w:high_indent_prev_sw == &shiftwidth)
+    let w:high_indent_prev_sw = &shiftwidth
+    return 0
+  endif
+  let w:high_indent_prev_sw = &shiftwidth
+
+  let lighters = high#group#GetMembers('indent')
+  for nr in range(a:options._start_level, a:options._levels-1)
+    call s:UpdateLighter(lighters[nr], nr)
+  endfor
+  return 1
+endfunction "}}}
+
+function! s:UpdateLighter(lighter, nr) "{{{
+  let a:lighter.pattern =
+  \ '\v^( {'.&sw.'}|\t){'.a:nr.'}\zs( {'.(a:lighter._size > 0 ? a:lighter._size : &sw).'}|\t)'
+  let a:lighter.hlgroup =
+  \ a:lighter[a:nr%2 ? '_hlgroupB' : '_hlgroupA']
+  return a:lighter
+endfunction "}}}

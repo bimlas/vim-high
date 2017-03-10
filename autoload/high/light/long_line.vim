@@ -15,10 +15,14 @@ endfunction
 function! s:Init(options)
   if a:options._length
     let a:options.pattern =
-    \ '\%'.string(a:options+1).'v'.(a:options._single_column ? '' : '\\+')
+    \ '\%'.(a:options._length+1).'v.'.(a:options._single_column ? '' : '\+')
   else
-    let a:options.pattern_to_eval =
-    \ '&textwidth > 0 ? "\\%".string(&textwidth+1)."v.'.(a:options._single_column ? '' : '\\+').'" : ""'
+    let a:options.__update_function = function('s:Update')
   endif
   call high#core#AddLighter(a:options)
 endfunction
+
+function! s:Update(options) "{{{
+  let a:options.pattern =
+  \ &textwidth > 0 ? '\%'.(&textwidth+1).'v.'.(a:options._single_column ? '' : '\+') : ''
+endfunction "}}}

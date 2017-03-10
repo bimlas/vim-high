@@ -18,7 +18,11 @@ function! high#core#HighlightGroup(group_settings, enabled) "{{{
     if !high#group#IsInitialized(a:group_settings.__group_name)
       call high#group#Init(a:group_settings.__group_name)
     endif
+    let have_to_update = high#core#PatternChanged(a:group_settings)
     for lighter in high#group#GetMembers(a:group_settings.__group_name)
+      if have_to_update
+        call high#core#MatchClear(lighter)
+      endif
       call high#core#MatchAdd(lighter)
     endfor
   else
@@ -57,9 +61,6 @@ function! high#core#EnabledForFiletype(lighter, filetype) "{{{
 endfunction "}}}
 
 function! high#core#MatchAdd(lighter) "{{{
-  if high#core#PatternChanged(a:lighter)
-    call high#core#MatchClear(a:lighter)
-  endif
   if high#core#GetMatchID(a:lighter) < 0
     call high#core#SetMatchID(a:lighter, matchadd(a:lighter.hlgroup, a:lighter.pattern, a:lighter.priority))
   endif
@@ -91,12 +92,5 @@ function! high#core#SetMatchID(lighter, id) "{{{
 endfunction "}}}
 
 function! high#core#PatternChanged(lighter) "{{{
-  if empty(a:lighter.pattern_to_eval)
-    return 0
-  endif
-  let a:lighter.pattern = eval(a:lighter.pattern_to_eval)
-  " TODO: find a faster way to detect if the match is exists in the current
-  " window.
-  let current_match = filter(getmatches(), 'v:val.id == '.high#core#GetMatchID(a:lighter))
-  return !empty(current_match) && (a:lighter.pattern != current_match[0].pattern)
+  return empty(a:lighter.__update_function) ? 0 : a:lighter.__update_function(a:lighter)
 endfunction "}}}
