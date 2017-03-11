@@ -15,7 +15,7 @@ let g:high = {
 \ 'defaults': {
 \   'enabled': 1,
 \   'whitelist': [],
-\   'blacklist': [],
+\   'blacklist': ['help', 'qf'],
 \   'hlgroup': 'ErrorMsg',
 \   'priority': -1,
 \   'pattern': '',
