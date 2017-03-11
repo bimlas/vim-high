@@ -44,7 +44,8 @@ command! -nargs=* -complete=customlist,high#commandline#Completion
 \ HighToggle call high#commandline#Toggle(-1, <f-args>)
 
 augroup high
-  autocmd! WinEnter,BufWinEnter,FileType *
+  autocmd!
+  autocmd WinEnter,BufWinEnter,FileType *
   \ for group in values(g:high.registered_groups)
   \ | call high#core#Highlight(group)
   \ | endfor

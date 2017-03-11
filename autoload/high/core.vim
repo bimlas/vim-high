@@ -39,6 +39,15 @@ function! high#core#HighlightSingle(lighter, enabled) "{{{
   endif
 endfunction "}}}
 
+function! high#core#UpdateGroups() "{{{
+  for group_settings in values(g:high.registered_groups)
+    if empty(group_settings.__update_function)
+      continue
+    endif
+    call high#core#Highlight(group_settings)
+  endfor
+endfunction "}}}
+
 function! high#core#Clone(...) "{{{
   return deepcopy(a:0 ? a:1 : g:high.defaults)
 endfunction "}}}
