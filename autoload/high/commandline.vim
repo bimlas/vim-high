@@ -9,7 +9,10 @@ function! high#commandline#Completion(arg_lead, cmd_line, cursor_pos) "{{{
 endfunction "}}}
 
 function! high#commandline#ListOfGroupNames() "{{{
-  let autoloaded = map(split(globpath(&runtimepath, 'autoload/high/light/*'), '\n'), 'fnamemodify(v:val, ":p:t:r")')
+  let autoloaded = map(
+  \ split(globpath(&runtimepath, 'autoload/high/light/*'), '\n'),
+  \ 'fnamemodify(v:val, ":p:t:r")')
+
   if exists('g:high_lighters')
     let user_defined = keys(g:high_lighters)
     call filter(user_defined, 'index(autoloaded, v:val) < 0')

@@ -45,7 +45,9 @@ endfunction "}}}
 
 function! high#core#MatchAdd(lighter) "{{{
   if high#core#GetMatchID(a:lighter) < 0
-    call high#core#SetMatchID(a:lighter, matchadd(a:lighter.hlgroup, a:lighter.pattern, a:lighter.priority))
+    call high#core#SetMatchID(
+    \ a:lighter,
+    \ matchadd(a:lighter.hlgroup, a:lighter.pattern, a:lighter.priority))
   endif
 endfunction "}}}
 
