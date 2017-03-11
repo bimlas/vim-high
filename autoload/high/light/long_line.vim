@@ -19,7 +19,7 @@ function! s:Init(options)
   else
     let a:options.__update_function = function('s:Update')
   endif
-  call high#core#AddLighter(a:options)
+  call high#group#AddMember(a:options)
 endfunction
 
 function! s:Update(options) "{{{

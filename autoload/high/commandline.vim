@@ -5,10 +5,10 @@
 " License: MIT license
 
 function! high#commandline#Completion(arg_lead, cmd_line, cursor_pos) "{{{
-  return filter(high#commandline#ListOfLighters(), 'v:val =~ "^'.a:arg_lead.'"')
+  return filter(high#commandline#ListOfGroupNames(), 'v:val =~ "^'.a:arg_lead.'"')
 endfunction "}}}
 
-function! high#commandline#ListOfLighters() "{{{
+function! high#commandline#ListOfGroupNames() "{{{
   let autoloaded = map(split(globpath(&runtimepath, 'autoload/high/light/*'), '\n'), 'fnamemodify(v:val, ":p:t:r")')
   if exists('g:high_lighters')
     let user_defined = keys(g:high_lighters)
@@ -20,12 +20,12 @@ function! high#commandline#ListOfLighters() "{{{
 endfunction "}}}
 
 function! high#commandline#Toggle(enabled, ...) "{{{
-  for group in (a:0 ? a:000 : high#commandline#ListOfLighters())
-    if !high#group#IsRegistered(group)
-      let settings = high#group#Register(group)
+  for group_name in (a:0 ? a:000 : high#commandline#ListOfGroupNames())
+    if !high#group#IsRegistered(group_name)
+      let settings = high#group#Register(group_name)
       let settings.enabled = 1
     else
-      let settings = high#group#GetSettings(group)
+      let settings = high#group#GetSettings(group_name)
       let settings.enabled = (a:enabled >= 0 ? a:enabled : !settings.enabled)
     endif
     windo call high#core#Highlight(settings)

@@ -19,7 +19,7 @@ endfunction
 
 function! s:Init(options)
   for nr in range(a:options._start_level, a:options._levels-1)
-    call high#core#AddLighter(high#core#Clone(a:options))
+    call high#group#AddMember(high#core#Clone(a:options))
   endfor
 endfunction
 

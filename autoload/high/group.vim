@@ -4,6 +4,8 @@
 " Source:  https://github.com/bimlas/vim-high
 " License: MIT license
 
+let s:match_id_index = 0
+
 function! high#group#Register(group_name) abort "{{{
   let new = high#core#Clone()
   try
@@ -37,8 +39,14 @@ function! high#group#Init(group_name) "{{{
   if !empty(settings.__init_function)
     call call(settings.__init_function, [settings])
   else
-    call high#core#AddLighter(settings)
+    call high#group#AddMember(settings)
   endif
+endfunction "}}}
+
+function! high#group#AddMember(lighter) "{{{
+  let a:lighter.__match_id_index = s:match_id_index
+  let s:match_id_index += 1
+  call extend(g:high.group_members[a:lighter.__group_name], [a:lighter])
 endfunction "}}}
 
 function! high#group#IsUserDefined(group_name) "{{{
@@ -53,6 +61,15 @@ function! high#group#IsInitialized(group_name) "{{{
   return has_key(g:high.group_members, a:group_name)
 endfunction "}}}
 
+function! high#group#IsEnabled(group_settings) "{{{
+  return a:group_settings.enabled && high#group#IsEnabledForFiletype(a:group_settings, &filetype)
+endfunction "}}}
+
+function! high#group#IsEnabledForFiletype(group_settings, filetype) "{{{
+  return (empty(a:group_settings.whitelist) || index(a:group_settings.whitelist, a:filetype) >= 0)
+  \ && (empty(a:group_settings.blacklist) || index(a:group_settings.blacklist, a:filetype) < 0)
+endfunction "}}}
+
 function! high#group#GetSettings(group_name) "{{{
   return get(g:high.registered_groups, a:group_name, {})
 endfunction "}}}
@@ -64,4 +81,10 @@ endfunction "}}}
 function! high#group#DropMembers(group_name) "{{{
   windo call high#core#HighlightGroup(high#group#GetSettings(a:group_name), 0)
   let g:high.group_members[a:group_name] = []
+endfunction "}}}
+
+function! high#group#HaveToUpdate(group_settings) "{{{
+  return empty(a:group_settings.__update_function)
+  \ ? 0
+  \ : a:group_settings.__update_function(a:group_settings)
 endfunction "}}}

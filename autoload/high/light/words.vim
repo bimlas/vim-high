@@ -33,7 +33,7 @@ function! high#light#words#AddWord(cword) "{{{
   " TODO: return if group not enabled
   let words = high#group#GetSettings('words')
   let clone = high#core#Clone(words)
-  call high#core#AddLighter(clone)
+  call high#group#AddMember(clone)
 
   let clone.pattern = '\<'.a:cword.'\>'
 

@@ -13,7 +13,7 @@ Describe core
   Describe #manualHighlight
     It adds a match for pattern
       let lighter.pattern = 'regex'
-      call high#core#AddLighter(lighter)
+      call high#group#AddMember(lighter)
       call high#core#HighlightGroup(lighter, 1)
       Assert Equals(len(getmatches()), 1)
       Assert Equals(getmatches()[0].id, high#core#GetMatchID(lighter))
@@ -22,7 +22,7 @@ Describe core
 
     It removes the match of pattern
       let lighter.pattern = 'regex'
-      call high#core#AddLighter(lighter)
+      call high#group#AddMember(lighter)
       call high#core#HighlightGroup(lighter, 1)
       call high#core#HighlightGroup(lighter, 0)
       Assert Empty(getmatches())
@@ -81,7 +81,7 @@ Describe core
   Describe #addLighter
     It adds the lighter to the list of loaded ones
       Assert Empty(high#group#GetMembers(lighter.group_name))
-      call high#core#AddLighter(lighter)
+      call high#group#AddMember(lighter)
       Assert LengthOf(g:high.group_members, 1)
       Assert HasKey(g:high.group_members, 'test')
       Assert LengthOf(high#group#GetMembers(lighter.group_name), 1)
@@ -93,10 +93,10 @@ Describe core
       Assert Empty(high#group#GetMembers(group.group_name))
       let a = high#core#Clone(group)
       let a.pattern = 'pattern a'
-      call high#core#AddLighter(a)
+      call high#group#AddMember(a)
       let b = high#core#Clone(group)
       let b.pattern = 'pattern b'
-      call high#core#AddLighter(b)
+      call high#group#AddMember(b)
       Assert LengthOf(g:high.group_members, 1)
       Assert HasKey(g:high.group_members, 'group')
       Assert LengthOf(g:high.group_members['group'], 2)
@@ -109,28 +109,28 @@ Describe core
     It enabled for every filetype by default
       let lighter.whitelist = []
       let lighter.blacklist = []
-      Assert Equals(high#core#EnabledForFiletype(lighter, 'text'), 1)
-      Assert Equals(high#core#EnabledForFiletype(lighter, 'asciidoc'), 1)
+      Assert Equals(high#group#IsEnabledForFiletype(lighter, 'text'), 1)
+      Assert Equals(high#group#IsEnabledForFiletype(lighter, 'asciidoc'), 1)
     End
 
     It enabled only for whitelisted filetypes
       let lighter.whitelist = ['text']
       let lighter.blacklist = []
-      Assert Equals(high#core#EnabledForFiletype(lighter, 'text'), 1)
-      Assert Equals(high#core#EnabledForFiletype(lighter, 'asciidoc'), 0)
+      Assert Equals(high#group#IsEnabledForFiletype(lighter, 'text'), 1)
+      Assert Equals(high#group#IsEnabledForFiletype(lighter, 'asciidoc'), 0)
     End
 
     It disabled only for blacklisted filetypes
       let lighter.whitelist = []
       let lighter.blacklist = ['text']
-      Assert Equals(high#core#EnabledForFiletype(lighter, 'text'), 0)
-      Assert Equals(high#core#EnabledForFiletype(lighter, 'asciidoc'), 1)
+      Assert Equals(high#group#IsEnabledForFiletype(lighter, 'text'), 0)
+      Assert Equals(high#group#IsEnabledForFiletype(lighter, 'asciidoc'), 1)
     End
 
     It disabled for both blacklisted and whitelisted filetypes
       let lighter.whitelist = ['text']
       let lighter.blacklist = ['text']
-      Assert Equals(high#core#EnabledForFiletype(lighter, 'text'), 0)
+      Assert Equals(high#group#IsEnabledForFiletype(lighter, 'text'), 0)
     End
   End
 

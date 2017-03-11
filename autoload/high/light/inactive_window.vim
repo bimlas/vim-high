@@ -14,7 +14,7 @@ function! high#light#inactive_window#Define()
 endfunction
 
 function! s:Init(options)
-  call high#core#AddLighter(a:options)
+  call high#group#AddMember(a:options)
 
   augroup high_inactive_window "{{{
     autocmd!
