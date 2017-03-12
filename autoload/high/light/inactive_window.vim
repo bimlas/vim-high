@@ -13,12 +13,12 @@ function! high#light#inactive_window#Define()
   \ }
 endfunction
 
-function! s:Init(options)
+function! s:Init(options) "{{{
   call high#group#AddMember(a:options)
 
-  augroup high_inactive_window "{{{
+  augroup high_inactive_window
     autocmd!
     autocmd WinEnter * call high#core#HighlightGroup(high#group#GetSettings('inactive_window'), 0)
     autocmd WinLeave * call high#core#HighlightGroup(high#group#GetSettings('inactive_window'), 1)
-  augroup END "}}}
-endfunction
+  augroup END
+endfunction "}}}

@@ -12,7 +12,7 @@ function! high#light#long_line#Define()
   \ }
 endfunction
 
-function! s:Init(options)
+function! s:Init(options) "{{{
   if a:options._length
     let a:options.pattern =
     \ '\%'.(a:options._length+1).'v.'.(a:options._single_column ? '' : '\+')
@@ -20,7 +20,7 @@ function! s:Init(options)
     let a:options.__update_function = function('s:Update')
   endif
   call high#group#AddMember(a:options)
-endfunction
+endfunction "}}}
 
 function! s:Update(options) "{{{
   let a:options.pattern =

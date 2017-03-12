@@ -17,11 +17,11 @@ function! high#light#indent#Define()
   \ }
 endfunction
 
-function! s:Init(options)
+function! s:Init(options) "{{{
   for nr in range(a:options._start_level, a:options._levels-1)
     call high#group#AddMember(high#core#Clone(a:options))
   endfor
-endfunction
+endfunction "}}}
 
 function! s:Update(options) "{{{
   if exists('w:high_indent_prev_sw') && (w:high_indent_prev_sw == &shiftwidth)

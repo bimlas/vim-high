@@ -8,7 +8,8 @@
 "
 "   let g:high_lighters = {'words': {'_hlgroups': []}}
 "   for color in ['8ccbea', 'a4e57e', 'ffdb72', 'ff7272', 'ffb3ff', '9999ff']
-"     exe 'autocmd vimrc ColorScheme,VimEnter * highlight! HighWords'.color.' guibg=#'.color.' guifg=#000000'
+"     exe 'autocmd vimrc ColorScheme,VimEnter *
+"     \ highlight! HighWords'.color.' guibg=#'.color.' guifg=#000000'
 "     let g:high_lighters.words._hlgroups += ['HighWords'.color]
 "   endfor
 
@@ -22,11 +23,11 @@ function! high#light#words#Define()
   \ }
 endfunction
 
-function! s:Init(options)
+function! s:Init(options) "{{{
   exe 'nnoremap <silent> '.a:options._map_add.' :call high#light#words#AddWord(expand("<cword>"))<CR>'
   exe 'nnoremap <silent> '.a:options._map_clear.' :call high#light#words#ClearWords()<CR>'
   let s:hlgroups_index = 0
-endfunction
+endfunction "}}}
 
 function! high#light#words#AddWord(cword) "{{{
   " TODO: return if group not enabled
