@@ -3,6 +3,9 @@
 " Author:  Bimba Laszlo <https://github.com/bimlas>
 " Source:  https://github.com/bimlas/vim-high
 " License: MIT license
+"
+" Inspired by:
+" https://github.com/blueyed/vim-diminactive
 
 function! high#light#inactive_window#Define()
   return {

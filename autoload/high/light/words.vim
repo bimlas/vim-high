@@ -4,6 +4,9 @@
 " Source:  https://github.com/bimlas/vim-high
 " License: MIT license
 "
+" Inspired by:
+" https://github.com/lfv89/vim-interestingwords
+"
 " An example setup to get nicer colors:
 "
 "   let g:high_lighters = {'words': {'_hlgroups': []}}

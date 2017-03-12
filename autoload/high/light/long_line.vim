@@ -3,6 +3,9 @@
 " Author:  Bimba Laszlo <https://github.com/bimlas>
 " Source:  https://github.com/bimlas/vim-high
 " License: MIT license
+"
+" Inspired by:
+" https://github.com/whatyouhide/vim-lengthmatters
 
 function! high#light#long_line#Define()
   return {

@@ -51,3 +51,31 @@ settings below the call of `high#group#Customize()` are not customizables.
 Some lighters have specifical settings, like
 link:autoload/high/light/indent.vim[indent]: `_levels`, `_hlgroupA`, etc. It
 can be configured as above.
+
+// == Example for user-created lighter
+//
+// https://github.com/Valloric/vim-operator-highlight
+
+== Plugins that inspired
+
+|===
+h| Name of lighter h| Original plugin
+
+| link:autoload/high/light/deep_indent.vim[deep_indent]
+| https://github.com/dodie/vim-disapprove-deep-indentation[dodie/vim-disapprove-deep-indentation]
+
+| link:autoload/high/light/inactive_window.vim[inactive_window]
+| https://github.com/blueyed/vim-diminactive[blueyed/vim-diminactive]
+
+| link:autoload/high/light/indent.vim[indent]
+| https://github.com/nathanaelkane/vim-indent-guides[nathanaelkane/vim-indent-guides]
+
+| link:autoload/high/light/long_line.vim[long_line]
+| https://github.com/whatyouhide/vim-lengthmatters[whatyouhide/vim-lengthmatters]
+
+| link:autoload/high/light/trailing_whitespace.vim[trailing_whitespace]
+| https://github.com/ntpeters/vim-better-whitespace[ntpeters/vim-better-whitespace]
+
+| link:autoload/high/light/words.vim[words]
+| https://github.com/lfv89/vim-interestingwords[lfv89/vim-interestingwords]
+|===
