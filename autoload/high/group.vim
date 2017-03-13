@@ -49,10 +49,6 @@ function! high#group#AddMember(lighter) "{{{
   call extend(g:high.group_members[a:lighter.__group_name], [a:lighter])
 endfunction "}}}
 
-function! high#group#IsUserDefined(group_name) "{{{
-  return exists('g:high_lighters') && has_key(g:high_lighters, a:group_name)
-endfunction "}}}
-
 function! high#group#IsRegistered(group_name) "{{{
   return has_key(g:high.registered_groups, a:group_name)
 endfunction "}}}
@@ -76,11 +72,6 @@ endfunction "}}}
 
 function! high#group#GetMembers(group_name) "{{{
   return get(g:high.group_members, a:group_name, [])
-endfunction "}}}
-
-function! high#group#DropMembers(group_name) "{{{
-  windo call high#core#HighlightGroup(high#group#GetSettings(a:group_name), 0)
-  let g:high.group_members[a:group_name] = []
 endfunction "}}}
 
 function! high#group#HaveToUpdate(group_settings) "{{{
