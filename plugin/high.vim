@@ -47,6 +47,6 @@ augroup high
   autocmd!
   autocmd WinEnter,BufWinEnter,FileType *
   \ for group in values(g:high.registered_groups)
-  \ | call high#core#Highlight(group)
+  \ | call high#Light(group)
   \ | endfor
 augroup END

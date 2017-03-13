@@ -22,7 +22,7 @@ endfunction
 
 function! s:Init(options) "{{{
   for nr in range(a:options._start_level, a:options._levels-1)
-    call high#group#AddMember(high#core#Clone(a:options))
+    call high#group#AddMember(high#utils#Clone(a:options))
   endfor
 endfunction "}}}
 

@@ -35,7 +35,7 @@ endfunction "}}}
 function! high#light#words#AddWord(cword) "{{{
   " TODO: return if group not enabled
   let words = high#group#GetSettings('words')
-  let clone = high#core#Clone(words)
+  let clone = high#utils#Clone(words)
   call high#group#AddMember(clone)
 
   let clone.pattern = '\<'.a:cword.'\>'
@@ -47,10 +47,10 @@ function! high#light#words#AddWord(cword) "{{{
     let s:hlgroups_index = 0
   endif
 
-  call high#core#HighlightSingle(clone, 1)
+  call high#LightSingle(clone, 1)
 endfunction "}}}
 
 function! high#light#words#ClearWords() "{{{
   let words = high#group#GetSettings('words')
-  call high#core#HighlightGroup(words, 0)
+  call high#LightGroup(words, 0)
 endfunction "}}}

@@ -7,7 +7,7 @@
 let s:match_id_index = 0
 
 function! high#group#Register(group_name) abort "{{{
-  let new = high#core#Clone()
+  let new = high#utils#Clone()
   try
     call extend(new, high#light#{a:group_name}#Define())
   " Slows down a bit.

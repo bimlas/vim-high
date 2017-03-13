@@ -14,7 +14,7 @@ Describe core
     It adds a match for pattern
       let lighter.pattern = 'regex'
       call high#group#AddMember(lighter)
-      call high#core#HighlightGroup(lighter, 1)
+      call high#LightGroup(lighter, 1)
       Assert Equals(len(getmatches()), 1)
       Assert Equals(getmatches()[0].id, high#core#GetMatchID(lighter))
       Assert Equals(getmatches()[0].pattern, lighter.pattern)
@@ -23,8 +23,8 @@ Describe core
     It removes the match of pattern
       let lighter.pattern = 'regex'
       call high#group#AddMember(lighter)
-      call high#core#HighlightGroup(lighter, 1)
-      call high#core#HighlightGroup(lighter, 0)
+      call high#LightGroup(lighter, 1)
+      call high#LightGroup(lighter, 0)
       Assert Empty(getmatches())
       Assert Equals(high#core#GetMatchID(lighter), -1)
     End
@@ -68,11 +68,11 @@ Describe core
 
   Describe #clone
     It returns a clone of default settings
-      Assert Equals(g:high.defaults, high#core#Clone())
+      Assert Equals(g:high.defaults, high#utils#Clone())
     End
 
     It returns a clone of argument
-      let clone = high#core#Clone(lighter)
+      let clone = high#utils#Clone(lighter)
       Assert Equals(lighter, clone)
       Assert NotSame(lighter, clone)
     End
@@ -91,10 +91,10 @@ Describe core
     It can add more lighters to the same group
       let group = high#group#Register('group')
       Assert Empty(high#group#GetMembers(group.group_name))
-      let a = high#core#Clone(group)
+      let a = high#utils#Clone(group)
       let a.pattern = 'pattern a'
       call high#group#AddMember(a)
-      let b = high#core#Clone(group)
+      let b = high#utils#Clone(group)
       let b.pattern = 'pattern b'
       call high#group#AddMember(b)
       Assert LengthOf(g:high.group_members, 1)
