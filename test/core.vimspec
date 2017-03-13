@@ -16,7 +16,7 @@ Describe core
       call high#group#AddMember(lighter)
       call high#LightGroup(lighter, 1)
       Assert Equals(len(getmatches()), 1)
-      Assert Equals(getmatches()[0].id, high#core#GetMatchID(lighter))
+      Assert Equals(getmatches()[0].id, high#match#GetID(lighter))
       Assert Equals(getmatches()[0].pattern, lighter.pattern)
     End
 
@@ -26,7 +26,7 @@ Describe core
       call high#LightGroup(lighter, 1)
       call high#LightGroup(lighter, 0)
       Assert Empty(getmatches())
-      Assert Equals(high#core#GetMatchID(lighter), -1)
+      Assert Equals(high#match#GetID(lighter), -1)
     End
   End
 

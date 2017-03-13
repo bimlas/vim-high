@@ -11,7 +11,7 @@ function! high#Light(group_settings) "{{{
 endfunction "}}}
 
 function! high#LightGroup(group_settings, enabled) "{{{
-  call high#core#InitMatchID()
+  call high#match#InitIDs()
   if a:enabled && high#group#IsEnabled(a:group_settings)
     if !high#group#IsInitialized(a:group_settings.__group_name)
       call high#group#Init(a:group_settings.__group_name)
@@ -19,23 +19,23 @@ function! high#LightGroup(group_settings, enabled) "{{{
     let have_to_update = high#group#HaveToUpdate(a:group_settings)
     for lighter in high#group#GetMembers(a:group_settings.__group_name)
       if have_to_update
-        call high#core#MatchClear(lighter)
+        call high#match#Clear(lighter)
       endif
-      call high#core#MatchAdd(lighter)
+      call high#match#Add(lighter)
     endfor
   else
     for lighter in high#group#GetMembers(a:group_settings.__group_name)
-      call high#core#MatchClear(lighter)
+      call high#match#Clear(lighter)
     endfor
   endif
 endfunction "}}}
 
 function! high#LightSingle(lighter, enabled) "{{{
-  call high#core#InitMatchID()
+  call high#match#InitIDs()
   if a:enabled && high#group#IsEnabled(a:lighter)
-    call high#core#MatchAdd(a:lighter)
+    call high#match#Add(a:lighter)
   else
-    call high#core#MatchClear(a:lighter)
+    call high#match#Clear(a:lighter)
   endif
 endfunction "}}}
 
