@@ -13,8 +13,8 @@ function! high#light#indent#Define()
   \ '_levels': 15,
   \ '_start_level': 0,
   \ '_size': 0,
-  \ '_hlgroupA': 'Pmenu',
-  \ '_hlgroupB': 'PmenuSel',
+  \ '_hlgroupA': 'PmenuSel',
+  \ '_hlgroupB': 'CursorLine',
   \ '__init_function': function('s:Init'),
   \ '__update_function': function('s:Update'),
   \ }
