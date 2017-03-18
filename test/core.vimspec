@@ -1,4 +1,4 @@
-Describe core
+Describe group
 
   Before
     " Drop every buffer and window.
@@ -6,31 +6,9 @@ Describe core
     " Reinitialize the whole plugin to clear the loaded lighters.
     unlet g:loaded_high
     source plugin/high.vim
-
-    let lighter = high#group#Register('test')
   End
 
-  Describe #manualHighlight
-    It adds a match for pattern
-      let lighter.pattern = 'regex'
-      call high#group#AddMember(lighter)
-      call high#LightGroup(lighter, 1)
-      Assert Equals(len(getmatches()), 1)
-      Assert Equals(getmatches()[0].id, high#match#GetID(lighter))
-      Assert Equals(getmatches()[0].pattern, lighter.pattern)
-    End
-
-    It removes the match of pattern
-      let lighter.pattern = 'regex'
-      call high#group#AddMember(lighter)
-      call high#LightGroup(lighter, 1)
-      call high#LightGroup(lighter, 0)
-      Assert Empty(getmatches())
-      Assert Equals(high#match#GetID(lighter), -1)
-    End
-  End
-
-  Describe #registerGroup
+  Describe #Register
     It registers the group
       Assert False(high#group#IsRegistered('new'))
       call high#group#Register('new')
@@ -38,23 +16,20 @@ Describe core
     End
 
     It registers custom lighter
-      let g:high_lighters = {'group': {'hlgroup': 'Normal'}}
-      call high#group#Register('group')
-      Assert Equals(high#group#GetSettings('group')['hlgroup'], 'Normal')
+      let g:high_lighters = {'custom': {'hlgroup': 'Normal'}}
+      call high#group#Register('custom')
+      Assert Equals(high#group#GetSettings('custom')['hlgroup'], 'Normal')
     End
 
     It registers autoloaded lighter
-      Assert NotEmpty(high#group#IsAutoloaded('mixed_eol'))
       call high#group#Register('mixed_eol')
       Assert Equals(high#group#GetSettings('mixed_eol')['pattern'], '\r')
     End
 
     It applies customization
-      let g:high_lighters = {'mixed_eol': {'hlgroup': 'Normal', 'pattern': 'not customizable'}}
-      Assert NotEmpty(high#group#IsAutoloaded('mixed_eol'))
+      let g:high_lighters = {'mixed_eol': {'hlgroup': 'Normal'}}
       call high#group#Register('mixed_eol')
       Assert Equals(high#group#GetSettings('mixed_eol')['hlgroup'], 'Normal')
-      Assert Equals(high#group#GetSettings('mixed_eol')['pattern'], '\r')
     End
   End
 
@@ -66,72 +41,93 @@ Describe core
     End
   End
 
-  Describe #clone
-    It returns a clone of default settings
-      Assert Equals(g:high.defaults, high#utils#Clone())
-    End
-
-    It returns a clone of argument
-      let clone = high#utils#Clone(lighter)
-      Assert Equals(lighter, clone)
-      Assert NotSame(lighter, clone)
-    End
-  End
-
-  Describe #addLighter
-    It adds the lighter to the list of loaded ones
-      Assert Empty(high#group#GetMembers(lighter.group_name))
-      call high#group#AddMember(lighter)
-      Assert LengthOf(g:high.group_members, 1)
-      Assert HasKey(g:high.group_members, 'test')
-      Assert LengthOf(high#group#GetMembers(lighter.group_name), 1)
-      Assert Same(high#group#GetMembers(lighter.group_name)[0], lighter)
-    End
-
-    It can add more lighters to the same group
-      let group = high#group#Register('group')
-      Assert Empty(high#group#GetMembers(group.group_name))
-      let a = high#utils#Clone(group)
-      let a.pattern = 'pattern a'
-      call high#group#AddMember(a)
-      let b = high#utils#Clone(group)
-      let b.pattern = 'pattern b'
-      call high#group#AddMember(b)
-      Assert LengthOf(g:high.group_members, 1)
-      Assert HasKey(g:high.group_members, 'group')
-      Assert LengthOf(g:high.group_members['group'], 2)
-      Assert Same(g:high.group_members['group'][0], a)
-      Assert Same(g:high.group_members['group'][1], b)
-    End
-  End
-
-  Describe #enabledForFiletype
-    It enabled for every filetype by default
-      let lighter.whitelist = []
-      let lighter.blacklist = []
-      Assert Equals(high#group#IsEnabledForFiletype(lighter, 'text'), 1)
-      Assert Equals(high#group#IsEnabledForFiletype(lighter, 'asciidoc'), 1)
-    End
-
-    It enabled only for whitelisted filetypes
-      let lighter.whitelist = ['text']
-      let lighter.blacklist = []
-      Assert Equals(high#group#IsEnabledForFiletype(lighter, 'text'), 1)
-      Assert Equals(high#group#IsEnabledForFiletype(lighter, 'asciidoc'), 0)
-    End
-
-    It disabled only for blacklisted filetypes
-      let lighter.whitelist = []
-      let lighter.blacklist = ['text']
-      Assert Equals(high#group#IsEnabledForFiletype(lighter, 'text'), 0)
-      Assert Equals(high#group#IsEnabledForFiletype(lighter, 'asciidoc'), 1)
-    End
-
-    It disabled for both blacklisted and whitelisted filetypes
-      let lighter.whitelist = ['text']
-      let lighter.blacklist = ['text']
-      Assert Equals(high#group#IsEnabledForFiletype(lighter, 'text'), 0)
-    End
-  End
+  " Describe #enabledForFiletype
+  "   It enabled for every filetype by default
+  "     let lighter.whitelist = []
+  "     let lighter.blacklist = []
+  "     Assert Equals(high#group#IsEnabledForFiletype(lighter, 'text'), 1)
+  "     Assert Equals(high#group#IsEnabledForFiletype(lighter, 'asciidoc'), 1)
+  "   End
+  "
+  "   It enabled only for whitelisted filetypes
+  "     let lighter.whitelist = ['text']
+  "     let lighter.blacklist = []
+  "     Assert Equals(high#group#IsEnabledForFiletype(lighter, 'text'), 1)
+  "     Assert Equals(high#group#IsEnabledForFiletype(lighter, 'asciidoc'), 0)
+  "   End
+  "
+  "   It disabled only for blacklisted filetypes
+  "     let lighter.whitelist = []
+  "     let lighter.blacklist = ['text']
+  "     Assert Equals(high#group#IsEnabledForFiletype(lighter, 'text'), 0)
+  "     Assert Equals(high#group#IsEnabledForFiletype(lighter, 'asciidoc'), 1)
+  "   End
+  "
+  "   It disabled for both blacklisted and whitelisted filetypes
+  "     let lighter.whitelist = ['text']
+  "     let lighter.blacklist = ['text']
+  "     Assert Equals(high#group#IsEnabledForFiletype(lighter, 'text'), 0)
+  "   End
+  " End
 
 End
+
+  " Describe #manualHighlight
+  "   It adds a match for pattern
+  "     let lighter.pattern = 'regex'
+  "     call high#group#AddMember(lighter)
+  "     call high#LightGroup(lighter, 1)
+  "     Assert Equals(len(getmatches()), 1)
+  "     Assert Equals(getmatches()[0].id, high#match#GetID(lighter))
+  "     Assert Equals(getmatches()[0].pattern, lighter.pattern)
+  "   End
+  "
+  "   It removes the match of pattern
+  "     let lighter.pattern = 'regex'
+  "     call high#group#AddMember(lighter)
+  "     call high#LightGroup(lighter, 1)
+  "     call high#LightGroup(lighter, 0)
+  "     Assert Empty(getmatches())
+  "     Assert Equals(high#match#GetID(lighter), -1)
+  "   End
+  " End
+  "
+  " Describe #clone
+  "   It returns a clone of default settings
+  "     Assert Equals(g:high.defaults, high#utils#Clone())
+  "   End
+  "
+  "   It returns a clone of argument
+  "     let clone = high#utils#Clone(lighter)
+  "     Assert Equals(lighter, clone)
+  "     Assert NotSame(lighter, clone)
+  "   End
+  " End
+  "
+  " Describe #addLighter
+  "   It adds the lighter to the list of loaded ones
+  "     Assert Empty(high#group#GetMembers(lighter.group_name))
+  "     call high#group#AddMember(lighter)
+  "     Assert LengthOf(g:high.group_members, 1)
+  "     Assert HasKey(g:high.group_members, 'test')
+  "     Assert LengthOf(high#group#GetMembers(lighter.group_name), 1)
+  "     Assert Same(high#group#GetMembers(lighter.group_name)[0], lighter)
+  "   End
+  "
+  "   It can add more lighters to the same group
+  "     let group = high#group#Register('group')
+  "     Assert Empty(high#group#GetMembers(group.group_name))
+  "     let a = high#utils#Clone(group)
+  "     let a.pattern = 'pattern a'
+  "     call high#group#AddMember(a)
+  "     let b = high#utils#Clone(group)
+  "     let b.pattern = 'pattern b'
+  "     call high#group#AddMember(b)
+  "     Assert LengthOf(g:high.group_members, 1)
+  "     Assert HasKey(g:high.group_members, 'group')
+  "     Assert LengthOf(g:high.group_members['group'], 2)
+  "     Assert Same(g:high.group_members['group'][0], a)
+  "     Assert Same(g:high.group_members['group'][1], b)
+  "   End
+  " End
+  "
