@@ -21,6 +21,11 @@ Describe group
       Assert Equals(high#group#GetSettings('mixed_eol')['pattern'], '\r')
     End
 
+    It registers passed settings as a new lighter
+      call high#group#Register('passed', {'hlgroup': 'Normal'})
+      Assert Equals(high#group#GetSettings('passed')['hlgroup'], 'Normal')
+    End
+
     It fails if lighter settings are not defined at all
       Throws /\[high\] No such group: not_exists/ high#group#Register('not_exists')
     End

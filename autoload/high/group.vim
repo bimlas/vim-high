@@ -6,18 +6,11 @@
 
 let s:match_id_index = 0
 
-function! high#group#Register(group_name) abort "{{{
-  let new = high#utils#Clone()
-  try
-    call extend(new, high#light#{a:group_name}#Define())
-  " Slows down a bit.
-  catch /.*/
-    if !exists('g:high_lighters') || !has_key(g:high_lighters, a:group_name)
-      throw '[high] No such group: '.a:group_name
-    endif
-  endtry
-  if exists('g:high_lighters')
-    call extend(new, get(g:high_lighters, a:group_name, {}))
+function! high#group#Register(group_name, ...) abort "{{{
+  if a:0
+    let new = extend(high#utils#Clone(), a:1)
+  else
+    let new = high#group#LoadSetting(a:group_name)
   endif
   " TODO: if settings not changed, then it's an invalid group name.
   " else
@@ -31,6 +24,26 @@ function! high#group#Register(group_name) abort "{{{
     call high#group#Init(a:group_name)
   endif
   return new
+endfunction "}}}
+
+function! high#group#LoadSetting(group_name) abort "{{{
+  let autoloaded = 1
+  let user_defined = 1
+  let settings = high#utils#Clone()
+  try
+    call extend(settings, high#light#{a:group_name}#Define())
+  catch /.*/
+    let autoloaded = 0
+  endtry
+  try
+    call extend(settings, g:high_lighters[a:group_name])
+  catch /.*/
+    let user_defined = 0
+  endtry
+  if !(autoloaded || user_defined)
+    throw '[high] No such group: '.a:group_name
+  endif
+  return settings
 endfunction "}}}
 
 function! high#group#Init(group_name) "{{{
