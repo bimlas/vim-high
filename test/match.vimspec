@@ -1,0 +1,58 @@
+Describe match
+
+  Before
+    call ResetSettings()
+  End
+
+  Describe #LightSingle
+    Before
+      let group = high#group#Register('group', {'pattern': 'regex'})
+      call high#group#Init('group')
+      let lighter = high#group#GetMembers('group')[0]
+    End
+
+    It adds a match for pattern
+      call high#LightSingle(lighter, 1)
+      Assert Equals(len(getmatches()), 1)
+      Assert Equals(getmatches()[0].id, high#match#GetID(lighter))
+      Assert Equals(getmatches()[0].pattern, lighter.pattern)
+    End
+
+    " SKIP
+    It removes the match of pattern
+      Skip Compatible, but fails
+      call high#LightSingle(lighter, 1)
+      call high#LightSingle(lighter, 0)
+      Assert Empty(getmatches())
+      Assert Equals(high#match#GetID(lighter), -1)
+    End
+  End
+
+  " Describe #addLighter
+  "   It adds the lighter to the list of loaded ones
+  "     Assert Empty(high#group#GetMembers(lighter.group_name))
+  "     call high#group#AddMember(lighter)
+  "     Assert LengthOf(g:high.group_members, 1)
+  "     Assert HasKey(g:high.group_members, 'test')
+  "     Assert LengthOf(high#group#GetMembers(lighter.group_name), 1)
+  "     Assert Same(high#group#GetMembers(lighter.group_name)[0], lighter)
+  "   End
+  "
+  "   It can add more lighters to the same group
+  "     let group = high#group#Register('group')
+  "     Assert Empty(high#group#GetMembers(group.group_name))
+  "     let a = high#utils#Clone(group)
+  "     let a.pattern = 'pattern a'
+  "     call high#group#AddMember(a)
+  "     let b = high#utils#Clone(group)
+  "     let b.pattern = 'pattern b'
+  "     call high#group#AddMember(b)
+  "     Assert LengthOf(g:high.group_members, 1)
+  "     Assert HasKey(g:high.group_members, 'group')
+  "     Assert LengthOf(g:high.group_members['group'], 2)
+  "     Assert Same(g:high.group_members['group'][0], a)
+  "     Assert Same(g:high.group_members['group'][1], b)
+  "   End
+  " End
+
+End

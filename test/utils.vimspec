@@ -1,0 +1,21 @@
+Describe utils
+
+  Before
+    call ResetSettings()
+  End
+
+  Describe #Clone
+    It returns a clone of default settings
+      Assert Equals(g:high.defaults, high#utils#Clone())
+    End
+
+    It returns a clone of argument
+      let base = high#utils#Clone()
+      let base.hlgroup = 'Normal'
+      let clone = high#utils#Clone(base)
+      Assert Equals(base, clone)
+      Assert NotSame(base, clone)
+    End
+  End
+
+End

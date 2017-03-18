@@ -1,12 +1,7 @@
 Describe group
 
   Before
-    " Drop every buffer and window.
-    silent! %bwipeout
-    " Reinitialize the whole plugin to clear the loaded lighters.
-    unlet g:loaded_high
-    silent! unlet g:high_lighters
-    source plugin/high.vim
+    call ResetSettings()
   End
 
   Describe #Register
@@ -46,34 +41,38 @@ Describe group
     End
   End
 
-  " Describe #enabledForFiletype
-  "   It enabled for every filetype by default
-  "     let lighter.whitelist = []
-  "     let lighter.blacklist = []
-  "     Assert Equals(high#group#IsEnabledForFiletype(lighter, 'text'), 1)
-  "     Assert Equals(high#group#IsEnabledForFiletype(lighter, 'asciidoc'), 1)
-  "   End
-  "
-  "   It enabled only for whitelisted filetypes
-  "     let lighter.whitelist = ['text']
-  "     let lighter.blacklist = []
-  "     Assert Equals(high#group#IsEnabledForFiletype(lighter, 'text'), 1)
-  "     Assert Equals(high#group#IsEnabledForFiletype(lighter, 'asciidoc'), 0)
-  "   End
-  "
-  "   It disabled only for blacklisted filetypes
-  "     let lighter.whitelist = []
-  "     let lighter.blacklist = ['text']
-  "     Assert Equals(high#group#IsEnabledForFiletype(lighter, 'text'), 0)
-  "     Assert Equals(high#group#IsEnabledForFiletype(lighter, 'asciidoc'), 1)
-  "   End
-  "
-  "   It disabled for both blacklisted and whitelisted filetypes
-  "     let lighter.whitelist = ['text']
-  "     let lighter.blacklist = ['text']
-  "     Assert Equals(high#group#IsEnabledForFiletype(lighter, 'text'), 0)
-  "   End
-  " End
+  Describe #IsEnabledForFiletype
+    Before
+      let group = high#group#Register('group', {})
+    End
+
+    It enabled for every filetype by default
+      let group.whitelist = []
+      let group.blacklist = []
+      Assert Equals(high#group#IsEnabledForFiletype(group, 'text'), 1)
+      Assert Equals(high#group#IsEnabledForFiletype(group, 'asciidoc'), 1)
+    End
+
+    It enabled only for whitelisted filetypes
+      let group.whitelist = ['text']
+      let group.blacklist = []
+      Assert Equals(high#group#IsEnabledForFiletype(group, 'text'), 1)
+      Assert Equals(high#group#IsEnabledForFiletype(group, 'asciidoc'), 0)
+    End
+
+    It disabled only for blacklisted filetypes
+      let group.whitelist = []
+      let group.blacklist = ['text']
+      Assert Equals(high#group#IsEnabledForFiletype(group, 'text'), 0)
+      Assert Equals(high#group#IsEnabledForFiletype(group, 'asciidoc'), 1)
+    End
+
+    It disabled for both blacklisted and whitelisted filetypes
+      let group.whitelist = ['text']
+      let group.blacklist = ['text']
+      Assert Equals(high#group#IsEnabledForFiletype(group, 'text'), 0)
+    End
+  End
 
 End
 
@@ -94,18 +93,6 @@ End
   "     call high#LightGroup(lighter, 0)
   "     Assert Empty(getmatches())
   "     Assert Equals(high#match#GetID(lighter), -1)
-  "   End
-  " End
-  "
-  " Describe #clone
-  "   It returns a clone of default settings
-  "     Assert Equals(g:high.defaults, high#utils#Clone())
-  "   End
-  "
-  "   It returns a clone of argument
-  "     let clone = high#utils#Clone(lighter)
-  "     Assert Equals(lighter, clone)
-  "     Assert NotSame(lighter, clone)
   "   End
   " End
   "

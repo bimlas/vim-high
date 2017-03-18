@@ -4,3 +4,12 @@ language messages C
 call themis#helper('command').with(themis#helper('assert'))
 call themis#option('recursive', 1)
 call themis#option('reporter', 'spec')
+
+function! ResetSettings() "{{{
+  " Drop every buffer and window.
+  silent! %bwipeout
+  " Reinitialize the whole plugin to clear the loaded lighters.
+  unlet g:loaded_high
+  silent! unlet g:high_lighters
+  source plugin/high.vim
+endfunction "}}}
