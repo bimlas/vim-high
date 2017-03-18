@@ -12,7 +12,7 @@ function! high#group#Register(group_name) abort "{{{
     call extend(new, high#light#{a:group_name}#Define())
   " Slows down a bit.
   catch /.*/
-    if exists('g:high_lighters') && !has_key(g:high_lighters, a:group_name)
+    if !exists('g:high_lighters') || !has_key(g:high_lighters, a:group_name)
       throw '[high] No such group: '.a:group_name
     endif
   endtry

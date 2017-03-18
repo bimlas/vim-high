@@ -5,17 +5,12 @@ Describe group
     silent! %bwipeout
     " Reinitialize the whole plugin to clear the loaded lighters.
     unlet g:loaded_high
+    silent! unlet g:high_lighters
     source plugin/high.vim
   End
 
   Describe #Register
-    It registers the group
-      Assert False(high#group#IsRegistered('new'))
-      call high#group#Register('new')
-      Assert True(high#group#IsRegistered('new'))
-    End
-
-    It registers custom lighter
+    It registers user defined lighter
       let g:high_lighters = {'custom': {'hlgroup': 'Normal'}}
       call high#group#Register('custom')
       Assert Equals(high#group#GetSettings('custom')['hlgroup'], 'Normal')
@@ -26,6 +21,10 @@ Describe group
       Assert Equals(high#group#GetSettings('mixed_eol')['pattern'], '\r')
     End
 
+    It fails if lighter settings are not defined at all
+      Throws /\[high\] No such group: not_exists/ high#group#Register('not_exists')
+    End
+
     It applies customization
       let g:high_lighters = {'mixed_eol': {'hlgroup': 'Normal'}}
       call high#group#Register('mixed_eol')
@@ -33,8 +32,9 @@ Describe group
     End
   End
 
-  Describe #initGroup
+  Describe #Init
     It calls the init function of autoloaded groups
+      call high#group#Register('mixed_eol')
       Assert Empty(high#group#GetMembers('mixed_eol'))
       call high#group#Init('mixed_eol')
       Assert NotEmpty(high#group#GetMembers('mixed_eol'))
