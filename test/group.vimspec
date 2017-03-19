@@ -4,23 +4,23 @@ Describe group
   End
 
   Describe #Register
-    It registers user defined lighter
+    It registers user defined group
       let g:high_lighters = {'custom': {'hlgroup': 'Normal'}}
       call high#group#Register('custom')
       Assert Equals(high#group#GetSettings('custom')['hlgroup'], 'Normal')
     End
 
-    It registers autoloaded lighter
+    It registers autoloaded group
       call high#group#Register('mixed_eol')
       Assert Equals(high#group#GetSettings('mixed_eol')['pattern'], '\r')
     End
 
-    It registers passed settings as a new lighter
+    It registers passed settings as a new group
       call high#group#Register('passed', {'hlgroup': 'Normal'})
       Assert Equals(high#group#GetSettings('passed')['hlgroup'], 'Normal')
     End
 
-    It fails if lighter settings are not defined at all
+    It fails if group settings are not defined at all
       Throws /\[high\] No such group: not_exists/ high#group#Register('not_exists')
     End
 
@@ -28,6 +28,27 @@ Describe group
       let g:high_lighters = {'mixed_eol': {'hlgroup': 'Normal'}}
       call high#group#Register('mixed_eol')
       Assert Equals(high#group#GetSettings('mixed_eol')['hlgroup'], 'Normal')
+    End
+  End
+
+  Describe #LoadSettings
+    It returns the settings of user defined group
+      let g:high_lighters = {'custom': {'hlgroup': 'Normal'}}
+      Assert Equals(high#group#LoadSettings('custom')['hlgroup'], 'Normal')
+    End
+
+    It returns the settings of autoloaded group
+      call high#group#Register('mixed_eol')
+      Assert Equals(high#group#LoadSettings('mixed_eol')['pattern'], '\r')
+    End
+
+    It fails if group settings are not defined at all
+      Throws /\[high\] No such group: not_exists/ high#group#LoadSettings('not_exists')
+    End
+
+    It applies customization
+      let g:high_lighters = {'mixed_eol': {'hlgroup': 'Normal'}}
+      Assert Equals(high#group#LoadSettings('mixed_eol')['hlgroup'], 'Normal')
     End
   End
 
@@ -72,6 +93,38 @@ Describe group
       Assert LengthOf(g:high.group_members['group'], 3)
       Assert Same(high#group#GetMembers('group')[1], a)
       Assert Same(high#group#GetMembers('group')[2], b)
+    End
+  End
+
+  Describe #IsRegistered
+    It checks that group is registered
+      Assert False(high#group#IsRegistered('group'))
+      call high#group#Register('group', {})
+      Assert True(high#group#IsRegistered('group'))
+    End
+  End
+
+  Describe #IsInitialized
+    It checks that group initialization is done
+      call high#group#Register('mixed_eol')
+      Assert False(high#group#IsInitialized('mixed_eol'))
+      call high#group#Init('mixed_eol')
+      Assert True(high#group#IsInitialized('mixed_eol'))
+    End
+  End
+
+  Describe #IsEnabled
+    It checks that white/blacklist and the group itself is enabled
+      let group = high#group#Register('group', {'whitelist': ['typeA'], 'enabled': 1})
+      set filetype=typeA
+      let group.enabled = 1
+      Assert True(high#group#IsEnabled(group))
+      set filetype=typeB
+      let group.enabled = 1
+      Assert False(high#group#IsEnabled(group))
+      set filetype=typeA
+      let group.enabled = 0
+      Assert False(high#group#IsEnabled(group))
     End
   End
 
