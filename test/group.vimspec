@@ -1,5 +1,4 @@
 Describe group
-
   Before
     call ResetSettings()
   End
@@ -108,5 +107,4 @@ Describe group
       Assert Equals(high#group#IsEnabledForFiletype(group, 'text'), 0)
     End
   End
-
 End
