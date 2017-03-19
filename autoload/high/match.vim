@@ -4,6 +4,15 @@
 " Source:  https://github.com/bimlas/vim-high
 " License: MIT license
 
+function! high#match#Highlight(lighter, enabled) "{{{
+  call high#match#InitIDs()
+  if a:enabled && high#group#IsEnabled(a:lighter)
+    call high#match#Add(a:lighter)
+  else
+    call high#match#Clear(a:lighter)
+  endif
+endfunction "}}}
+
 function! high#match#Add(lighter) "{{{
   if high#match#GetID(a:lighter) < 0
     call high#match#SetID(

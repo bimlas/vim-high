@@ -30,15 +30,6 @@ function! high#LightGroup(group_settings, enabled) "{{{
   endif
 endfunction "}}}
 
-function! high#LightSingle(lighter, enabled) "{{{
-  call high#match#InitIDs()
-  if a:enabled && high#group#IsEnabled(a:lighter)
-    call high#match#Add(a:lighter)
-  else
-    call high#match#Clear(a:lighter)
-  endif
-endfunction "}}}
-
 function! high#UpdateGroups() "{{{
   for group_settings in values(g:high.registered_groups)
     if empty(group_settings.__update_function)

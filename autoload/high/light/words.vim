@@ -47,7 +47,7 @@ function! high#light#words#AddWord(cword) "{{{
     let s:hlgroups_index = 0
   endif
 
-  call high#LightSingle(clone, 1)
+  call high#match#Highlight(clone, 1)
 endfunction "}}}
 
 function! high#light#words#ClearWords() "{{{

@@ -4,25 +4,25 @@ Describe match
     call ResetSettings()
   End
 
-  Describe #LightSingle
+  Describe #Highlight
     Before
       let group = high#group#Register('group', {'pattern': 'regex'})
       call high#group#Init('group')
       let lighter = high#group#GetMembers('group')[0]
     End
 
-    It adds a match for pattern
-      call high#LightSingle(lighter, 1)
+    It adds a match for lighter
+      call high#match#Highlight(lighter, 1)
       Assert Equals(len(getmatches()), 1)
       Assert Equals(getmatches()[0].id, high#match#GetID(lighter))
       Assert Equals(getmatches()[0].pattern, lighter.pattern)
     End
 
     " SKIP
-    It removes the match of pattern
+    It removes the match of lighter
       Skip Compatible, but fails
-      call high#LightSingle(lighter, 1)
-      call high#LightSingle(lighter, 0)
+      call high#match#Highlight(lighter, 1)
+      call high#match#Highlight(lighter, 0)
       Assert Empty(getmatches())
       Assert Equals(high#match#GetID(lighter), -1)
     End
