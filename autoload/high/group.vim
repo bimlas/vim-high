@@ -10,7 +10,7 @@ function! high#group#Register(group_name, ...) abort "{{{
   if a:0
     let new = extend(high#utils#Clone(), a:1)
   else
-    let new = high#group#LoadSetting(a:group_name)
+    let new = high#group#LoadSettings(a:group_name)
   endif
   " TODO: if settings not changed, then it's an invalid group name.
   " else
@@ -26,7 +26,7 @@ function! high#group#Register(group_name, ...) abort "{{{
   return new
 endfunction "}}}
 
-function! high#group#LoadSetting(group_name) abort "{{{
+function! high#group#LoadSettings(group_name) abort "{{{
   let autoloaded = 1
   let user_defined = 1
   let settings = high#utils#Clone()
