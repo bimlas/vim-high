@@ -39,6 +39,41 @@ Describe group
       call high#group#Init('mixed_eol')
       Assert NotEmpty(high#group#GetMembers('mixed_eol'))
     End
+
+    It adds a lighter if the group has no init function
+      call high#group#Register('user_defined', {})
+      Assert Empty(high#group#GetMembers('user_defined'))
+      call high#group#Init('user_defined')
+      Assert LengthOf(high#group#GetMembers('user_defined'), 1)
+    End
+  End
+
+  Describe #AddMember
+    Before
+      let group = high#group#Register('group', {})
+      call high#group#Init('group')
+      let lighter = high#utils#Clone(group)
+    End
+
+    It adds a lighter to the group
+      Assert LengthOf(high#group#GetMembers('group'), 1)
+      call high#group#AddMember(lighter)
+      Assert LengthOf(high#group#GetMembers('group'), 2)
+      Assert Same(high#group#GetMembers('group')[1], lighter)
+    End
+
+    It can add more lighters to the same group
+      Assert LengthOf(high#group#GetMembers('group'), 1)
+      let a = high#utils#Clone(group)
+      let a.pattern = 'pattern a'
+      call high#group#AddMember(a)
+      let b = high#utils#Clone(group)
+      let b.pattern = 'pattern b'
+      call high#group#AddMember(b)
+      Assert LengthOf(g:high.group_members['group'], 3)
+      Assert Same(high#group#GetMembers('group')[1], a)
+      Assert Same(high#group#GetMembers('group')[2], b)
+    End
   End
 
   Describe #IsEnabledForFiletype

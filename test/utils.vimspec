@@ -1,5 +1,4 @@
 Describe utils
-
   Before
     call ResetSettings()
   End
@@ -17,5 +16,4 @@ Describe utils
       Assert NotSame(base, clone)
     End
   End
-
 End
