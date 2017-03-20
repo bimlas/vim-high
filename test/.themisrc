@@ -8,7 +8,7 @@ call themis#option('reporter', 'spec')
 function! ResetSettings() "{{{
   " Drop every buffer and window.
   " IT DOES NOT REMOVES THE MATCHES (added by matchadd())
-  %bwipeout!
+  silent! %bwipeout!
   call clearmatches()
   " Reinitialize the whole plugin to clear the loaded lighters.
   unlet g:loaded_high
