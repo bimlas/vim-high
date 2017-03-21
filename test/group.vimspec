@@ -1,3 +1,11 @@
+function! s:ExampleForTrue(group_settings)
+  return 1
+endfunction
+
+function! s:ExampleForFalse(group_settings)
+  return 0
+endfunction
+
 Describe group
   Before
     call ResetSettings()
@@ -158,6 +166,21 @@ Describe group
       let group.whitelist = ['text']
       let group.blacklist = ['text']
       Assert Equals(high#group#IsEnabledForFiletype(group, 'text'), 0)
+    End
+  End
+
+  Describe #HaveToUpdate
+    It returns false if the group does not have update function
+      let group = high#group#Register('group', {})
+      Assert False(high#group#HaveToUpdate(group))
+    End
+
+    It returns with the return value of update function
+      let group = high#group#Register('group', {})
+      let group.__update_function = function('s:ExampleForFalse')
+      Assert False(high#group#HaveToUpdate(group))
+      let group.__update_function = function('s:ExampleForTrue')
+      Assert True(high#group#HaveToUpdate(group))
     End
   End
 End
