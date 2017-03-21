@@ -1,12 +1,12 @@
-function! s:ExampleForTrue(group_settings)
+function! ExampleForTrue(group_settings)
   return 1
 endfunction
 
-function! s:ExampleForFalse(group_settings)
+function! ExampleForFalse(group_settings)
   return 0
 endfunction
 
-Describe group
+Describe high#group
   Before
     call ResetSettings()
   End
@@ -177,9 +177,9 @@ Describe group
 
     It returns with the return value of update function
       let group = high#group#Register('group', {})
-      let group.__update_function = function('s:ExampleForFalse')
+      let group.__update_function = function('ExampleForFalse')
       Assert False(high#group#HaveToUpdate(group))
-      let group.__update_function = function('s:ExampleForTrue')
+      let group.__update_function = function('ExampleForTrue')
       Assert True(high#group#HaveToUpdate(group))
     End
   End
