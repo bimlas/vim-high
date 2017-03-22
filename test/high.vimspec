@@ -1,0 +1,51 @@
+
+Describe high
+  Before
+    call ResetSettings()
+
+    let group = high#group#Register('group', {'pattern': 'regex'})
+  End
+
+  Describe #Light
+    It highlights a registered group
+      Assert Empty(getmatches())
+      call high#Light(group)
+      let lighter = high#group#GetMembers('group')[0]
+      Assert LengthOf(getmatches(), 1)
+      Assert Equals(group.pattern, getmatches()[0].pattern)
+    End
+
+    It does nothing if the group has to highlight by script
+      let group.__auto_highlight = 0
+      Assert Empty(getmatches())
+      call high#Light(group)
+      Assert Empty(getmatches())
+    End
+  End
+
+  Describe #LightGroup
+    It highlights a registered group if enabled
+      Assert Empty(getmatches())
+      call high#LightGroup(group, 1)
+      let lighter = high#group#GetMembers('group')[0]
+      Assert LengthOf(getmatches(), 1)
+      Assert Equals(group.pattern, getmatches()[0].pattern)
+    End
+
+    It does nothing if disabled
+      Assert Empty(getmatches())
+      call high#LightGroup(group, 0)
+      Assert Empty(getmatches())
+    End
+
+    It removes the highlight of a disabled, but previously enabled group
+      Assert Empty(getmatches())
+      call high#LightGroup(group, 1)
+      let lighter = high#group#GetMembers('group')[0]
+      Assert LengthOf(getmatches(), 1)
+      Assert Equals(group.pattern, getmatches()[0].pattern)
+      call high#LightGroup(group, 0)
+      Assert Empty(getmatches())
+    End
+  End
+End

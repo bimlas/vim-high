@@ -1,11 +1,3 @@
-function! ExampleForTrue(group_settings)
-  return 1
-endfunction
-
-function! ExampleForFalse(group_settings)
-  return 0
-endfunction
-
 Describe high#group
   Before
     call ResetSettings()
