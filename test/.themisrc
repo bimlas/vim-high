@@ -19,10 +19,11 @@ endfunction "}}}
 "                                FIXTURES
 " ============================================================================
 
-function! ExampleForTrue(group_settings)
+let g:activator = ''
+function! UpdatePatternIfActivatorNotEmpty(group_settings)
+  if empty(g:activator)
+    return 0
+  endif
+  let a:group_settings.pattern = g:activator
   return 1
-endfunction
-
-function! ExampleForFalse(group_settings)
-  return 0
 endfunction

@@ -167,12 +167,16 @@ Describe high#group
       Assert False(high#group#HaveToUpdate(group))
     End
 
-    It returns with the return value of update function
-      let group = high#group#Register('group', {})
-      let group.__update_function = function('ExampleForFalse')
+    It returns true if the highlighting of the group has to be updated
+      let group = high#group#Register('group', {
+      \ 'pattern': 'regex',
+      \ '__update_function': function('UpdatePatternIfActivatorNotEmpty'),
+      \ })
+      let g:activator = ''
       Assert False(high#group#HaveToUpdate(group))
-      let group.__update_function = function('ExampleForTrue')
+      let g:activator = 'foo bar'
       Assert True(high#group#HaveToUpdate(group))
+      Assert Equals(group.pattern, 'foo bar')
     End
   End
 End

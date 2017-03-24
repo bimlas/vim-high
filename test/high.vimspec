@@ -1,4 +1,3 @@
-
 Describe high
   Before
     call ResetSettings()
@@ -46,6 +45,33 @@ Describe high
       Assert Equals(group.pattern, getmatches()[0].pattern)
       call high#LightGroup(group, 0)
       Assert Empty(getmatches())
+    End
+  End
+
+  Describe #UpdateGroups
+    It does nothing if the group does not have update function
+      let group = high#group#Register('group', {'pattern': 'regex'})
+      call high#Light(group)
+      Assert LengthOf(getmatches(), 1)
+      Assert Equals(getmatches()[0].pattern, 'regex')
+      call high#UpdateGroups()
+      Assert LengthOf(getmatches(), 1)
+      Assert Equals(getmatches()[0].pattern, 'regex')
+    End
+
+    It updates the highlighting of the group if the update function returns true
+      let group = high#group#Register('group', {
+      \ 'pattern': 'regex',
+      \ '__update_function': function('UpdatePatternIfActivatorNotEmpty'),
+      \ })
+      let g:activator = ''
+      call high#Light(group)
+      Assert LengthOf(getmatches(), 1)
+      Assert Equals(getmatches()[0].pattern, 'regex')
+      let g:activator = 'foo bar'
+      call high#UpdateGroups()
+      Assert LengthOf(getmatches(), 1)
+      Assert Equals(getmatches()[0].pattern, 'foo bar')
     End
   End
 End
