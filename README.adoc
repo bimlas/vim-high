@@ -3,16 +3,17 @@ image:https://img.shields.io/github/license/bimlas/vim-high.svg["License", link=
 
 = High: all-in-one highlighter plugin for Vim
 
-A Vim plugin to highlight custom (user-made) regex patterns on any buffer
-(filetype whitelist/blacklist supported), for example indentation, inactive
+A Vim plugin to highlight custom patterns on any buffer (filetype
+whitelist/blacklist supported), for example highlight indentation, inactive
 window, word under the cursor or even anything what you want.
-
-*It's in beta release, there might be critical bugs, API may change.*
 
 image::http://i.imgur.com/uvc4Y2e.png["Vim-High in action, showing the example config"]
 
-To try out, install in your prefered way, then add these lines to your
-_.vimrc_:
+To try out, install in your prefered way, then enable a lighter by
+`:HighEnable <C-D>`.
+
+To enable lighters by default, add the prefered ones to `g:high_lighter` as a
+dictionary in your _.vimrc_, like this:
 
 [source,viml]
 ----
@@ -30,31 +31,47 @@ let g:high_lighters = {
 <1> The `_` key means these settings will affect every lighter,
 <2> for example all of them will be disabled in these filetypes.
 <3> You can add predefined lighters, whose can be found in
-    _autoload/high/light_ directory.
+    link:autoload/high/light/[] directory.
 <4> To override the global settings, pass the lighter-specific ones in the
     dictionary.
-<5> You can create your own lighters like you want.
+<5> You can create your own lighters as you want.
+
+== Override default settings
 
 By default every lighter in `g:high_lighters` are enabled at Vim startup, but
 passing `'enabled': 0` will disable it. To use the lighter, call `:HighEnable
 lighter` or `:HighToggle lighter`.
 
 The available configuration parameters can be found in link:plugin/high.vim[]
-as `g:high.defaults`.
+as `g:high.defaults`. Options starting with double underscore
+(`__init_function` for example) are private and you shouldn't override those.
+See `:help matchadd` for `group`, `pattern` and `priority`; `:highlight` for
+possible values of `hlgroup`.
 
-Any of the settings can be overriden when adding a custom lighter, but some of
-them has hardcoded values in built-in highlighters. For example `pattern` in
-link:autoload/high/light/inactive_window.vim[inactive_window] have to be `.*`
-to match everything in the inactive window, so it cannot be customized. The
-settings below the call of `high#group#Customize()` are not customizables.
+Some lighters have specifical settings, starting with an underscore (`_length`
+of link:autoload/high/light/long_line.vim[long_line] for example) are
+lighter-specific, the underscore is used only to prevent conflicts with global
+settings, but you can safely override those.
 
-Some lighters have specifical settings, like
-link:autoload/high/light/indent.vim[indent]: `_levels`, `_hlgroupA`, etc. It
-can be configured as above.
+== Example of user-defined highlight
 
-// == Example for user-created lighter
-//
-// https://github.com/Valloric/vim-operator-highlight
+For example, a very basic implentation of
+https://github.com/Valloric/vim-operator-highlight should looks like this:
+
+[source,viml]
+----
+let g:high_lighters = {
+\ 'operator': {                                                            <1>
+\   'pattern': '[-?+|*;:,<>&|!~%=)({}.\[\]]',                              <2>
+\   'blacklist': ['help', 'markdown', 'qf', 'conque_term', 'diff', 'html', <3>
+\                 'css', 'less', 'xml', 'sh', 'bash', 'notes', 'jinja'],
+\   'hlgroup': 'Error',                                                    <4>
+\ }}
+----
+<1> Add a name to the lighter (which is not in use),
+<2> define the pattern to match,
+<3> add whitelist/blacklist,
+<4> choose a hlgroup from the existing ones.
 
 == Plugins that inspired
 
