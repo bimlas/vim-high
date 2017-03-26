@@ -16,6 +16,8 @@ function! high#commandline#Toggle(enabled, ...) "{{{
       let settings = high#group#GetSettings(group_name)
     endif
     let settings.enabled = (a:enabled >= 0 ? a:enabled : !settings.enabled)
+    let original_win = winnr()
     windo call high#Light(settings)
+    exe original_win.'wincmd w'
   endfor
 endfunction "}}}
