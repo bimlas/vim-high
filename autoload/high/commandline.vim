@@ -12,11 +12,10 @@ function! high#commandline#Toggle(enabled, ...) "{{{
   for group_name in (a:0 ? a:000 : high#utils#ListOfGroupNames())
     if !high#group#IsRegistered(group_name)
       let settings = high#group#Register(group_name)
-      let settings.enabled = 1
     else
       let settings = high#group#GetSettings(group_name)
-      let settings.enabled = (a:enabled >= 0 ? a:enabled : !settings.enabled)
     endif
+    let settings.enabled = (a:enabled >= 0 ? a:enabled : !settings.enabled)
     windo call high#Light(settings)
   endfor
 endfunction "}}}
