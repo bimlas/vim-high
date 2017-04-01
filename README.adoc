@@ -61,6 +61,24 @@ of link:autoload/high/light/long_line.vim[long_line] for example) are
 lighter-specific, the underscore is used only to prevent conflicts with global
 settings, but you can safely override those.
 
+== Dynamic update of highlighters
+
+Some of the lighters are based on Vim settings, for example
+link:autoload/high/light/indent.vim[indent] uses `shiftwidth` to highlight the
+indentation. The highlighting will follow the change of it only on certain
+events (jumping to another window, switching buffer, etc.). To apply the new
+settings automatically, you have to write an autocommand in your _.vimrc_:
+
+[source,viml]
+----
+autocmd CursorHold *
+\ let pos = winnr()
+\ | windo call high#UpdateGroups()
+\ | exe pos.'wincmd w'
+----
+
+It will update every lighter where the `__update_function` is set.
+
 == Example of user-defined highlight
 
 For example, a very basic implentation of
