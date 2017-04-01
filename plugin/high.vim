@@ -9,59 +9,44 @@ if exists('g:loaded_high')
 endif
 let g:loaded_high = 1
 
-"                            DEFAULT SETTINGS                             {{{1
-" ============================================================================
-
 let g:high = {
-\ 'every_lighter': [],
-\ 'lighter_groups': {},
+\ 'registered_groups': {},
+\ 'group_members': {},
 \ 'defaults': {
 \   'enabled': 1,
-\   'group': '',
-\   'whitelist' : [],
-\   'blacklist' : [],
-\   'hlgroup' : 'ErrorMsg',
-\   'priority' : -1,
-\   'pattern' : '',
-\   'pattern_to_eval' : '',
-\   'autoHighlight' : 1,
-\   'match_id_index' : -1,
+\   'whitelist': [],
+\   'blacklist': ['help', 'qf'],
+\   'hlgroup': 'ErrorMsg',
+\   'priority': -1,
+\   'pattern': '',
+\   '__group_name': '',
+\   '__init_function': '',
+\   '__update_function': '',
+\   '__auto_highlight': 1,
+\   '__match_id_index': -1,
+\ },
 \ }
-\ }
 
-"                              COMMANDLINE                                {{{1
-" ============================================================================
-
-command! -nargs=1 -complete=customlist,high#commandline#listLighters
-\ HighDisable call high#commandline#toggle(<f-args>, 0)
-command! -nargs=1 -complete=customlist,high#commandline#listLighters
-\ HighEnable call high#commandline#toggle(<f-args>, 1)
-command! -nargs=1 -complete=customlist,high#commandline#listLighters
-\ HighToggle call high#commandline#toggle(<f-args>)
-
-"                              INIT LIGHTERS                              {{{1
-" ============================================================================
-
-if exists('g:high_lighters["_"]')
-  call high#core#Customize(g:high.defaults, remove(g:high_lighters, '_'))
+if exists('g:high_lighters')
+  if has_key(g:high_lighters, '_')
+    call extend(g:high.defaults, remove(g:high_lighters, '_'))
+  endif
+  for group in keys(g:high_lighters)
+    call high#group#Register(group)
+  endfor
 endif
 
-for [group, settings] in items(get(g:, 'high_lighters', {}))
-  try
-    call high#light#{group}#define(settings)
-  catch
-    let custom = high#core#Clone()
-    call high#core#Customize(custom, settings)
-    call high#core#AddLighter(group, custom)
-  endtry
-endfor
-
-"                              AUTOCOMMANDS                               {{{1
-" ============================================================================
+command! -nargs=* -complete=customlist,high#commandline#Completion
+\ HighDisable call high#commandline#Toggle(0, <f-args>)
+command! -nargs=* -complete=customlist,high#commandline#Completion
+\ HighEnable call high#commandline#Toggle(1, <f-args>)
+command! -nargs=* -complete=customlist,high#commandline#Completion
+\ HighToggle call high#commandline#Toggle(-1, <f-args>)
 
 augroup high
-  autocmd! WinEnter,BufWinEnter,FileType *
-  \ for lighter in g:high.every_lighter
-  \ | call high#core#Highlight(lighter)
+  autocmd!
+  autocmd WinEnter,BufWinEnter,FileType *
+  \ for group in values(g:high.registered_groups)
+  \ | call high#Light(group)
   \ | endfor
 augroup END

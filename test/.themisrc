@@ -4,3 +4,26 @@ language messages C
 call themis#helper('command').with(themis#helper('assert'))
 call themis#option('recursive', 1)
 call themis#option('reporter', 'spec')
+
+function! ResetSettings() "{{{
+  " Drop every buffer and window.
+  " IT DOES NOT REMOVES THE MATCHES (added by matchadd())
+  silent! %bwipeout!
+  call clearmatches()
+  " Reinitialize the whole plugin to clear the loaded lighters.
+  unlet g:loaded_high
+  silent! unlet g:high_lighters
+  source plugin/high.vim
+endfunction "}}}
+
+"                                FIXTURES
+" ============================================================================
+
+let g:activator = ''
+function! UpdatePatternIfActivatorNotEmpty(group_settings)
+  if empty(g:activator)
+    return 0
+  endif
+  let a:group_settings.pattern = g:activator
+  return 1
+endfunction

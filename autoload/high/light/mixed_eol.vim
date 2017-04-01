@@ -4,11 +4,8 @@
 " Source:  https://github.com/bimlas/vim-high
 " License: MIT license
 
-function! high#light#mixed_eol#define(settings)
-  let lighter = high#core#Clone()
-  call high#core#AddLighter('mixed_eol', lighter)
-
-  call high#core#Customize(lighter, a:settings)
-
-  let lighter.pattern = '\r'
+function! high#light#mixed_eol#Define()
+  return {
+  \ 'pattern': '\r',
+  \ }
 endfunction

@@ -1,0 +1,78 @@
+Describe high#match
+  Before
+    call ResetSettings()
+
+    let group = high#group#Register('group', {'pattern': 'regex'})
+    call high#group#Init('group')
+    let lighter = high#group#GetMembers('group')[0]
+  End
+
+  Describe #Highlight
+    It adds a match for lighter
+      Assert Empty(getmatches())
+      call high#match#Highlight(lighter, 1)
+      Assert Equals(len(getmatches()), 1)
+      Assert Equals(getmatches()[0].id, high#match#GetID(lighter))
+      Assert Equals(getmatches()[0].pattern, lighter.pattern)
+    End
+
+    It removes the match of lighter
+      Assert Empty(getmatches())
+      call high#match#Highlight(lighter, 1)
+      Assert NotEmpty(getmatches())
+      call high#match#Highlight(lighter, 0)
+      Assert Empty(getmatches())
+      Assert Equals(high#match#GetID(lighter), -1)
+    End
+  End
+
+  Describe #Add
+    It highlights the lighter
+      Assert Empty(getmatches())
+      Assert Equals(high#match#GetID(lighter), -1)
+      call high#match#Add(lighter)
+      Assert LengthOf(getmatches(), 1)
+      Assert NotEquals(high#match#GetID(lighter), -1)
+      Assert Equals(getmatches()[0].id, high#match#GetID(lighter))
+      Assert Equals(getmatches()[0].pattern, lighter.pattern)
+    End
+
+    It does nothing if the lighter is already highlighted
+      Assert Empty(getmatches())
+      call high#match#Add(lighter)
+      Assert LengthOf(getmatches(), 1)
+      let id = high#match#GetID(lighter)
+      call high#match#Add(lighter)
+      Assert LengthOf(getmatches(), 1)
+      Assert Equals(high#match#GetID(lighter), id)
+    End
+  End
+
+  Describe #Clear
+    It removes the highlighting of the lighter
+      Assert Empty(getmatches())
+      call high#match#Add(lighter)
+      Assert NotEquals(high#match#GetID(lighter), -1)
+      Assert LengthOf(getmatches(), 1)
+      call high#match#Clear(lighter)
+      Assert Empty(getmatches())
+      Assert Equals(high#match#GetID(lighter), -1)
+    End
+
+    It does nothing if the highlighting is not exist
+      Assert Empty(getmatches())
+      Assert Equals(high#match#GetID(lighter), -1)
+      call high#match#Clear(lighter)
+      Assert Empty(getmatches())
+      Assert Equals(high#match#GetID(lighter), -1)
+    End
+  End
+
+  Describe #GetID #SetID
+    It stores the ID of lighter returned by `matchadd()`
+      Assert Equals(high#match#GetID(lighter), -1)
+      call high#match#SetID(lighter, 2)
+      Assert Equals(high#match#GetID(lighter), 2)
+    End
+  End
+End

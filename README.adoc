@@ -1,18 +1,27 @@
+= Vim-High: all-in-one highlighter plugin
+
+A Vim plugin to highlight custom patterns on any buffer (filetype
+whitelist/blacklist supported), for example highlight indentation, inactive
+window, word under the cursor or even user made highlighting.
+
 image:https://img.shields.io/travis/bimlas/vim-high/master.svg?label=Travis%20CI["Travis CI", link="https://travis-ci.org/bimlas/vim-high"]
 image:https://img.shields.io/github/license/bimlas/vim-high.svg["License", link="LICENSE"]
 
-= High: all-in-one highlighter plugin for Vim
+[NOTE]
+====
+It's in beta version (API and defaults may change) while I don't get enough
+response that everything works as expected.
+====
 
-A Vim plugin to highlight custom (user-made) regex patterns on any buffer
-(filetype whitelist/blacklist supported), for example indentation, inactive
-window, word under the cursor or even anything what you want.
+image::https://imgs.xkcd.com/comics/standards.png["Philosophy of the plugin", link="https://xkcd.com/927/" align="center"]
 
-*It's in beta release, there might be critical bugs, API may change.*
+image::http://i.imgur.com/uvc4Y2e.png["Vim-High in action, showing the example config" align="center"]
 
-image::http://i.imgur.com/uvc4Y2e.png["Vim-High in action, showing the example config"]
+To try out, install in your preferred way, then enable a lighter by
+`:HighEnable <C-D>`.
 
-To try out, install in your prefered way, then add these lines to your
-_.vimrc_:
+To enable lighters by default, add the preferred ones to `g:high_lighter` as a
+dictionary in your _.vimrc_, like this:
 
 [source,viml]
 ----
@@ -30,24 +39,91 @@ let g:high_lighters = {
 <1> The `_` key means these settings will affect every lighter,
 <2> for example all of them will be disabled in these filetypes.
 <3> You can add predefined lighters, whose can be found in
-    _autoload/high/light_ directory.
+    link:autoload/high/light/[] directory.
 <4> To override the global settings, pass the lighter-specific ones in the
     dictionary.
-<5> You can create your own lighters like you want.
+<5> You can create your own lighters as you want.
 
-By default every lighter in `g:high_lighters` are enabled at Vim startup, but
+== Override default settings
+
+By default, every lighter in `g:high_lighters` are enabled at Vim startup, but
 passing `'enabled': 0` will disable it. To use the lighter, call `:HighEnable
 lighter` or `:HighToggle lighter`.
 
 The available configuration parameters can be found in link:plugin/high.vim[]
-as `g:high.defaults`.
+as `g:high.defaults`. Options starting with double underscore
+(`__init_function` for example) are private and you shouldn't override those.
+See `:help matchadd` for `pattern` and `priority`; `:highlight` for
+possible values of `hlgroup`.
 
-Any of the settings can be overriden when adding a custom lighter, but some of
-them has hardcoded values in built-in highlighters. For example `pattern` in
-link:autoload/high/light/inactive_window.vim[inactive_window] have to be `.*`
-to match everything in the inactive window, so it cannot be customized. The
-settings below the call of `high#core#Customize()` are not customizables.
+Some lighters have specific settings, starting with an underscore (`_length`
+of link:autoload/high/light/long_line.vim[long_line] for example) are
+lighter-specific, the underscore is used only to prevent conflicts with global
+settings, but you can safely override those.
 
-Some lighters have specifical settings, like
-link:autoload/high/light/indent.vim[indent]: `_levels`, `_hlgroupA`, etc. It
-can be configured as above.
+Do not fear to view the source files to get the possibilities, because there
+is no help file for the plugin, link:autoload/high/light[source codes] and
+link:test[test files] contains everything.
+
+== Dynamic update of highlighters
+
+Some lighters are based on Vim settings, for example
+link:autoload/high/light/indent.vim[indent] uses `shiftwidth` to highlight the
+indentation. The highlighting will follow the change of it only on certain
+events (jumping to another window, switching buffer, etc.). To apply the new
+settings automatically, you have to write an autocommand in your _.vimrc_:
+
+[source,viml]
+----
+autocmd CursorHold *
+\ let pos = winnr()
+\ | windo call high#UpdateGroups()
+\ | exe pos.'wincmd w'
+----
+
+It will update every lighter where the `__update_function` is set.
+
+== Example of user-defined highlight
+
+For example, a very basic implentation of
+https://github.com/Valloric/vim-operator-highlight[Valloric/vim-operator-highlight]
+should looks like this:
+
+[source,viml]
+----
+let g:high_lighters = {
+\ 'operator': {                                                            <1>
+\   'pattern': '[-?+|*;:,<>&|!~%=)({}.\[\]]',                              <2>
+\   'blacklist': ['help', 'markdown', 'qf', 'conque_term', 'diff', 'html', <3>
+\                 'css', 'less', 'xml', 'sh', 'bash', 'notes', 'jinja'],
+\   'hlgroup': 'Error',                                                    <4>
+\ }}
+----
+<1> Add a name to the lighter (which is not in use),
+<2> define the pattern to match,
+<3> add whitelist/blacklist,
+<4> choose a hlgroup from the existing ones.
+
+== Plugins that inspired
+
+|===
+h| Name of lighter h| Original plugin
+
+| link:autoload/high/light/deep_indent.vim[deep_indent]
+| https://github.com/dodie/vim-disapprove-deep-indentation[dodie/vim-disapprove-deep-indentation]
+
+| link:autoload/high/light/inactive_window.vim[inactive_window]
+| https://github.com/blueyed/vim-diminactive[blueyed/vim-diminactive]
+
+| link:autoload/high/light/indent.vim[indent]
+| https://github.com/nathanaelkane/vim-indent-guides[nathanaelkane/vim-indent-guides]
+
+| link:autoload/high/light/long_line.vim[long_line]
+| https://github.com/whatyouhide/vim-lengthmatters[whatyouhide/vim-lengthmatters]
+
+| link:autoload/high/light/trailing_whitespace.vim[trailing_whitespace]
+| https://github.com/ntpeters/vim-better-whitespace[ntpeters/vim-better-whitespace]
+
+| link:autoload/high/light/words.vim[words]
+| https://github.com/lfv89/vim-interestingwords[lfv89/vim-interestingwords]
+|===

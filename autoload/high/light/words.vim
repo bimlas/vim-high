@@ -3,53 +3,54 @@
 " Author:  Bimba Laszlo <https://github.com/bimlas>
 " Source:  https://github.com/bimlas/vim-high
 " License: MIT license
+"
+" Inspired by:
+" https://github.com/lfv89/vim-interestingwords
+"
+" An example setup to get nicer colors:
+"
+"   let g:high_lighters = {'words': {'_hlgroups': []}}
+"   for color in ['8ccbea', 'a4e57e', 'ffdb72', 'ff7272', 'ffb3ff', '9999ff']
+"     exe 'autocmd ColorScheme,VimEnter *
+"     \ highlight! HighWords'.color.' guibg=#'.color.' guifg=#000000'
+"     let g:high_lighters.words._hlgroups += ['HighWords'.color]
+"   endfor
 
-function! high#light#words#define(settings)
-  let lighter = high#core#Clone()
-  call high#core#AddLighter('words', lighter)
-  " Saving it to use in other functions.
-  let s:lighter = lighter
-
-  let lighter._hlgroups = ['Pmenu', 'PmenuSel', 'PmenuSbar']
-  let lighter._map_add = '<Leader>k'
-  let lighter._map_clear = '<Leader>K'
-
-  call high#core#Customize(lighter, a:settings)
-  let lighter.autoHighlight = 0
-  let lighter.pattern_to_eval = 'printf("\\<%s\\>", escape(expand("<cword>"), "/\\"))'
-  " Points the next color.
-  let lighter._hlgroups_index = 0
-  " Don't need to clone the list of already highlighted words, store it
-  " outside of clone.
-  let s:words = []
-
-  exe 'nnoremap <silent> '.lighter._map_add.' :call high#light#words#AddWord()<CR>'
-  exe 'nnoremap <silent> '.lighter._map_clear.' :call high#light#words#ClearWords()<CR>'
+function! high#light#words#Define()
+  return {
+  \ '_hlgroups': ['Pmenu', 'PmenuSel', 'PmenuSbar'],
+  \ '_map_add': '<Leader>k',
+  \ '_map_clear': '<Leader>K',
+  \ '__auto_highlight': 0,
+  \ '__init_function': function('s:Init'),
+  \ }
 endfunction
 
-function! high#light#words#AddWord() "{{{
-  " Reuse an 'unhighlighted' clone if possible.
-  let clone = get(filter(copy(s:words), 'high#core#GetMatchID(v:val) < 0'), 0, {})
-  " Otherwise create a new clone and store in the list to reach to clear the
-  " highlighting.
-  if !len(clone)
-    let clone = high#core#Clone(s:lighter)
-    call high#core#AddLighter('words', clone)
-    call extend(s:words, [clone])
-  endif
+function! s:Init(options) "{{{
+  exe 'nnoremap <silent> '.a:options._map_add.' :call high#light#words#AddWord(expand("<cword>"))<CR>'
+  exe 'nnoremap <silent> '.a:options._map_clear.' :call high#light#words#ClearWords()<CR>'
+  let s:hlgroups_index = 0
+endfunction "}}}
+
+function! high#light#words#AddWord(cword) "{{{
+  " TODO: return if group not enabled
+  let words = high#group#GetSettings('words')
+  let clone = high#utils#Clone(words)
+  call high#group#AddMember(clone)
+
+  let clone.pattern = '\<'.a:cword.'\>'
 
   " Set up the highlight group and switch to the next one.
-  let clone.hlgroup = s:lighter._hlgroups[s:lighter._hlgroups_index]
-  let s:lighter._hlgroups_index += 1
-  if s:lighter._hlgroups_index >= len(s:lighter._hlgroups)
-    let s:lighter._hlgroups_index = 0
+  let clone.hlgroup = words._hlgroups[s:hlgroups_index]
+  let s:hlgroups_index += 1
+  if s:hlgroups_index >= len(words._hlgroups)
+    let s:hlgroups_index = 0
   endif
 
-  call high#core#ManualHighlight(clone, 1)
+  call high#match#Highlight(clone, 1)
 endfunction "}}}
 
 function! high#light#words#ClearWords() "{{{
-  for word in s:words
-    call high#core#ManualHighlight(word, 0)
-  endfor
+  let words = high#group#GetSettings('words')
+  call high#LightGroup(words, 0)
 endfunction "}}}

@@ -3,21 +3,29 @@
 " Author:  Bimba Laszlo <https://github.com/bimlas>
 " Source:  https://github.com/bimlas/vim-high
 " License: MIT license
+"
+" Inspired by:
+" https://github.com/whatyouhide/vim-lengthmatters
 
-function! high#light#long_line#define(settings)
-  let lighter = high#core#Clone()
-  call high#core#AddLighter('long_line', lighter)
-
-  let lighter._length = 0
-  let lighter._single_column = 0
-
-  call high#core#Customize(lighter, a:settings)
-
-  if lighter._length
-    let lighter.pattern = '^.\{'.lighter._length.'}\zs.\+'
-  else
-    let lighter.pattern_to_eval =
-    \ '&textwidth > 0 ? "\\%".string(&textwidth+1)."v.'.(lighter._single_column ? '' : '\\+').'" : ""'
-  endif
-  call high#core#Customize(lighter, a:settings)
+function! high#light#long_line#Define()
+  return {
+  \ '_length': 0,
+  \ '_single_column': 0,
+  \ '__init_function': function('s:Init'),
+  \ }
 endfunction
+
+function! s:Init(options) "{{{
+  if a:options._length
+    let a:options.pattern =
+    \ '\%'.(a:options._length+1).'v.'.(a:options._single_column ? '' : '\+')
+  else
+    let a:options.__update_function = function('s:Update')
+  endif
+  call high#group#AddMember(a:options)
+endfunction "}}}
+
+function! s:Update(options) "{{{
+  let a:options.pattern =
+  \ &textwidth > 0 ? '\%'.(&textwidth+1).'v.'.(a:options._single_column ? '' : '\+') : ''
+endfunction "}}}
