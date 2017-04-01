@@ -7,7 +7,15 @@ A Vim plugin to highlight custom patterns on any buffer (filetype
 whitelist/blacklist supported), for example highlight indentation, inactive
 window, word under the cursor or even anything what you want.
 
-image::http://i.imgur.com/uvc4Y2e.png["Vim-High in action, showing the example config"]
+image::https://imgs.xkcd.com/comics/standards.png[title="Philosophy of the plugin", link="https://xkcd.com/927/"]
+
+[NOTE]
+====
+It's in beta version (API and defaults may change) while I don't get enough
+response that everything works as expected.
+====
+
+image::http://i.imgur.com/uvc4Y2e.png[title="Vim-High in action, showing the example config"]
 
 To try out, install in your prefered way, then enable a lighter by
 `:HighEnable <C-D>`.
