@@ -53,13 +53,17 @@ lighter` or `:HighToggle lighter`.
 The available configuration parameters can be found in link:plugin/high.vim[]
 as `g:high.defaults`. Options starting with double underscore
 (`__init_function` for example) are private and you shouldn't override those.
-See `:help matchadd` for `group`, `pattern` and `priority`; `:highlight` for
+See `:help matchadd` for `pattern` and `priority`; `:highlight` for
 possible values of `hlgroup`.
 
 Some lighters have specifical settings, starting with an underscore (`_length`
 of link:autoload/high/light/long_line.vim[long_line] for example) are
 lighter-specific, the underscore is used only to prevent conflicts with global
 settings, but you can safely override those.
+
+Do not fear to view the source files to get the possibilities, because there
+is no help file for the plugin, link:autoload/high/light[source codes] and
+link:test[test files] contains everything.
 
 == Dynamic update of highlighters
 
@@ -82,7 +86,8 @@ It will update every lighter where the `__update_function` is set.
 == Example of user-defined highlight
 
 For example, a very basic implentation of
-https://github.com/Valloric/vim-operator-highlight should looks like this:
+https://github.com/Valloric/vim-operator-highlight[Valloric/vim-operator-highlight]
+should looks like this:
 
 [source,viml]
 ----
