@@ -1,13 +1,11 @@
-image:https://img.shields.io/travis/bimlas/vim-high/master.svg?label=Travis%20CI["Travis CI", link="https://travis-ci.org/bimlas/vim-high"]
-image:https://img.shields.io/github/license/bimlas/vim-high.svg["License", link="LICENSE"]
-
-= High: all-in-one highlighter plugin for Vim
+= Vim-High: all-in-one highlighter plugin
 
 A Vim plugin to highlight custom patterns on any buffer (filetype
 whitelist/blacklist supported), for example highlight indentation, inactive
-window, word under the cursor or even anything what you want.
+window, word under the cursor or even user made highlighting.
 
-image::https://imgs.xkcd.com/comics/standards.png[title="Philosophy of the plugin", link="https://xkcd.com/927/"]
+image:https://img.shields.io/travis/bimlas/vim-high/master.svg?label=Travis%20CI["Travis CI", link="https://travis-ci.org/bimlas/vim-high"]
+image:https://img.shields.io/github/license/bimlas/vim-high.svg["License", link="LICENSE"]
 
 [NOTE]
 ====
@@ -15,12 +13,14 @@ It's in beta version (API and defaults may change) while I don't get enough
 response that everything works as expected.
 ====
 
-image::http://i.imgur.com/uvc4Y2e.png[title="Vim-High in action, showing the example config"]
+image::https://imgs.xkcd.com/comics/standards.png["Philosophy of the plugin", link="https://xkcd.com/927/" align="center"]
 
-To try out, install in your prefered way, then enable a lighter by
+image::http://i.imgur.com/uvc4Y2e.png["Vim-High in action, showing the example config" align="center"]
+
+To try out, install in your preferred way, then enable a lighter by
 `:HighEnable <C-D>`.
 
-To enable lighters by default, add the prefered ones to `g:high_lighter` as a
+To enable lighters by default, add the preferred ones to `g:high_lighter` as a
 dictionary in your _.vimrc_, like this:
 
 [source,viml]
@@ -46,7 +46,7 @@ let g:high_lighters = {
 
 == Override default settings
 
-By default every lighter in `g:high_lighters` are enabled at Vim startup, but
+By default, every lighter in `g:high_lighters` are enabled at Vim startup, but
 passing `'enabled': 0` will disable it. To use the lighter, call `:HighEnable
 lighter` or `:HighToggle lighter`.
 
@@ -56,7 +56,7 @@ as `g:high.defaults`. Options starting with double underscore
 See `:help matchadd` for `pattern` and `priority`; `:highlight` for
 possible values of `hlgroup`.
 
-Some lighters have specifical settings, starting with an underscore (`_length`
+Some lighters have specific settings, starting with an underscore (`_length`
 of link:autoload/high/light/long_line.vim[long_line] for example) are
 lighter-specific, the underscore is used only to prevent conflicts with global
 settings, but you can safely override those.
@@ -67,7 +67,7 @@ link:test[test files] contains everything.
 
 == Dynamic update of highlighters
 
-Some of the lighters are based on Vim settings, for example
+Some lighters are based on Vim settings, for example
 link:autoload/high/light/indent.vim[indent] uses `shiftwidth` to highlight the
 indentation. The highlighting will follow the change of it only on certain
 events (jumping to another window, switching buffer, etc.). To apply the new
