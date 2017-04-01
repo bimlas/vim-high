@@ -11,7 +11,7 @@
 "
 "   let g:high_lighters = {'words': {'_hlgroups': []}}
 "   for color in ['8ccbea', 'a4e57e', 'ffdb72', 'ff7272', 'ffb3ff', '9999ff']
-"     exe 'autocmd vimrc ColorScheme,VimEnter *
+"     exe 'autocmd ColorScheme,VimEnter *
 "     \ highlight! HighWords'.color.' guibg=#'.color.' guifg=#000000'
 "     let g:high_lighters.words._hlgroups += ['HighWords'.color]
 "   endfor
