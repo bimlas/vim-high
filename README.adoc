@@ -15,7 +15,7 @@ response that everything works as expected.
 
 image::https://imgs.xkcd.com/comics/standards.png["Philosophy of the plugin", link="https://xkcd.com/927/" align="center"]
 
-image::http://i.imgur.com/uvc4Y2e.png["Vim-High in action, showing the example config" align="center"]
+image::http://i.imgur.com/oFgLo29.png["Vim-High in action, showing the example config" align="center"]
 
 To try out, install in your preferred way, then enable a lighter by
 `:HighEnable <C-D>`.
@@ -30,8 +30,8 @@ let g:high_lighters = {
 \   'blacklist': ['help', 'qf', 'lf', 'vim-plug'],                        <2>
 \ },
 \ 'inactive_window': {},                                                  <3>
-\ 'indent': {},
-\ 'long_line': {'hlgroup': 'DiffAdd'},                                    <4>
+\ 'indent': {'_hlgroupA': 'HighIndentA', '_hlgroupB': 'HighIndentB'},     <4>
+\ 'long_line': {'hlgroup': 'DiffAdd'},
 \ 'unite_directory': {},
 \ 'your_custom_lighter': {'pattern': 'TODO\|NOTE', 'hlgroup': 'ErrorMsg'} <5>
 \ }
@@ -64,6 +64,18 @@ settings, but you can safely override those.
 Do not fear to view the source files to get the possibilities, because there
 is no help file for the plugin, link:autoload/high/light[source codes] and
 link:test[test files] contains everything.
+
+== Custom colors
+
+To define your own `hlgroup`, take a look at `:help highlight`. Here are the
+highlight groups of the example config, place it to your _.vimrc_:
+
+[source,viml]
+----
+autocmd ColorScheme,VimEnter *
+\ highlight! HighIndentA guibg=#002029 guifg=#063642
+\ | highlight! HighIndentB guibg=#003542 guifg=#063642
+----
 
 == Dynamic update of highlighters
 
