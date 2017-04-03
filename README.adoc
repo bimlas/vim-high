@@ -95,7 +95,7 @@ autocmd CursorHold *
 
 It will update every lighter where the `__update_function` is set.
 
-== Example of user-defined highlight
+== Examples of user-defined highlight
 
 For example, a very basic implentation of
 https://github.com/Valloric/vim-operator-highlight[Valloric/vim-operator-highlight]
@@ -115,6 +115,36 @@ let g:high_lighters = {
 <2> define the pattern to match,
 <3> add whitelist/blacklist,
 <4> choose a hlgroup from the existing ones.
+
+=== Netrw filetype coloring
+
+The plugin can be used in another plugins, for example if you want to colorize
+files by extension in Netrw (`:Explore`, `:edit ./`), then you can do
+something like this:
+
+[source,viml]
+----
+let g:high_lighters = {
+\ 'netrw_yaml': {
+\   'whitelist': ['netrw'],
+\   'pattern': '\v^(│ )*\zs\f+\.yml',
+\   'hlgroup': 'HighNetrwYaml',
+\ },
+\ 'netrw_asciidoc': {
+\   'whitelist': ['netrw'],
+\   'pattern': '\v^(│ )*\zs\f+\.adoc',
+\   'hlgroup': 'HighNetrwAsciidoc',
+\ }}
+
+autocmd ColorScheme,VimEnter *
+\ highlight! HighNetrwYaml guifg=#ae9400 |
+\ highlight! HighNetrwAsciidoc guifg=#dd3a00
+----
+
+Note that `^(│ )*` part is needed by tree view (most right picture on the
+screenshot).
+
+image::http://i.imgur.com/JkVorP9.png["Vim Netrw filetype coloring"]
 
 == Plugins that inspired
 
