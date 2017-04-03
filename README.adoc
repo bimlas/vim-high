@@ -1,8 +1,8 @@
-= Vim-High: all-in-one highlighter plugin
+= Vim-High: all-in-one Vim highlighter plugin
 
 A Vim plugin to highlight custom patterns on any buffer (filetype
 whitelist/blacklist supported), for example highlight indentation, inactive
-window, word under the cursor or even user made highlighting.
+window, word under the cursor or even user made Vim highlighting.
 
 image:https://img.shields.io/travis/bimlas/vim-high/master.svg?label=Travis%20CI["Travis CI", link="https://travis-ci.org/bimlas/vim-high"]
 image:https://img.shields.io/github/license/bimlas/vim-high.svg["License", link="LICENSE"]
@@ -13,9 +13,9 @@ It's in beta version (API and defaults may change) while I don't get enough
 response that everything works as expected.
 ====
 
-image::https://imgs.xkcd.com/comics/standards.png["Philosophy of the plugin", link="https://xkcd.com/927/" align="center"]
+image::https://imgs.xkcd.com/comics/standards.png["Philosophy of the plugin", link="https://xkcd.com/927/"]
 
-image::http://i.imgur.com/oFgLo29.png["Vim-High in action, showing the example config" align="center"]
+image::http://i.imgur.com/oFgLo29.png["Vim-High in action, showing the example config"]
 
 To try out, install in your preferred way, then enable a lighter by
 `:HighEnable <C-D>`.
@@ -73,8 +73,8 @@ highlight groups of the example config, place it to your _.vimrc_:
 [source,viml]
 ----
 autocmd ColorScheme,VimEnter *
-\ highlight! HighIndentA guibg=#002029 guifg=#063642
-\ | highlight! HighIndentB guibg=#003542 guifg=#063642
+\ highlight! HighIndentA guibg=#002029 guifg=#063642 |
+\ highlight! HighIndentB guibg=#003542 guifg=#063642
 ----
 
 == Dynamic update of highlighters
@@ -95,7 +95,7 @@ autocmd CursorHold *
 
 It will update every lighter where the `__update_function` is set.
 
-== Examples of user-defined highlight
+== Examples of user-defined highlight in Vim
 
 For example, a very basic implentation of
 https://github.com/Valloric/vim-operator-highlight[Valloric/vim-operator-highlight]
@@ -116,7 +116,7 @@ let g:high_lighters = {
 <3> add whitelist/blacklist,
 <4> choose a hlgroup from the existing ones.
 
-=== Netrw filetype coloring
+=== Vim Netrw filetype coloring
 
 The plugin can be used in another plugins, for example if you want to colorize
 files by extension in Netrw (`:Explore`, `:edit ./`), then you can do
