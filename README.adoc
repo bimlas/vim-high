@@ -127,12 +127,12 @@ something like this:
 let g:high_lighters = {
 \ 'netrw_yaml': {
 \   'whitelist': ['netrw'],
-\   'pattern': '\v^(│ )*\zs\f+\.yml',
+\   'pattern': '\v^([|│] )*\zs\f+\.yml',
 \   'hlgroup': 'HighNetrwYaml',
 \ },
 \ 'netrw_asciidoc': {
 \   'whitelist': ['netrw'],
-\   'pattern': '\v^(│ )*\zs\f+\.adoc',
+\   'pattern': '\v^([|│] )*\zs\f+\.adoc',
 \   'hlgroup': 'HighNetrwAsciidoc',
 \ }}
 
@@ -141,7 +141,7 @@ autocmd ColorScheme,VimEnter *
 \ highlight! HighNetrwAsciidoc guifg=#dd3a00
 ----
 
-Note that `^(│ )*` part is needed by tree view (most right picture on the
+Note that `^([|│] )*` part is needed by tree view (most right picture on the
 screenshot).
 
 image::http://i.imgur.com/JkVorP9.png["Vim Netrw filetype coloring"]
