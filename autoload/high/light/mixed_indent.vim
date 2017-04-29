@@ -6,6 +6,6 @@
 
 function! high#light#mixed_indent#Define()
   return {
-  \ 'pattern': '^ .*\n\zs\t\+\|^\t.*\n\zs \+\|^ \+\zs\t\+\s*\|^\t\+\zs \+\s*',
+  \ 'pattern': '^ .*\n\+\zs\t\+\|^\t.*\n\+\zs \+\|^ \+\zs\t\+\s*\|^\t\+\zs \+\s*',
   \ }
 endfunction
