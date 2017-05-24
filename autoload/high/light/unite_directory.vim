@@ -1,4 +1,4 @@
-" Highlight directories in Unite buffer (`Unite file` `Unite directory`)
+" Highlight directories in Unite and Denite buffer (`Unite file`)
 "
 " Author:  Bimba Laszlo <https://github.com/bimlas>
 " Source:  https://github.com/bimlas/vim-high
@@ -7,7 +7,7 @@
 function! high#light#unite_directory#Define()
   return {
   \ 'hlgroup': 'Directory',
-  \ 'whitelist': ['unite'],
+  \ 'whitelist': ['unite', 'denite'],
   \ 'pattern': '^\s\(file\s\|directory\s\)\?\zs.*/$',
   \ }
 endfunction
