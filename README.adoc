@@ -18,7 +18,7 @@ response that everything works as expected.
 
 image::https://imgs.xkcd.com/comics/standards.png["Philosophy of the plugin", link="https://xkcd.com/927/"]
 
-image::http://i.imgur.com/oFgLo29.png["Vim-High in action, showing the example config"]
+image::http://i.imgur.com/oFgLo29.png["Vim-High in action, showing the example config", width="100%"]
 
 To try out, install in your preferred way, then enable a lighter by
 `:HighEnable <C-D>`.
