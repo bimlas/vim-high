@@ -4,8 +4,7 @@ A Vim plugin to highlight custom patterns on any buffer (filetype
 whitelist/blacklist supported), for example highlight indentation, inactive
 window, word under the cursor or even user made Vim highlighting.
 
-* https://gitlab.com/bimlas/vim-high (main respository)
-* https://github.com/bimlas/vim-high (mirror, please star if you like it)
+* https://github.com/bimlas/vim-high (please star if you like it)
 
 image:https://img.shields.io/travis/bimlas/vim-high/master.svg?label=Travis%20CI["Travis CI", link="https://travis-ci.org/bimlas/vim-high"]
 image:https://img.shields.io/github/license/bimlas/vim-high.svg["License", link="LICENSE"]
